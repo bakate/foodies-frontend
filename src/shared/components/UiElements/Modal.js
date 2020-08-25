@@ -8,8 +8,8 @@ import Backdrop from './Backdrop'
 const ModalStyles = styled.div`
   z-index: 100;
   position: fixed;
-  top: 16vh;
-  left: 20%;
+  top: 15vh;
+  left: 5%;
   width: 90%;
   background: ${({ theme }) => theme.white};
   box-shadow: ${({ theme }) => theme.darkShadow};
