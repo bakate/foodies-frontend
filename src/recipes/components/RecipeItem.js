@@ -139,7 +139,7 @@ const RecipeItem = ({ id, title, images, user, onDeleteItem }) => {
 RecipeItem.propTypes = {
   id: PropTypes.string,
   images: PropTypes.shape({
-    regularImage: PropType.string,
+    regularImage: PropTypes.string,
   }),
   onDeleteItem: PropTypes.func,
   title: PropTypes.string,
