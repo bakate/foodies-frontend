@@ -20,8 +20,8 @@ import {
 
 export const AuthStyles = styled(CardStyles)`
   width: 100%;
-  max-width: 45rem;
-  margin: 3rem auto;
+  max-width: 50rem;
+  margin: 1rem auto;
   padding-top: 0;
 `
 

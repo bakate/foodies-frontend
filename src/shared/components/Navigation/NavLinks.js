@@ -35,7 +35,7 @@ const NavLinks = () => {
       )}
       {!token && (
         <li>
-          <NavLink to='/auth'>s\'inscrire</NavLink>
+          <NavLink to='/auth'>s'inscrire</NavLink>
         </li>
       )}
       {!!token && (
