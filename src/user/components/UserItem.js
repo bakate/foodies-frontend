@@ -52,9 +52,7 @@ UserItem.propTypes = {
   images: PropTypes.shape({
     regularImage: PropTypes.string,
   }),
-  recipes: PropTypes.shape({
-    length: PropTypes.number,
-  }),
+  recipes: PropTypes.array,
   username: PropTypes.string,
 }
 

@@ -49,15 +49,13 @@ export const ButtonStyles = styled.button`
     background: ${(props) => (props.danger ? props.theme.lightError : 'null')};
     border-color: ${(props) => (props.danger ? props.theme.lightError : 'null')};
   }
-
-  font-size: ${(props) => (props.big ? '2.2rem' : 'null')};
 `
 
-const Button = ({ href, inverse, danger, to, exact, big, type, onClick, disabled, children }) => {
+const Button = ({ href, inverse, danger, to, exact, type, onClick, disabled, children }) => {
   if (href) {
     return (
       <ButtonStyles>
-        <a inverse={inverse} danger={danger} href={href} big={big}>
+        <a inverse={inverse} danger={danger} href={href}>
           {children}
         </a>
       </ButtonStyles>
@@ -72,7 +70,6 @@ const Button = ({ href, inverse, danger, to, exact, big, type, onClick, disabled
   }
   return (
     <ButtonStyles
-      big={big}
       inverse={inverse}
       danger={danger}
       type={type}

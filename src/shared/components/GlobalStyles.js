@@ -71,7 +71,7 @@ font-family: 'Red Rose', cursive;
       color: ${theme.black}
       border: 1px solid ${({ theme }) => theme.grey};
       background: ${({ theme }) => theme.primaryLight};
-      overflow:hidden;
+      ${'' /* overflow:hidden; */}
     }
   }
   p {

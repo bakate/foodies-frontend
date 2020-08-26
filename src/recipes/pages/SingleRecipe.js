@@ -60,13 +60,14 @@ const SingleRecipe = () => {
       .replace(/(<([^>]+)>)/gi, '🥣')
       .replace(/&nbsp;/gi, '')
       .split('🥣')
-      .map((el) => {
+      .map((el, i) => {
         if (el.length) {
-          return <li key={el}>{el}</li>
+          return <li key={i}>{el}</li>
         }
         return null
       })
   }
+
   const { hours, minutes } = getDuration(recipe.duration)
 
   return (
@@ -78,11 +79,11 @@ const SingleRecipe = () => {
       <div className='info'>
         <div>
           <Title title='ingr&eacute;dients :' withRow />
-          <div className='content'>{transformedIngredients(recipe.ingredients)}</div>
+          <ul className='content'>{transformedIngredients(recipe.ingredients)}</ul>
         </div>
         <div>
           <Title title='Pr&eacute;paration :' withRow />
-          <div className='content'>{transformedIngredients(recipe.cooking)}</div>
+          <ol className='content'>{transformedIngredients(recipe.cooking)}</ol>
         </div>
       </div>
       <div className='extra'>
