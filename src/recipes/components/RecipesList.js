@@ -2,7 +2,6 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styled from 'styled-components'
 import Button from '../../shared/components/FormElements/Button'
-import Title from '../../shared/components/UiElements/Title'
 import { UsersListStyles } from '../../user/components/UsersList'
 import RecipeItem from './RecipeItem'
 
@@ -24,12 +23,11 @@ const RecipesList = ({ recipes, onDelete }) => {
   }
   return (
     <>
-      <Title
-        title={`Bravo, vous avez ${recipes.length} recette${
-          recipes.length > 1 ? 's' : ''
-        } actuellement`}
-        center
-      />
+      <h3 className='center'>
+        {' '}
+        {`Bravo, vous avez ${recipes.length} recette${recipes.length > 1 ? 's' : ''} actuellement`}
+      </h3>
+
       <UsersListStyles>
         {recipes.map((recipe) => (
           <RecipeItem key={recipe.id} {...recipe} onDeleteItem={onDelete} />

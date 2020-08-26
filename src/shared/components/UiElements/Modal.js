@@ -27,7 +27,7 @@ const ModalStyles = styled.div`
   }
   footer {
     padding: 1rem 0.5rem;
-    text-align: ${(props) => (props.footerClass ? 'right' : 'center')};
+    text-align: center;
   }
 
   @media (min-width: 768px) {
@@ -44,7 +44,7 @@ const ModalOverlay = ({ header, onSubmit, children, footer }) => {
       </header>
       <form onSubmit={onSubmit ? onSubmit : (event) => event.preventDefault()}>
         <div className='modal__content'>{children}</div>
-        <footer footerClass={footer}>{footer}</footer>
+        <footer>{footer}</footer>
       </form>
     </ModalStyles>
   )

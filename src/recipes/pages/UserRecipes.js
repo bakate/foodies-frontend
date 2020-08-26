@@ -9,7 +9,7 @@ import RecipesList from '../components/RecipesList'
 
 const UserRecipes = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
-  const { userRecipes, setUserRecipes } = useInfos()
+  const { userRecipes, setUserRecipes, userId: user } = useInfos()
   const userId = useParams().userId
 
   useEffect(() => {
@@ -41,7 +41,8 @@ const UserRecipes = () => {
   if (!userRecipes.length) {
     return (
       <div className='center'>
-        <h2>Cet utlisateur n'a pas encore de recettes.</h2>
+        {user !== userId && <h2>Cet utlisateur n'a pas encore de recettes.</h2>}
+        {user === userId && <h2>Vous n'avez pas encore créé de recettes.</h2>}
         <Button to='/recipes/new'>cr&eacute;er</Button>
       </div>
     )
