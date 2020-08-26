@@ -6,7 +6,8 @@ import Title from '../../shared/components/UiElements/Title'
 import { UsersListStyles } from '../../user/components/UsersList'
 import RecipeItem from './RecipeItem'
 
-const RecipesStyles = styled(UsersListStyles)`
+export const RecipesStyles = styled(UsersListStyles)`
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   margin: 0 auto;
 
   /* grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); */

@@ -6,7 +6,7 @@ import UserItem from './UserItem'
 
 export const UsersListStyles = styled(CardStyles)`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 2rem;
   padding: 0;
   place-content: center;
@@ -17,7 +17,7 @@ const UsersList = ({ users }) => {
   if (!users.length) {
     return (
       <UsersListStyles>
-        <h2>No Users found</h2>
+        <h2>Aucun utilisateur pour l'instant</h2>
       </UsersListStyles>
     )
   }

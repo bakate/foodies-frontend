@@ -40,7 +40,7 @@ const UserItem = ({ id, username, images, recipes }) => {
         </div>
         <h2>{username}</h2>
         <h3>
-          {recipes.length} {` recipe${recipes.length === 1 ? '' : 's'}`}
+          {recipes.length} {` recette${recipes.length <= 1 ? '' : 's'}`}
         </h3>
       </Link>
     </UserItemStyles>

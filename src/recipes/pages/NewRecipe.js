@@ -87,8 +87,10 @@ const NewRecipe = () => {
             label='cat&eacute;gorie'
             id='category'
             onInput={inputHandler}
+            initialValue='entrée'
+            initialValid='true'
             items={['entrée', 'plat principal', 'aperitif et buffet', 'dessert']}
-            errorText='Selectionnez une cat&eacute;egorie'
+            errorText='Selectionnez une cat&eacute;gorie'
             validators={[VALIDATOR_REQUIRE()]}
           />
           <Input
@@ -96,6 +98,8 @@ const NewRecipe = () => {
             label='difficult&eacute;'
             id='difficulty'
             onInput={inputHandler}
+            initialValue='facile'
+            initialValid='true'
             items={['facile', 'moyen', 'difficile']}
             errorText='Selectionnez un niveau de difficult&eacute;'
             validators={[VALIDATOR_REQUIRE()]}

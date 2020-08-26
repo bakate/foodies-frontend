@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import Card from '../../shared/components/UiElements/Card'
+import Button from '../../shared/components/FormElements/Button'
 import ErrorMessage from '../../shared/components/UiElements/ErrorMessage'
 import LoadingSpinner from '../../shared/components/UiElements/LoadingSpinner'
 import { useInfos } from '../../shared/context'
@@ -40,9 +40,10 @@ const UserRecipes = () => {
   }
   if (!userRecipes.length) {
     return (
-      <Card>
-        <h2>Cet utlisateur n\'a pas encore de recettes.</h2>
-      </Card>
+      <div className='center'>
+        <h2>Cet utlisateur n'a pas encore de recettes.</h2>
+        <Button to='/recipes/new'>cr&eacute;er</Button>
+      </div>
     )
   }
 
