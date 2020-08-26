@@ -6,16 +6,13 @@ import Avatar from '../../shared/components/UiElements/Avatar'
 import { CardStyles } from '../../shared/components/UiElements/Card'
 
 const UserItemStyles = styled(CardStyles)`
-  /* display: flex; */
   /* flex-flow: column wrap; */
   width: 100%;
   padding: 0;
 
   a {
     display: grid;
-    align-items: space-between;
-    justify-content: center;
-
+    place-items: center;
     padding: 1rem;
     color: ${({ theme }) => theme.black};
     background: ${({ theme }) => theme.primaryLight};
