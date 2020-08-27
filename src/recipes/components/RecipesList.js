@@ -6,7 +6,7 @@ import { useInfos } from '../../shared/context'
 import { UsersListStyles } from '../../user/components/UsersList'
 import RecipeItem from './RecipeItem'
 
-const CallToAction = styled.div`
+export const CallToAction = styled.div`
   display: flex;
   justify-content: space-between;
   place-items: center;
@@ -14,26 +14,18 @@ const CallToAction = styled.div`
 
 const RecipesList = ({ recipes, onDelete }) => {
   const { userId } = useInfos()
-  // console.log({ recipes })
-  // if (!recipes.length) {
-  //   return (
-  //     <UsersListStyles>
-  //       <h3>Aucune recette de trouv&eacute;e. Créez une nouvelle ?</h3>
-  //       <Button to='/recipes/new'>Create a recipe</Button>
-  //     </UsersListStyles>
-  //   )
-  // }
+
   const extractedUser = recipes.find((recipe) => recipe.user === userId)
 
   return (
     <>
       <CallToAction>
         <h3>
-          {extractedUser ? 'Bravo vous avez ' : 'Cet utlisateur a '}
+          {extractedUser ? 'Bravo vous avez ' : 'Cet utilisateur a '}
           {`${recipes.length} recette${recipes.length > 1 ? 's' : ''} actuellement`}
         </h3>
 
-        <Button to='/recipes/new'>cr&eacute;er</Button>
+        {extractedUser ? <Button to='/recipes/new'>cr&eacute;er</Button> : null}
       </CallToAction>
       <UsersListStyles>
         {recipes.map((recipe) => (

@@ -124,7 +124,7 @@ const RecipeItem = ({ id, title, images, user, onDeleteItem }) => {
           {userId ? (
             <Button to={`/recipes/recipe/${id}`}>voir</Button>
           ) : (
-            <Button to={`/auth`}>s'enregistrer</Button>
+            <Button to={`/auth`}>connexion</Button>
           )}
 
           {userId === user && (

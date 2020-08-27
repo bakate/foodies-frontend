@@ -114,7 +114,10 @@ const NewRecipe = () => {
             validators={[VALIDATOR_REQUIRE()]}
           />
 
-          <Button type='submit' disabled={!formState.isValid} center>
+          <Button type='button' inverse onClick={() => history.push('/')}>
+            annuler
+          </Button>
+          <Button type='submit' disabled={!formState.isValid}>
             valider
           </Button>
         </form>

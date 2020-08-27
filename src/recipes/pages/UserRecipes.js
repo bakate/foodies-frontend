@@ -26,7 +26,6 @@ const UserRecipes = () => {
     getUserRecipes()
   }, [sendRequest, userId, setUserRecipes])
 
-  console.log({ userRecipes })
   const deleteHandler = (recipeId) => {
     setUserRecipes((prev) => prev.filter((recipe) => recipe.id !== recipeId))
   }
@@ -47,7 +46,7 @@ const UserRecipes = () => {
         {!user ? (
           <>
             <h2>Cet utilisateur n'a pas encore de recettes.</h2>
-            <Button to='/auth'>s'enregistrer</Button>
+            <Button to='/auth'>connexion</Button>
           </>
         ) : user !== userId ? (
           <>

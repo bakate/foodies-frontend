@@ -103,7 +103,7 @@ const Auth = () => {
             <LoadingSpinner asOverlay />
           </div>
         )}
-        <Title center withRow title={inLogInMode ? 'se connecter' : "s'inscrire"} />
+        <Title center withRow title={inLogInMode ? 'Déjà inscrit ?' : 'Créer un compte'} />
         <form onSubmit={authHandler}>
           {!inLogInMode && <ImageHandler id='images' onInput={inputHandler} />}
           {!inLogInMode && (

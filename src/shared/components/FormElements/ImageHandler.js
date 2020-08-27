@@ -16,10 +16,11 @@ const ImageStyles = styled(InputStyles)`
   }
 `
 
-const ImageHandler = ({ id, onInput }) => {
+const ImageHandler = ({ id, onInput, initialValue }) => {
   const inputRef = useRef()
-  //  const {setImagesFiles, imageFiles} = useInfos({});
-  const [previewUrl, setPreviewUrl] = useState()
+  // const value = initialValue
+  // const [image, setImage] = useState(value)
+  const [previewUrl, setPreviewUrl] = useState(initialValue)
   const [loading, setLoading] = useState(false)
   const pickerHandler = () => {
     inputRef.current.click()
@@ -42,7 +43,6 @@ const ImageHandler = ({ id, onInput }) => {
         })
       ).json()
 
-      // setImagesFiles({regularImage:transformedImages.secure_url, largeImage:transformedImages.eager[0].secure_url})
       imagesLinks = {
         regularImage: transformedImages.secure_url,
         largeImage: transformedImages.eager[0].secure_url,
@@ -86,6 +86,7 @@ const ImageHandler = ({ id, onInput }) => {
 ImageHandler.propTypes = {
   id: PropTypes.string,
   onInput: PropTypes.func,
+  initialValue: PropTypes.string,
 }
 
 export default ImageHandler

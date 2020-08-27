@@ -9,6 +9,7 @@ import Users from './user/pages/Users'
 const UserRecipes= React.lazy(()=> import('./recipes/pages/UserRecipes'))
 const Auth = React.lazy(() => import('./user/pages/Auth'))
 const ResetToken = React.lazy(() => import('./user/pages/ResetToken'))
+const UpdateProfile = React.lazy(() => import('./user/pages/UpdateProfile'))
 const Reset = React.lazy(() => import('./user/pages/Reset'))
 const NewRecipe= React.lazy(() => import('./recipes/pages/NewRecipe'))
 const UpdateRecipe = React.lazy(() => import('./recipes/pages/UpdateRecipe'))
@@ -28,6 +29,9 @@ function App() {
         </Route>
         <Route path='/recipes/new' exact>
           <NewRecipe />
+        </Route>
+        <Route path='/profile/:userId' exact>
+          <UpdateProfile />
         </Route>
         <Route path='/recipes/recipe/:recipeId' exact>
           <SingleRecipe />
@@ -50,6 +54,7 @@ function App() {
         <Route path='/auth' exact>
           <Auth />
         </Route>
+
         <Route path='/reset' exact>
           <ResetToken />
         </Route>

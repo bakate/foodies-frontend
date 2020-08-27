@@ -1,4 +1,5 @@
 import React from 'react'
+import { FaUserSecret } from 'react-icons/fa'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import { useInfos } from '../../context'
@@ -35,7 +36,14 @@ const NavLinks = () => {
       )}
       {!token && (
         <li>
-          <NavLink to='/auth'>s'inscrire</NavLink>
+          <NavLink to='/auth'>connexion</NavLink>
+        </li>
+      )}
+      {!!token && (
+        <li>
+          <NavLink to={`/profile/${userId}`}>
+            <FaUserSecret />
+          </NavLink>
         </li>
       )}
       {!!token && (

@@ -15,7 +15,6 @@ const Users = () => {
     }
     getUsers()
   }, [sendRequest])
-
   if (isLoading) {
     return (
       <div className='center'>
