@@ -88,7 +88,7 @@ const NewRecipe = () => {
             id='category'
             onInput={inputHandler}
             initialValue='entrée'
-            initialValid='true'
+            initialValid
             items={['entrée', 'plat principal', 'aperitif et buffet', 'dessert']}
             errorText='Selectionnez une cat&eacute;gorie'
             validators={[VALIDATOR_REQUIRE()]}
@@ -99,7 +99,7 @@ const NewRecipe = () => {
             id='difficulty'
             onInput={inputHandler}
             initialValue='facile'
-            initialValid='true'
+            initialValid
             items={['facile', 'moyen', 'difficile']}
             errorText='Selectionnez un niveau de difficult&eacute;'
             validators={[VALIDATOR_REQUIRE()]}

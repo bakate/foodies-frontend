@@ -1,14 +1,15 @@
+import cogoToast from 'cogo-toast'
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import Button from '../../shared/components/FormElements/Button'
-import ErrorMessage from '../../shared/components/UiElements/ErrorMessage'
 import LoadingSpinner from '../../shared/components/UiElements/LoadingSpinner'
 import { useInfos } from '../../shared/context'
 import { useHttpClient } from '../../shared/hooks/http-hook'
 import RecipesList from '../components/RecipesList'
 
 const UserRecipes = () => {
-  const { isLoading, error, sendRequest, clearError } = useHttpClient()
+  // const { isLoading, error, sendRequest, clearError } = useHttpClient()
+  const { isLoading, sendRequest, error } = useHttpClient()
   const { userRecipes, setUserRecipes, userId: user } = useInfos()
   const userId = useParams().userId
 
@@ -18,12 +19,14 @@ const UserRecipes = () => {
         const { recipes } = await sendRequest(
           `${process.env.REACT_APP_BACKEND_URL}/recipes/user/${userId}`
         )
+
         setUserRecipes(recipes)
       } catch (err) {}
     }
     getUserRecipes()
   }, [sendRequest, userId, setUserRecipes])
 
+  console.log({ userRecipes })
   const deleteHandler = (recipeId) => {
     setUserRecipes((prev) => prev.filter((recipe) => recipe.id !== recipeId))
   }
@@ -36,14 +39,27 @@ const UserRecipes = () => {
     )
   }
   if (error) {
-    return <ErrorMessage errorMessage={error} onClear={clearError} />
+    cogoToast.error(<h5>{error}</h5>)
   }
-  if (!userRecipes.length) {
+  if (!error && !userRecipes.length) {
     return (
       <div className='center'>
-        {user !== userId && <h2>Cet utlisateur n'a pas encore de recettes.</h2>}
-        {user === userId && <h2>Vous n'avez pas encore créé de recettes.</h2>}
-        <Button to='/recipes/new'>cr&eacute;er</Button>
+        {!user ? (
+          <>
+            <h2>Cet utilisateur n'a pas encore de recettes.</h2>
+            <Button to='/auth'>s'enregistrer</Button>
+          </>
+        ) : user !== userId ? (
+          <>
+            <h2>Cet utilisateur n'a pas encore de recettes.</h2>
+            <Button to={`/${user}/recipes`}>vos recettes</Button>
+          </>
+        ) : (
+          <>
+            <h2>Vous n'avez pas encore créé de recettes.</h2>
+            <Button to='/recipes/new'>cr&eacute;er</Button>
+          </>
+        )}
       </div>
     )
   }

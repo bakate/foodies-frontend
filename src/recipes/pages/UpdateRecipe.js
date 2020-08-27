@@ -82,7 +82,7 @@ const UpdateRecipe = () => {
               id='title'
               label='titre'
               initialValue={recipeToUpdate.title}
-              initialValid={true}
+              initialValid
               onInput={inputHandler}
               validators={[VALIDATOR_REQUIRE()]}
               errorText='Fournissez un titre valide, svp'
@@ -101,7 +101,7 @@ const UpdateRecipe = () => {
               initialValue={recipeToUpdate.duration}
               type='number'
               onInput={inputHandler}
-              initialValid={true}
+              initialValid
               errorText='Renseignez la dur&eacute;e'
               validators={[VALIDATOR_REQUIRE()]}
             />

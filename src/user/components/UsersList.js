@@ -6,11 +6,11 @@ import UserItem from './UserItem'
 
 export const UsersListStyles = styled(CardStyles)`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 2rem;
   padding: 0;
   place-content: center;
-  place-items: center;
+  place-items: space-between;
 `
 
 const UsersList = ({ users }) => {
@@ -21,7 +21,6 @@ const UsersList = ({ users }) => {
       </UsersListStyles>
     )
   }
-
   return (
     <ul>
       <UsersListStyles>

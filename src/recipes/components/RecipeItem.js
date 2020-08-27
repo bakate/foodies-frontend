@@ -10,9 +10,10 @@ import { useInfos } from '../../shared/context'
 import { useHttpClient } from '../../shared/hooks/http-hook'
 
 const RecipeItemStyles = styled(CardStyles)`
-  /* padding: 0;*/
   width: 100%;
   padding: 0;
+  display: grid;
+  align-items: space-between;
   .info {
     padding: 1rem;
     text-align: center;
@@ -33,6 +34,7 @@ const RecipeItemStyles = styled(CardStyles)`
     }
   }
   .actions {
+    align-self: flex-end;
     padding: 1rem;
     text-align: center;
     border-top: 1px solid ${({ theme }) => theme.lightGrey};

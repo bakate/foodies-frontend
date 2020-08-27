@@ -89,19 +89,26 @@ const SingleRecipe = () => {
       <div className='extra'>
         <div>
           <Title title='Dur&eacute;e :' withRow />
-          <h6>
+          <h4>
             {hours > 1 ? `${hours} heures` : hours === 1 ? `${hours} heure` : null}
             {hours >= 1 && minutes > 0 && ` et ${minutes} minutes`}
             {!hours && minutes && `${minutes} minutes`}
-          </h6>
+          </h4>
         </div>
         <div>
           <Title title='cat&eacute;gorie :' withRow />
-          <h6>{recipe.category}</h6>
+          <h4>{recipe.category}</h4>
         </div>
         <div>
           <Title title='recette publi&eacute;e le :' withRow />
-          <h6>{new Date(recipe.published).toLocaleDateString()}</h6>
+          <h4>
+            {new Date(recipe.published).toLocaleDateString('fr', {
+              weekday: 'long',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </h4>
         </div>
       </div>
     </SingleRecipeStyles>
