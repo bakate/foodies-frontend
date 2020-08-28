@@ -110,7 +110,7 @@ const Auth = () => {
             <Input
               id='username'
               placeholder="nom d'utilisateur"
-              label='username'
+              label="nom d'utilisateur :"
               errorText="Renseignez un nom d'utilisateur"
               validators={[VALIDATOR_REQUIRE()]}
               onInput={inputHandler}
@@ -121,7 +121,7 @@ const Auth = () => {
             id='email'
             validators={[VALIDATOR_EMAIL()]}
             placeholder='Votre email'
-            label='e-mail'
+            label='e-mail :'
             type='email'
             onInput={inputHandler}
           />
@@ -131,7 +131,7 @@ const Auth = () => {
             validators={[VALIDATOR_MINLENGTH(6)]}
             placeholder='Votre mot de passe'
             type='password'
-            label='mot de passe'
+            label='mot de passe :'
             onInput={inputHandler}
           />
           <Button type='submit' disabled={!formState.isValid || isLoading}>

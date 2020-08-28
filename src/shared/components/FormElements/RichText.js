@@ -4,14 +4,14 @@ import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { InputStyles } from './Input'
 
-const RichText = ({ onInput, id, initialValue }) => {
+const RichText = ({ onInput, id, initialValue, label }) => {
   const value = initialValue
   const [text, setText] = useState(value)
   const [valid, setValid] = useState(false)
 
   return (
     <InputStyles>
-      <label htmlFor={id}>{id}</label>
+      <label htmlFor={id}>{label}</label>
       <CKEditor
         id={id}
         editor={ClassicEditor}
@@ -31,6 +31,7 @@ RichText.propTypes = {
   id: PropTypes.string,
   initialValue: PropTypes.func,
   onInput: PropTypes.func,
+  label: PropTypes.string,
 }
 
 export default RichText

@@ -71,10 +71,9 @@ const UpdateProfile = () => {
   }
   return (
     <>
-      (
       {!isLoading && userProfile && (
         <div>
-          <Title withRow title='mes informations' />
+          <Title withRow title='mes informations' center />
           <AuthStyles>
             <form onSubmit={authHandler}>
               <ImageHandler
@@ -85,7 +84,7 @@ const UpdateProfile = () => {
               <Input
                 id='username'
                 placeholder="nom d'utilisateur"
-                label='username'
+                label="nom d'utilisateur"
                 initialValid
                 initialValue={userProfile.username}
                 errorText="Renseignez un nom d'utilisateur"

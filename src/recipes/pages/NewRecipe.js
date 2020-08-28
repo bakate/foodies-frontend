@@ -74,17 +74,17 @@ const NewRecipe = () => {
           <Input
             id='title'
             placeholder='Choisir un titre'
-            label='titre'
+            label='titre :'
             onInput={inputHandler}
             validators={[VALIDATOR_REQUIRE()]}
             errorText='Fournissez un titre valide, svp'
           />
           <ImageHandler id='images' onInput={inputHandler} />
-          <RichText id='ingredients' onInput={inputHandler} />
+          <RichText id='ingredients' onInput={inputHandler} label='ingr&eacute;dients :' />
 
           <Input
             element='select'
-            label='cat&eacute;gorie'
+            label='cat&eacute;gorie :'
             id='category'
             onInput={inputHandler}
             initialValue='entrée'
@@ -95,7 +95,7 @@ const NewRecipe = () => {
           />
           <Input
             element='select'
-            label='difficult&eacute;'
+            label='difficult&eacute; :'
             id='difficulty'
             onInput={inputHandler}
             initialValue='facile'
@@ -104,9 +104,9 @@ const NewRecipe = () => {
             errorText='Selectionnez un niveau de difficult&eacute;'
             validators={[VALIDATOR_REQUIRE()]}
           />
-          <RichText id='cooking' onInput={inputHandler} />
+          <RichText id='cooking' onInput={inputHandler} label='pr&eacute;paration :' />
           <Input
-            label='dur&eacute;e (mins)'
+            label='dur&eacute;e (mins) :'
             id='duration'
             type='number'
             onInput={inputHandler}
