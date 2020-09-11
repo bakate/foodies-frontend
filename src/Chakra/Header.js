@@ -9,7 +9,6 @@ import NavLinks from './NavLinks'
 
 const Header = () => {
   const { token, logout } = useInfos()
-  // const { colorMode } = useColorMode()
 
   const bg = useColorModeValue('orange.500', 'orange.200')
   const color = useColorModeValue('white', 'gray.800')

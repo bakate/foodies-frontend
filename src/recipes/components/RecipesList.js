@@ -31,13 +31,10 @@ const RecipesList = ({ recipes, onDelete }) => {
         </Heading>  */}
 
         {extractedUser ? (
-
-
           <ButtonGroup isAttached variant="outline" colorScheme='teal' onClick={()=> setIsOpen(true)}>
             <Button mr="-px" > cr&eacute;er</Button>
             <IconButton aria-label="Add" icon={<GrAdd />} />
           </ButtonGroup>
-
         ) : null}
       </Flex>
 

@@ -5,8 +5,7 @@ import LoadingSpinner from '../UiElements/LoadingSpinner'
 
 const ImageHandler = ({ id, onInput, initialValue }) => {
   const inputRef = useRef()
-  // const value = initialValue
-  // const [image, setImage] = useState(value)
+
   const [previewUrl, setPreviewUrl] = useState(initialValue)
   const [loading, setLoading] = useState(false)
   const pickerHandler = () => {

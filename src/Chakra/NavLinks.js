@@ -11,7 +11,6 @@ const LinkGenerator = ({ href, title }) => {
       cursor='pointer'
       textTransform='uppercase'
       p={2}
-      // opacity={router.pathname === href ? 1 : 0.5}
       _hover={{ borderBottom: '2px solid orange' }}>
       <NavLink to={href}>{title}</NavLink>
     </Box>
@@ -22,7 +21,6 @@ const NavLinks = () => {
   const { token, userId } = useInfos()
 
   return (
-    // <Flex align='center' wrap='wrap'>
     <>
       <LinkGenerator href='/' title='les recettes' />
       {!!token && <LinkGenerator href={`/${userId}/recipes`} title='mes recettes' />}

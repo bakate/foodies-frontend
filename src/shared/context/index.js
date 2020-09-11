@@ -76,7 +76,6 @@ const MamaProvider = ({ children }) => {
         show,
         allRecipes,
         isOpen,
-        setIsOpen,
         onClose,
         setAllRecipes,
       }}>

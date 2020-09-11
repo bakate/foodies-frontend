@@ -20,7 +20,7 @@ import DisplayModal2 from './Modal2'
 const DisplayModal = ({ isOpen, onClose }) => {
   const { setIsOpenTwo, onCloseTwo, isOpenTwo } = useInfos()
 
-  const { sendRequest, error } = useHttpClient()
+  const { sendRequest } = useHttpClient()
   const initialRef = useRef()
   const finalRef = useRef()
   return (
@@ -45,7 +45,6 @@ const DisplayModal = ({ isOpen, onClose }) => {
               { 'Content-Type': 'application/json' }
             )
             cogoToast.success('Ravi de vous revoir !')
-            // login(userId, token)
           } catch (err) {}
         }}>
         {({ isSubmitting }) => (

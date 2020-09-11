@@ -57,7 +57,6 @@ const SingleRecipe = () => {
           templateColumns='repeat(auto-fit, minmax(200px, 1fr))'
           justifyContent='center'
           alignItems='flex-start'
-          // justifyItems='center'
           alignContent='center'>
           <Box>
             <Title title='ingr&eacute;dients :' />

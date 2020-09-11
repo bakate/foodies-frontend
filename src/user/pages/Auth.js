@@ -21,7 +21,6 @@ const Auth = () => {
         templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }}
         justifyContent='space-between'
         alignItems='center'
-        // justifyItems='center'
         alignContent='center'>
         <Title title='foodies, créez et partagez vos meilleures recettes. ' />
         <AuthForm />

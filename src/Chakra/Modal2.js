@@ -1,13 +1,7 @@
 import {
   Button,
-
-
-
-
-
-
-
-  ButtonGroup, Modal,
+  ButtonGroup,
+  Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
@@ -49,7 +43,6 @@ const DisplayModal2 = ({ isOpen, onClose }) => {
             { 'Content-Type': 'application/json' }
           )
           cogoToast.success('Ravi de vous revoir !')
-          // login(userId, token)
         } catch (err) {}
       }}>
       {({ isSubmitting }) => (

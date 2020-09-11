@@ -13,8 +13,6 @@ const Container = ({ children }) => {
       color={color[colorMode] || color.light}
       bg={bgColor[colorMode] || bgColor.light}
       p='0 2rem'
-      // h='100vh'
-      // p="0 2rem"
       mx='auto'
       spacing={1}>
       <ColorModeScript />

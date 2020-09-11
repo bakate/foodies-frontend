@@ -31,23 +31,6 @@ const UpdateProfile = () => {
     getUserInfos()
   }, [sendRequest, userId, token])
 
-  // const authHandler = async (e) => {
-  //   e.preventDefault()
-  //   try {
-  //     await sendRequest(
-  //       `${process.env.REACT_APP_BACKEND_URL}/auth/profile/update/${userId}`,
-  //       'PATCH',
-  //       JSON.stringify({
-  //         username: formState.inputs.username.value,
-  //         images: formState.inputs.images.value,
-  //       }),
-  //       { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }
-  //     )
-  //     history.replace(`/${userId}/recipes`)
-  //     cogoToast.success('Profil à jour !')
-  //   } catch (err) {}
-  // }
-
   useEffect(() => {
     if (error) {
       const { hide } = cogoToast.error(error, {

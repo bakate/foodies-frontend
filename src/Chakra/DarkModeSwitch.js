@@ -3,7 +3,6 @@ import React from 'react'
 import { FaMoon, FaSun } from 'react-icons/fa'
 
 const DarkModeSwitch = (props) => {
-  // const { colorMode, toggleColorMode, useColorModeValue } = useColorMode()
   const { toggleColorMode } = useColorMode()
   const text = useColorModeValue('dark', 'light')
   const SwitchIcon = useColorModeValue(FaMoon, FaSun)
@@ -16,7 +15,6 @@ const DarkModeSwitch = (props) => {
       aria-label={`Switch to ${text} mode`}
       variant='ghost'
       color='current'
-      // marginLeft='2'
       onClick={toggleColorMode}
       icon={<SwitchIcon />}
       {...props}

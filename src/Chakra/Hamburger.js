@@ -3,13 +3,10 @@ import PropTypes from 'prop-types'
 import React from 'react'
 
 const Hamburger = ({ onClick, btnRef }) => {
-  // const { handleToggleTheme } = useInfos()
-
   return (
     <Box
       display={{ base: 'flex', sm: 'none' }}
       ref={btnRef}
-      // justifySelf='end'
       onClick={onClick}
       pr={{ base: 0 }}
       cursor='pointer'>

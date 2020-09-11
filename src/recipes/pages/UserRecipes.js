@@ -8,7 +8,6 @@ import { useHttpClient } from '../../shared/hooks/http-hook'
 import RecipesList from '../components/RecipesList'
 
 const UserRecipes = () => {
-  // const { isLoading, error, sendRequest, clearError } = useHttpClient()
   const { isLoading, sendRequest, error } = useHttpClient()
   const { userRecipes, setUserRecipes, userId: user } = useInfos()
   const userId = useParams().userId
