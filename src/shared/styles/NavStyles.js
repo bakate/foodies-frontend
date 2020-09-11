@@ -80,7 +80,7 @@ const OptionStyles = styled.div`
       text-transform: lowercase;
       padding-top: 0;
       &:hover {
-        background: ${({ theme }) => theme.green};
+        background: ${({ theme }) => theme.teal};
         text-transform: uppercase;
         padding-left: 1.5rem;
         box-shadow: ${({ theme }) => theme.bs};

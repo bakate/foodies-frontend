@@ -6,10 +6,17 @@ const InfosContext = createContext()
 const InfosProvider = InfosContext.Provider
 
 const MamaProvider = ({ children }) => {
+  const [show, setShow] = useState(false)
+  const handleToggleTheme = () => setShow(!show)
   const [token, setToken] = useState(null)
   const [userId, setUserId] = useState(null)
   const [tokenExpirationDate, setTokenExpirationDate] = useState(null)
   const [userRecipes, setUserRecipes] = useState([])
+  const [allRecipes, setAllRecipes] = useState([])
+  const [isOpen, setIsOpen] = useState(false)
+  const [isOpenTwo, setIsOpenTwo] = useState(false)
+  const onCloseTwo = () => setIsOpen(false)
+  const onClose = () => setIsOpen(false)
 
   const login = useCallback((uid, token, expirationDate) => {
     setUserId(uid)
@@ -53,7 +60,26 @@ const MamaProvider = ({ children }) => {
   }, [tokenExpirationDate, logout, token])
 
   return (
-    <InfosProvider value={{ token, logout, login, userId, userRecipes, setUserRecipes }}>
+    <InfosProvider
+      value={{
+        token,
+        logout,
+        login,
+        userId,
+        isOpenTwo,
+        setIsOpenTwo,
+        setIsOpen,
+        onCloseTwo,
+        userRecipes,
+        setUserRecipes,
+        handleToggleTheme,
+        show,
+        allRecipes,
+        isOpen,
+        setIsOpen,
+        onClose,
+        setAllRecipes,
+      }}>
       {children}
     </InfosProvider>
   )

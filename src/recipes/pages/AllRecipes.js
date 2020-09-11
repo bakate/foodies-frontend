@@ -1,24 +1,23 @@
 import cogoToast from 'cogo-toast'
 import React, { useEffect } from 'react'
-import Title from '../../Chakra/Heading'
 import Spinner from '../../Chakra/Spinner'
 import { useInfos } from '../../shared/context'
 import { useHttpClient } from '../../shared/hooks/http-hook'
-import UsersList from '../components/UsersList'
+import RecipesList from '../components/RecipesList'
 
-const Users = () => {
-  const { sendRequest, isLoading, error } = useHttpClient()
-  const { userRecipes, setUserRecipes } = useInfos()
+const AllRecipes = () => {
+  const { isLoading, error, sendRequest } = useHttpClient()
+  const { allRecipes, setAllRecipes } = useInfos()
 
   useEffect(() => {
-    const getUsers = async () => {
+    const getRecipes = async () => {
       try {
-        const { users } = await sendRequest(`${process.env.REACT_APP_BACKEND_URL}/auth`)
-        setUserRecipes(users)
+        const { recipes } = await sendRequest(`${process.env.REACT_APP_BACKEND_URL}/recipes`)
+        setAllRecipes(recipes)
       } catch (err) {}
     }
-    getUsers()
-  }, [sendRequest, setUserRecipes])
+    getRecipes()
+  }, [sendRequest, setAllRecipes])
 
   useEffect(() => {
     if (error) {
@@ -30,17 +29,15 @@ const Users = () => {
       })
     }
   }, [error])
+
   if (isLoading) {
     return <Spinner />
   }
-
   return (
     <>
-      <Title title='nos meilleurs contributeurs' />
-
-      <UsersList users={userRecipes} />
+      <RecipesList recipes={allRecipes} />
     </>
   )
 }
 
-export default Users
+export default AllRecipes

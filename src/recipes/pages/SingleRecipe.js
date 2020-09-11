@@ -1,58 +1,21 @@
+import { AspectRatio, Box, Button, Center, Flex, Grid, Image } from '@chakra-ui/core'
 import React from 'react'
 import { useHistory, useParams } from 'react-router-dom'
-import styled from 'styled-components'
-import Button from '../../shared/components/FormElements/Button'
-import Title from '../../shared/components/UiElements/Title'
+import Title from '../../Chakra/Heading'
+import Typography from '../../Chakra/Typography'
 import { useInfos } from '../../shared/context'
 import { getDuration } from '../../shared/utils/getDuration'
-import { CallToAction } from '../components/RecipesList'
-
-const SingleRecipeStyles = styled.div`
-  .image {
-    height: 30vh;
-    width: 80vw;
-    margin: 0 auto;
-    transition: ${({ theme }) => theme.mainTransition};
-    &:hover {
-      box-shadow: ${({ theme }) => theme.darkShadow};
-      transform: scale(1.05);
-    }
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    @media (min-width: 768px) {
-      height: 60vh;
-      width: 80vw;
-    }
-  }
-  .info {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    place-content: center;
-    /* place-items: space-between; */
-  }
-
-  .extra {
-    display: grid;
-    place-items: center auto;
-    place-content: center space-evenly;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    /* gap: 1rem; */
-  }
-`
 
 const SingleRecipe = () => {
   const history = useHistory()
-  const { userRecipes } = useInfos()
+  const { allRecipes } = useInfos()
   const recipeId = useParams().recipeId
   let recipe
-  if (userRecipes.length) {
-    recipe = userRecipes.find((item) => item.id === recipeId)
+  if (allRecipes.length) {
+    recipe = allRecipes.find((item) => item.id === recipeId)
   }
   if (!recipe) {
-    return <Title center title='sorry, no recipe found' />
+    return <Title center title="oops, Quelque chose s'est mal passée" />
   }
 
   const transformedIngredients = (string) => {
@@ -71,54 +34,77 @@ const SingleRecipe = () => {
   const { hours, minutes } = getDuration(recipe.duration)
 
   return (
-    <>
-      <CallToAction>
-        <Button type='button' onClick={() => history.push('/')}>
+    <Box>
+      <Flex justify='flex-start'>
+        <Button
+          type='button'
+          onClick={() => history.push('/')}
+          colorScheme='blue'
+          variant='outline'>
           retour
         </Button>
-      </CallToAction>
-      <SingleRecipeStyles>
-        <Title bgTitle={recipe.title} center />
-        <div className='image'>
-          <img src={recipe.images.largeImage} alt='recipe' />
-        </div>
-        <div className='info'>
-          <div>
-            <Title title='ingr&eacute;dients :' withRow />
+      </Flex>
+      <Grid>
+        <Center mb={2}>
+          <Title title={recipe.title} />
+        </Center>
+        <AspectRatio ratio={4 / 3} maxW='100vw' h='60vh' mb={3}>
+          <Image src={recipe.images.largeImage} alt='recipe' objectFit='cover' w='100%' />
+        </AspectRatio>
+        <Grid
+          px={4}
+          mx='auto'
+          templateColumns='repeat(auto-fit, minmax(200px, 1fr))'
+          justifyContent='center'
+          alignItems='flex-start'
+          // justifyItems='center'
+          alignContent='center'>
+          <Box>
+            <Title title='ingr&eacute;dients :' />
             <ul className='content'>{transformedIngredients(recipe.ingredients)}</ul>
-          </div>
-          <div>
-            <Title title='Pr&eacute;paration :' withRow />
+          </Box>
+          <Box>
+            <Title title='Pr&eacute;paration :' />
             <ol className='content'>{transformedIngredients(recipe.cooking)}</ol>
-          </div>
-        </div>
-        <div className='extra'>
-          <div>
-            <Title title='Dur&eacute;e :' withRow />
-            <h4>
-              {hours > 1 ? `${hours} heures` : hours === 1 ? `${hours} heure` : null}
-              {hours >= 1 && minutes > 0 && ` et ${minutes} minutes`}
-              {!hours && minutes && `${minutes} minutes`}
-            </h4>
-          </div>
-          <div>
-            <Title title='cat&eacute;gorie :' withRow />
-            <h4>{recipe.category}</h4>
-          </div>
-          <div>
-            <Title title='recette publi&eacute;e le :' withRow />
-            <h4>
-              {new Date(recipe.published).toLocaleDateString('fr', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
-            </h4>
-          </div>
-        </div>
-      </SingleRecipeStyles>
-    </>
+          </Box>
+        </Grid>
+        <Grid
+          my={3}
+          pb={3}
+          templateColumns='repeat(auto-fit, minmax(200px, 1fr))'
+          justifyContent='center'
+          alignItems='center'>
+          <Box>
+            <Title title='Dur&eacute;e :' />
+            <Typography>
+              <h4>
+                {' '}
+                {hours > 1 ? `${hours} heures` : hours === 1 ? `${hours} heure` : null}
+                {hours >= 1 && minutes > 0 && ` et ${minutes} minutes`}
+                {!hours && minutes && `${minutes} minutes`}
+              </h4>
+            </Typography>
+          </Box>
+          <Box>
+            <Title title='cat&eacute;gorie :' />
+            <Typography text={recipe.category} />
+          </Box>
+          <Box>
+            <Title title='recette publi&eacute;e le :' />
+            <Typography>
+              <h4>
+                {new Date(recipe.published).toLocaleDateString('fr', {
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </h4>
+            </Typography>
+          </Box>
+        </Grid>
+      </Grid>
+    </Box>
   )
 }
 

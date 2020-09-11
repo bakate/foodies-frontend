@@ -1,13 +1,14 @@
+import { Box } from '@chakra-ui/core'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
+import Title from '../../Chakra/Heading'
 import Button from '../../shared/components/FormElements/Button'
 import ImageHandler from '../../shared/components/FormElements/ImageHandler'
 import Input from '../../shared/components/FormElements/Input'
 import RichText from '../../shared/components/FormElements/RichText'
 import ErrorMessage from '../../shared/components/UiElements/ErrorMessage'
 import LoadingSpinner from '../../shared/components/UiElements/LoadingSpinner'
-import Title from '../../shared/components/UiElements/Title'
 import { useInfos } from '../../shared/context'
 import { useForm } from '../../shared/hooks/form-hook'
 import { useHttpClient } from '../../shared/hooks/http-hook'
@@ -68,8 +69,8 @@ const NewRecipe = () => {
 
   return (
     <>
-      <NewRecipeStyles>
-        <Title center withRow title='ajouter une recette' />
+      <Box maxW='60vw'>
+        <Title title='ajouter une recette' />
         <form onSubmit={formHandler}>
           <Input
             id='title'
@@ -121,7 +122,7 @@ const NewRecipe = () => {
             valider
           </Button>
         </form>
-      </NewRecipeStyles>
+      </Box>
     </>
   )
 }

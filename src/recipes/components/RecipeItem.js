@@ -1,71 +1,31 @@
+import {
+  AspectRatio,
+  Button,
+  ButtonGroup,
+  Flex,
+  Image,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverFooter,
+  PopoverHeader,
+  PopoverTrigger
+} from '@chakra-ui/core'
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import Button from '../../shared/components/FormElements/Button'
-import { CardStyles } from '../../shared/components/UiElements/Card'
+import React from 'react'
+import { Link as ReachLink } from 'react-router-dom'
+import Spinner from '../../Chakra/Spinner'
+import Typography from '../../Chakra/Typography'
 import ErrorMessage from '../../shared/components/UiElements/ErrorMessage'
-import LoadingSpinner from '../../shared/components/UiElements/LoadingSpinner'
-import Modal from '../../shared/components/UiElements/Modal'
 import { useInfos } from '../../shared/context'
 import { useHttpClient } from '../../shared/hooks/http-hook'
-
-const RecipeItemStyles = styled(CardStyles)`
-  width: 100%;
-  padding: 0;
-  display: grid;
-  align-items: space-between;
-  .info {
-    padding: 1rem;
-    text-align: center;
-  }
-  .image {
-    width: 100%;
-    height: 12.5rem;
-    margin-right: 1.5rem;
-    transition: ${({ theme }) => theme.mainTransition};
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    &:hover {
-      box-shadow: ${({ theme }) => theme.darkShadow};
-      transform: scale(1.05);
-    }
-  }
-  .actions {
-    align-self: flex-end;
-    padding: 1rem;
-    text-align: center;
-    border-top: 1px solid ${({ theme }) => theme.lightGrey};
-    button,
-    a {
-      margin: 0.5rem;
-    }
-  }
-
-  @media (min-width: 768px) {
-    .image {
-      height: 25rem;
-    }
-    .info {
-      padding: 0;
-    }
-  }
-`
 
 const RecipeItem = ({ id, title, images, user, onDeleteItem }) => {
   const { userId, token } = useInfos()
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
-  const [showConfirmModal, setShowConfirmModal] = useState(false)
-
-  const showDeleteWarningHandler = () => {
-    setShowConfirmModal(true)
-  }
-
-  const cancelDeleteHandler = () => {
-    setShowConfirmModal(false)
-  }
+  const initialFocusRef = React.useRef()
   const confirmDeleteHandler = async () => {
     try {
       await sendRequest(`${process.env.REACT_APP_BACKEND_URL}/recipes/${id}`, 'DELETE', null, {
@@ -76,11 +36,7 @@ const RecipeItem = ({ id, title, images, user, onDeleteItem }) => {
   }
 
   if (isLoading) {
-    return (
-      <div className='center'>
-        <LoadingSpinner asOverlay />
-      </div>
-    )
+    return <Spinner />
   }
   if (error) {
     return <ErrorMessage errorMessage={error} onClear={clearError} />
@@ -88,52 +44,68 @@ const RecipeItem = ({ id, title, images, user, onDeleteItem }) => {
 
   return (
     <>
-      <Modal
-        show={showConfirmModal}
-        onCancel={cancelDeleteHandler}
-        header='Est-ce votre dernier mot ?'
-        footer={
-          <>
-            <Button inverse onClick={cancelDeleteHandler}>
-              annuler
-            </Button>
-            <Button danger onClick={confirmDeleteHandler}>
-              confirmer
-            </Button>
-          </>
-        }>
-        <p>
-          Voulez-vous continuer et supprimer cette recette ? Veuillez noter que cette action est
-          irr&eacute;versible.
-        </p>
-      </Modal>
-      <RecipeItemStyles>
-        <div className='image'>
-          <img src={images.regularImage} alt='recipe' />
-        </div>
-        <div className='info'>
-          <h2>{title}</h2>
-        </div>
+      <Flex
+        flexDir='column'
+        borderRadius='md'
+        justifyContent='space-between'
+        _hover={{ boxShadow: '3px 3px 3px 3px #888888' }}>
+        <AspectRatio as={ReachLink} to={`/recipes/recipe/${id}`} ratio={4 / 3}>
+          <Image
+            src={images.regularImage}
+            alt='recipe'
+            fit='cover'
+            htmlWidth='100%'
+            borderTopRadius='md'
+          />
+        </AspectRatio>
 
-        <div className='actions'>
-          {userId === user && (
-            <Button to={`/recipes/${id}`} inverse='true'>
-              modifier
-            </Button>
-          )}
-          {userId ? (
-            <Button to={`/recipes/recipe/${id}`}>voir</Button>
-          ) : (
-            <Button to={`/auth`}>connexion</Button>
-          )}
+        <Typography text={title} />
 
-          {userId === user && (
-            <Button danger onClick={showDeleteWarningHandler}>
-              supprimer
+        <Flex align='baseline' my={2} justify='center'>
+          <ButtonGroup variant='outline'>
+            {userId === user && (
+              <Button as={ReachLink} colorScheme='blue' to={`/recipes/${id}`}>
+                modifier
+              </Button>
+            )}
+
+            <Button as={ReachLink} colorScheme='teal' variant='solid' to={`/recipes/recipe/${id}`}>
+              voir
             </Button>
-          )}
-        </div>
-      </RecipeItemStyles>
+
+            <Popover initialFocusRef={initialFocusRef} placement='top'>
+              <PopoverTrigger>
+                <div>{userId === user && <Button colorScheme='red'>supprimer</Button>}</div>
+              </PopoverTrigger>
+              <PopoverContent bg='orange.500' color='white' borderColor='orange.800'>
+                <PopoverHeader pt={4} fontWeight='bold' border='0'>
+                  Supprimer {title}
+                </PopoverHeader>
+                <PopoverArrow />
+                <PopoverCloseButton />
+                <PopoverBody>
+                  Voulez-vous vraiment supprimer cette recette ? Cette action est irréversible.
+                </PopoverBody>
+                <PopoverFooter
+                  border='0'
+                  d='flex'
+                  alignItems='center'
+                  justifyContent='center'
+                  pb={4}>
+                  <ButtonGroup size='sm'>
+                    <Button ref={initialFocusRef} colorScheme='black'>
+                      Annuler
+                    </Button>
+                    <Button colorScheme='red' onClick={confirmDeleteHandler}>
+                      Confirmer
+                    </Button>
+                  </ButtonGroup>
+                </PopoverFooter>
+              </PopoverContent>
+            </Popover>
+          </ButtonGroup>
+        </Flex>
+      </Flex>
     </>
   )
 }

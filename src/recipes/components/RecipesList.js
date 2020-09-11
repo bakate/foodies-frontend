@@ -1,10 +1,12 @@
+import { Button, ButtonGroup, Flex, Grid, IconButton } from '@chakra-ui/core'
 import PropTypes from 'prop-types'
 import React from 'react'
+import { GrAdd } from 'react-icons/gr'
 import styled from 'styled-components'
-import Button from '../../shared/components/FormElements/Button'
+import Modal from '../../Chakra/Modal'
 import { useInfos } from '../../shared/context'
-import { UsersListStyles } from '../../user/components/UsersList'
 import RecipeItem from './RecipeItem'
+
 
 export const CallToAction = styled.div`
   display: flex;
@@ -13,42 +15,41 @@ export const CallToAction = styled.div`
 `
 
 const RecipesList = ({ recipes, onDelete }) => {
-  const { userId } = useInfos()
+  const { userId, setIsOpen, isOpen, onClose} = useInfos()
 
-  const extractedUser = recipes.find((recipe) => recipe.user === userId)
+  const extractedUser = recipes?.find((recipe) => recipe.user === userId)
 
   return (
     <>
-      <CallToAction>
-        <h3>
-          {extractedUser ? 'Bravo vous avez ' : 'Cet utilisateur a '}
-          {`${recipes.length} recette${recipes.length > 1 ? 's' : ''} actuellement`}
-        </h3>
+    <Modal isOpen={isOpen} onClose={onClose} />
 
-        {extractedUser ? <Button to='/recipes/new'>cr&eacute;er</Button> : null}
-      </CallToAction>
-      <UsersListStyles>
+
+       <Flex justify={{ base: 'start', md: 'flex-end' }} align='center' py={3}>
+        {/* <Heading as='h5' fontWeight='normal' size='md'>
+          {extractedUser && `Bravo vous avez ${recipes.length} recette${recipes.length > 1 ? 's':""} actuellement` }
+
+        </Heading>  */}
+
+        {extractedUser ? (
+
+
+          <ButtonGroup isAttached variant="outline" colorScheme='teal' onClick={()=> setIsOpen(true)}>
+            <Button mr="-px" > cr&eacute;er</Button>
+            <IconButton aria-label="Add" icon={<GrAdd />} />
+          </ButtonGroup>
+
+        ) : null}
+      </Flex>
+
+      <Grid
+        templateColumns={{ base: '1fr', md: 'repeat(3,1fr)' }}
+        gap={6}
+        justifyContent='space-evenly'
+        alignItems='center'>
         {recipes.map((recipe) => (
           <RecipeItem key={recipe.id} {...recipe} onDeleteItem={onDelete} />
         ))}
-        {/* {recipes.map(
-        ({ id, category, title, ingredients, images, duration, published, cooking, user }) => (
-          <RecipeItem
-            key={id}
-            category={category}
-            ingredients={ingredients}
-            title={title}
-            images={images}
-            duration={duration}
-            published={published}
-            cooking={cooking}
-            id={id}
-            user={user}
-            onDeleteItem={onDelete}
-          />
-        )
-      )} */}
-      </UsersListStyles>
+      </Grid>
     </>
   )
 }

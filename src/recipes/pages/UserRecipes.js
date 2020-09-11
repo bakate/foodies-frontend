@@ -30,6 +30,17 @@ const UserRecipes = () => {
     setUserRecipes((prev) => prev.filter((recipe) => recipe.id !== recipeId))
   }
 
+  useEffect(() => {
+    if (error) {
+      const { hide } = cogoToast.error(error, {
+        hideAfter: 6,
+        onClick: () => {
+          hide()
+        },
+      })
+    }
+  }, [error])
+
   if (isLoading) {
     return (
       <div className='center'>
@@ -37,9 +48,7 @@ const UserRecipes = () => {
       </div>
     )
   }
-  if (error) {
-    cogoToast.error(<h5>{error}</h5>)
-  }
+
   if (!error && !userRecipes.length) {
     return (
       <div className='center'>

@@ -5,10 +5,12 @@ import App from './App'
 import { MamaProvider } from './shared/context'
 
 ReactDOM.render(
-  <MamaProvider>
-    <Router>
-      <App />
-    </Router>
-  </MamaProvider>,
+  <>
+    <MamaProvider>
+      <Router>
+        <App />
+      </Router>
+    </MamaProvider>
+  </>,
   document.getElementById('root')
 )

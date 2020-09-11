@@ -1,11 +1,14 @@
-import React, { Suspense } from 'react'
-import { Redirect, Route, Switch } from 'react-router-dom'
-import { ThemeProvider } from 'styled-components'
-import { GlobalStyles, Inner, StyledPage, theme } from './shared/components/GlobalStyles'
-import MainNavigation from './shared/components/Navigation/MainNavigation'
-import LoadingSpinner from './shared/components/UiElements/LoadingSpinner'
-import { useInfos } from './shared/context'
-import Users from './user/pages/Users'
+import { ChakraProvider } from '@chakra-ui/core';
+import React, { Suspense } from 'react';
+import { ReactQueryConfigProvider } from "react-query";
+import { ReactQueryDevtools } from 'react-query-devtools';
+import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
+import Container from './Chakra/Container';
+import Header from './Chakra/Header';
+import Spinner from './Chakra/Spinner';
+import customTheme from "./Chakra/theme";
+import AllRecipes from './recipes/pages/AllRecipes';
+import { useInfos } from './shared/context';
 const UserRecipes= React.lazy(()=> import('./recipes/pages/UserRecipes'))
 const Auth = React.lazy(() => import('./user/pages/Auth'))
 const ResetToken = React.lazy(() => import('./user/pages/ResetToken'))
@@ -14,15 +17,24 @@ const Reset = React.lazy(() => import('./user/pages/Reset'))
 const NewRecipe= React.lazy(() => import('./recipes/pages/NewRecipe'))
 const UpdateRecipe = React.lazy(() => import('./recipes/pages/UpdateRecipe'))
 const SingleRecipe = React.lazy(() => import('./recipes/pages/SingleRecipe'))
+const Users = React.lazy(() => import('./user/pages/Users'))
 
 function App() {
+  const location = useLocation()
+  const queryConfig = {
+    queries: {
+      staleTime: 50000,
+      cacheTime: 1000000,
+      retry: false
+    }
+  };
   const { token } = useInfos()
   let routes
   if (token) {
     routes = (
       <Switch>
         <Route path='/' exact>
-          <Users />
+          <AllRecipes />
         </Route>
         <Route path='/:userId/recipes' exact>
           <UserRecipes />
@@ -45,17 +57,21 @@ function App() {
   } else {
     routes = (
       <Switch>
-        <Route path='/' exact>
+        <Route path='/users' exact>
           <Users />
         </Route>
-
+        <Route path='/' exact>
+          <AllRecipes />
+        </Route>
         <Route path='/:userId/recipes' exact>
           <UserRecipes />
+        </Route>
+        <Route path='/recipes/recipe/:recipeId' exact>
+          <SingleRecipe />
         </Route>
         <Route path='/auth' exact>
           <Auth />
         </Route>
-
         <Route path='/reset' exact>
           <ResetToken />
         </Route>
@@ -68,22 +84,23 @@ function App() {
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyles />
-      <StyledPage>
-        <MainNavigation />
-        <Inner>
+
+    <ReactQueryConfigProvider config={queryConfig}>
+    <ChakraProvider resetCSS theme={customTheme}>
+
+      {location.pathname !== "/auth"?  <Header />: null}
+        <Container>
           <Suspense
             fallback={
-              <div className='center'>
-                <LoadingSpinner />
-              </div>
+             <Spinner />
             }>
             {routes}
           </Suspense>
-        </Inner>
-      </StyledPage>
-    </ThemeProvider>
+        </Container>
+    </ChakraProvider>
+    <ReactQueryDevtools initialIsOpen={false} />
+
+     </ReactQueryConfigProvider>
   )
 }
 

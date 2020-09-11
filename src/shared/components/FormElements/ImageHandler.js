@@ -1,20 +1,7 @@
+import { Box, Button, Center, Grid, Image, Input } from '@chakra-ui/core'
 import PropTypes from 'prop-types'
 import React, { useRef, useState } from 'react'
-import styled from 'styled-components'
 import LoadingSpinner from '../UiElements/LoadingSpinner'
-import Button from './Button'
-import { InputStyles } from './Input'
-
-const ImageStyles = styled(InputStyles)`
-  img {
-    margin-top: 1rem;
-    width: 250px;
-    height: 250px;
-    object-fit: cover;
-    border-radius: ${({ theme }) => theme.mainBorderRadius};
-    box-shadow: ${({ theme }) => theme.lightShadow};
-  }
-`
 
 const ImageHandler = ({ id, onInput, initialValue }) => {
   const inputRef = useRef()
@@ -57,13 +44,13 @@ const ImageHandler = ({ id, onInput, initialValue }) => {
   }
 
   return (
-    <ImageStyles>
+    <Box my={3}>
       {loading && (
         <div className='center'>
           <LoadingSpinner asOverlay />
         </div>
       )}
-      <input
+      <Input
         type='file'
         ref={inputRef}
         name='upload-image'
@@ -72,14 +59,24 @@ const ImageHandler = ({ id, onInput, initialValue }) => {
         id={id}
         onChange={imageHandler}
       />
-      <div className='center'>
-        {previewUrl && <img src={previewUrl} width='250' alt='Preview' />}
-        <Button inverse type='button' onClick={pickerHandler}>
-          select an image
+      <Grid>
+        <Center my={3}>
+          {previewUrl && (
+            <Image
+              src={previewUrl}
+              borderRadius='full'
+              objectFit='cover'
+              boxSize='200px'
+              alt='Preview'
+            />
+          )}
+        </Center>
+        <Button colorScheme='blue' variant='outline' onClick={pickerHandler}>
+          Choisissez une autre photo
         </Button>
         {!previewUrl && <p>Choisissez une image, svp</p>}
-      </div>
-    </ImageStyles>
+      </Grid>
+    </Box>
   )
 }
 
