@@ -13,4 +13,3 @@ ReactDOM.render(
     </MamaProvider>
   </>,
   document.getElementById('root')
-)
