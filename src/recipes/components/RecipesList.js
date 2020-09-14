@@ -15,7 +15,7 @@ const RecipesList = ({ recipes, onDelete }) => {
       <NewRecipe recipes={recipes} />
 
       <Grid
-        templateColumns={{ base: '1fr', md: 'repeat(3,1fr)' }}
+        templateColumns='repeat(auto-fill, minmax(350px, 1fr))'
         gap={{ base: 4, md: 10 }}
         justifyContent='space-evenly'
         alignItems='center'>
