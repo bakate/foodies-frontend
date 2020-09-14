@@ -1,7 +1,7 @@
 import { Box, Button } from '@chakra-ui/core'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useHistory } from 'react-router-dom'
 import { useInfos } from '../shared/context'
 
 const LinkGenerator = ({ href, title }) => {
@@ -18,7 +18,12 @@ const LinkGenerator = ({ href, title }) => {
 }
 
 const NavLinks = () => {
+  const history = useHistory()
   const { token, userId, logout } = useInfos()
+  const logoutHandler = () => {
+    logout()
+    history.replace('/')
+  }
 
   return (
     <>
@@ -29,7 +34,7 @@ const NavLinks = () => {
       {!!token && (
         <Button
           d={['block', 'none']}
-          onClick={logout}
+          onClick={logoutHandler}
           p={2}
           fontWeight='bold'
           variant='link'

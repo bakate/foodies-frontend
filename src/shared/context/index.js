@@ -32,6 +32,7 @@ const MamaProvider = ({ children }) => {
     setUserId(null)
     setTokenExpirationDate(null)
     localStorage.removeItem('newUser')
+
     cogoToast.success('A très vite !')
   }, [])
 

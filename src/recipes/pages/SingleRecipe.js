@@ -59,7 +59,7 @@ const SingleRecipe = () => {
         <AspectRatio ratio={4 / 3} maxW='100vw' h='60vh'>
           <Image src={recipe.images.largeImage} alt='recipe' objectFit='cover' w='100%' />
         </AspectRatio>
-        <SimpleGrid minChildWidth='40px' textAlign='center'>
+        <SimpleGrid minChildWidth='40px' textAlign='center' textTransform='capitalize'>
           <Box>
             <Icon as={MdTimer} boxSize={10} color='orange.500' />
 
