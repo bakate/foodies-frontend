@@ -1,4 +1,4 @@
-import { Box, Button, ButtonGroup } from '@chakra-ui/core'
+import { Button, ButtonGroup, Grid } from '@chakra-ui/core'
 import cogoToast from 'cogo-toast'
 import { Form, Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
@@ -52,8 +52,9 @@ const UpdateRecipe = () => {
   return (
     <>
       {!isLoading && (
-        <Box my={{ md: '4rem' }} py={{ md: 8 }}>
-          <Title title='Modifier votre recette' my='1rem' />
+        <>
+          <Title title='Modifier votre recette' my='1rem' dir='column' wrap='no-wrap' />
+
           <Formik
             initialValues={recipeToUpdate}
             enableReinitialize='true'
@@ -80,25 +81,27 @@ const UpdateRecipe = () => {
               } catch (err) {}
             }}>
             {({ isSubmitting }) => (
-              <Form as={Box}>
-                <InputField name='title' label='Titre' />
-                <InputField name='ingredients' element='textarea' label='Ingr&eacute;dients' />
-                <InputField name='cooking' element='textarea' label='Pr&eacute;paration' />
-                <InputField type='number' name='duration' label='Temps' />
-                <ButtonGroup d='flex' justifyContent='flex-start' my={3}>
-                  <Button onClick={() => history.goBack()}>annuler</Button>
-                  <Button
-                    type='submit'
-                    isLoading={isSubmitting}
-                    colorScheme='teal'
-                    loadingText='En Cours'>
-                    modifier
-                  </Button>
-                </ButtonGroup>
+              <Form>
+                <Grid my={{ md: '4rem' }} mx='auto' maxW='650px'>
+                  <InputField name='title' label='Titre' />
+                  <InputField name='ingredients' element='textarea' label='Ingr&eacute;dients' />
+                  <InputField name='cooking' element='textarea' label='Pr&eacute;paration' />
+                  <InputField type='number' name='duration' label='Temps' />
+                  <ButtonGroup d='flex' justifyContent='flex-start' my={3}>
+                    <Button onClick={() => history.goBack()}>annuler</Button>
+                    <Button
+                      type='submit'
+                      isLoading={isSubmitting}
+                      colorScheme='teal'
+                      loadingText='En Cours'>
+                      modifier
+                    </Button>
+                  </ButtonGroup>
+                </Grid>
               </Form>
             )}
           </Formik>
-        </Box>
+        </>
       )}
     </>
   )

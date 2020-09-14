@@ -65,8 +65,8 @@ const RecipeItem = ({ id, title, images, user, onDeleteItem, duration }) => {
         justifyContent='space-between'
         transition='all linear 0.3s'
         p='0'
-        bg='white'
-        border='2px solid orange'
+        bg='gray.100'
+        border='1px solid gray'
         _hover={{ boxShadow: 'lg', transform: 'scale(1.01)' }}>
         <AspectRatio as={ReachLink} to={`/recipes/recipe/${id}`} ratio={4 / 3}>
           <Image
@@ -74,14 +74,14 @@ const RecipeItem = ({ id, title, images, user, onDeleteItem, duration }) => {
             alt='recipe'
             fit='cover'
             htmlWidth='100%'
-            borderRadius='md'
+            borderTopRadius='md'
           />
         </AspectRatio>
 
         <Typography text={title} />
 
         <ButtonGroup
-          variant='outline'
+          variant='ghost'
           d='flex'
           alignItems='baseline'
           my={2}
@@ -125,10 +125,11 @@ const RecipeItem = ({ id, title, images, user, onDeleteItem, duration }) => {
               </>
             )}
           </Popover>
-          <Button leftIcon={<MdTimer />} as={ReachLink} to={`/recipes/recipe/${id}`}>
-            {hours > 1 ? `${hours} heures` : hours === 1 ? `${hours} heure` : null}
-            {hours >= 1 && minutes > 0 && ` et ${minutes} minutes`}
-            {!hours && minutes && `${minutes} minutes`}
+
+          <Button leftIcon={<MdTimer />} as={ReachLink} colorScheme='teal' to={`/recipes/recipe/`}>
+            {hours > 1 ? ` heures` : hours === 1 ? ` heure` : null}
+            {hours >= 1 && minutes > 0 && ` et  minutes`}
+            {!hours && minutes && ` minutes`}
           </Button>
         </ButtonGroup>
       </Flex>

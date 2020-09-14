@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Flex, IconButton } from '@chakra-ui/core'
+import { Button, ButtonGroup, Flex, IconButton, LightMode } from '@chakra-ui/core'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { GrAdd } from 'react-icons/gr'
@@ -10,13 +10,11 @@ const NewRecipe = ({ recipes }) => {
   return (
     <Flex justify={{ base: 'flex-start', md: 'flex-end' }} align='center' py={3}>
       {extractedUser ? (
-        <ButtonGroup
-          isAttached
-          variant='outline'
-          colorScheme='teal'
-          onClick={() => setIsOpen(true)}>
-          <Button mr='-px'> cr&eacute;er</Button>
-          <IconButton aria-label='Add' icon={<GrAdd />} />
+        <ButtonGroup isAttached variant='solid' colorScheme='teal' onClick={() => setIsOpen(true)}>
+          <LightMode>
+            <Button mr='-px'> cr&eacute;er</Button>
+            <IconButton aria-label='Add' icon={<GrAdd />} />
+          </LightMode>
         </ButtonGroup>
       ) : null}
     </Flex>

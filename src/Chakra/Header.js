@@ -28,7 +28,7 @@ const Header = () => {
         <NavLinks />
       </Box>
 
-      <Flex alignItems='center'>
+      <Center>
         {!!token && (
           <IconButton
             d={['none', 'inline-block']}
@@ -43,7 +43,7 @@ const Header = () => {
         )}
         <DarkModeSwitch />
         <Drawer body={<NavLinks />} />
-      </Flex>
+      </Center>
     </Flex>
   )
 }

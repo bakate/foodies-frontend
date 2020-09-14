@@ -1,4 +1,11 @@
-import { FormControl, FormLabel, Input, Select, Textarea, Tooltip } from '@chakra-ui/core'
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  Select,
+  Textarea,
+  Tooltip
+} from '@chakra-ui/core'
 import { useField } from 'formik'
 import React from 'react'
 
