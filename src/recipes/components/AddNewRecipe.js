@@ -8,7 +8,7 @@ const NewRecipe = ({ recipes }) => {
   const { userId, setIsOpen } = useInfos()
   const extractedUser = recipes && recipes.find((recipe) => recipe.user === userId)
   return (
-    <Flex justify={{ base: 'start', md: 'flex-end' }} align='center' py={3}>
+    <Flex justify={{ base: 'flex-start', md: 'flex-end' }} align='center' py={3}>
       {extractedUser ? (
         <ButtonGroup
           isAttached

@@ -6,10 +6,13 @@ import {
   Flex,
   Grid,
   Heading,
+  Icon,
   Image,
   SimpleGrid
 } from '@chakra-ui/core'
 import React from 'react'
+import { GiHotMeal } from 'react-icons/gi'
+import { MdTimer, MdToday } from 'react-icons/md'
 import { useHistory, useParams } from 'react-router-dom'
 import Title from '../../Chakra/Heading'
 import { useInfos } from '../../shared/context'
@@ -56,11 +59,10 @@ const SingleRecipe = () => {
         <AspectRatio ratio={4 / 3} maxW='100vw' h='60vh'>
           <Image src={recipe.images.largeImage} alt='recipe' objectFit='cover' w='100%' />
         </AspectRatio>
-        <SimpleGrid minChildWidth='90px' textAlign='center'>
+        <SimpleGrid minChildWidth='40px' textAlign='center'>
           <Box>
-            <Heading as='h5' fontWeight='semibold' size='sm' color='orange.500'>
-              Temps :
-            </Heading>
+            <Icon as={MdTimer} boxSize={10} color='orange.500' />
+
             <Heading as='h6' fontWeight='normal' size='sm'>
               {hours > 1 ? `${hours} heures` : hours === 1 ? `${hours} heure` : null}
               {hours >= 1 && minutes > 0 && ` et ${minutes} minutes`}
@@ -68,17 +70,15 @@ const SingleRecipe = () => {
             </Heading>
           </Box>
           <Box>
-            <Heading as='h6' fontWeight='semibold' size='sm' color='orange.500'>
-              Cat&eacute;gorie :
-            </Heading>
+            <Icon as={GiHotMeal} boxSize={10} color='orange.500' />
+
             <Heading as='h6' fontWeight='normal' size='sm'>
               {recipe.category}
             </Heading>
           </Box>
           <Box>
-            <Heading as='h5' fontWeight='semibold' size='sm' color='orange.500'>
-              Publi&eacute;e le :
-            </Heading>
+            <Icon as={MdToday} boxSize={10} color='orange.500' />
+
             <Heading as='h6' fontWeight='normal' size='sm'>
               {new Date(recipe.published).toLocaleDateString('fr', {
                 weekday: 'long',

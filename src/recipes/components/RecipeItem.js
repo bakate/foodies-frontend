@@ -80,54 +80,57 @@ const RecipeItem = ({ id, title, images, user, onDeleteItem, duration }) => {
 
         <Typography text={title} />
 
-        <Flex align='baseline' my={2} justify='center'>
-          <ButtonGroup variant='outline'>
-            {userId === user && (
-              <Button as={ReachLink} colorScheme='blue' to={`/recipes/${id}`}>
-                modifier
-              </Button>
-            )}
-
-            <Popover initialFocusRef={initialFocusRef} placement='top'>
-              {({ onClose }) => (
-                <>
-                  {userId === user && (
-                    <PopoverTrigger>
-                      <Button colorScheme='red'>supprimer</Button>
-                    </PopoverTrigger>
-                  )}
-                  {/* <Portal> */}
-                  <PopoverContent bg='orange.500' color='white' borderColor='orange.800'>
-                    <PopoverHeader pt={4} fontWeight='semiBold'>
-                      Supprimer {title} ?
-                    </PopoverHeader>
-                    <PopoverArrow />
-                    <PopoverCloseButton />
-                    <PopoverBody>
-                      Voulez-vous vraiment supprimer cette recette ? Cette action est irréversible.
-                    </PopoverBody>
-                    <PopoverFooter border='0' pb={4}>
-                      <ButtonGroup size='sm' d='flex' alignItems='center' justifyContent='flex-end'>
-                        <Button ref={initialFocusRef} colorScheme='black' onClick={onClose}>
-                          Annuler
-                        </Button>
-                        <Button colorScheme='red' onClick={confirmDeleteHandler}>
-                          Confirmer
-                        </Button>
-                      </ButtonGroup>
-                    </PopoverFooter>
-                  </PopoverContent>
-                  {/* </Portal> */}
-                </>
-              )}
-            </Popover>
-            <Button leftIcon={<MdTimer />} as={ReachLink} to={`/recipes/recipe/${id}`}>
-              {hours > 1 ? `${hours} heures` : hours === 1 ? `${hours} heure` : null}
-              {hours >= 1 && minutes > 0 && ` et ${minutes} minutes`}
-              {!hours && minutes && `${minutes} minutes`}
+        <ButtonGroup
+          variant='outline'
+          d='flex'
+          alignItems='baseline'
+          my={2}
+          justifyContent='space-evenly'
+          px={2}>
+          {userId === user && (
+            <Button as={ReachLink} colorScheme='blue' to={`/recipes/${id}`}>
+              modifier
             </Button>
-          </ButtonGroup>
-        </Flex>
+          )}
+
+          <Popover initialFocusRef={initialFocusRef} placement='top'>
+            {({ onClose }) => (
+              <>
+                {userId === user && (
+                  <PopoverTrigger>
+                    <Button colorScheme='red'>supprimer</Button>
+                  </PopoverTrigger>
+                )}
+
+                <PopoverContent bg='orange.500' color='white' borderColor='orange.800'>
+                  <PopoverHeader pt={4} fontWeight='semiBold'>
+                    Supprimer {title} ?
+                  </PopoverHeader>
+                  <PopoverArrow />
+                  <PopoverCloseButton />
+                  <PopoverBody>
+                    Voulez-vous vraiment supprimer cette recette ? Cette action est irréversible.
+                  </PopoverBody>
+                  <PopoverFooter border='0' pb={4}>
+                    <ButtonGroup size='sm' d='flex' alignItems='center' justifyContent='flex-end'>
+                      <Button ref={initialFocusRef} colorScheme='black' onClick={onClose}>
+                        Annuler
+                      </Button>
+                      <Button colorScheme='red' onClick={confirmDeleteHandler}>
+                        Confirmer
+                      </Button>
+                    </ButtonGroup>
+                  </PopoverFooter>
+                </PopoverContent>
+              </>
+            )}
+          </Popover>
+          <Button leftIcon={<MdTimer />} as={ReachLink} to={`/recipes/recipe/${id}`}>
+            {hours > 1 ? `${hours} heures` : hours === 1 ? `${hours} heure` : null}
+            {hours >= 1 && minutes > 0 && ` et ${minutes} minutes`}
+            {!hours && minutes && `${minutes} minutes`}
+          </Button>
+        </ButtonGroup>
       </Flex>
     </>
   )
