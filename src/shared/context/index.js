@@ -14,8 +14,6 @@ const MamaProvider = ({ children }) => {
   const [userRecipes, setUserRecipes] = useState([])
   const [allRecipes, setAllRecipes] = useState([])
   const [isOpen, setIsOpen] = useState(false)
-  const [isOpenTwo, setIsOpenTwo] = useState(false)
-  const onCloseTwo = () => setIsOpen(false)
   const onClose = () => setIsOpen(false)
 
   const login = useCallback((uid, token, expirationDate) => {
@@ -66,10 +64,7 @@ const MamaProvider = ({ children }) => {
         logout,
         login,
         userId,
-        isOpenTwo,
-        setIsOpenTwo,
         setIsOpen,
-        onCloseTwo,
         userRecipes,
         setUserRecipes,
         handleToggleTheme,

@@ -1,116 +1,104 @@
+import { Box, Button, ButtonGroup } from '@chakra-ui/core'
+import cogoToast from 'cogo-toast'
+import { Form, Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
-import Button from '../../shared/components/FormElements/Button'
-import Input from '../../shared/components/FormElements/Input'
-import RichText from '../../shared/components/FormElements/RichText'
-import ErrorMessage from '../../shared/components/UiElements/ErrorMessage'
-import LoadingSpinner from '../../shared/components/UiElements/LoadingSpinner'
-import Title from '../../shared/components/UiElements/Title'
+import * as Yup from 'yup'
+import Title from '../../Chakra/Heading'
+import InputField from '../../Chakra/InputField'
+import Spinner from '../../Chakra/Spinner'
 import { useInfos } from '../../shared/context'
-import { useForm } from '../../shared/hooks/form-hook'
 import { useHttpClient } from '../../shared/hooks/http-hook'
-import { VALIDATOR_REQUIRE } from '../../shared/utils/validators'
-import { NewRecipeStyles } from './NewRecipe'
 
 const UpdateRecipe = () => {
-  const [recipeToUpdate, setRecipeToUpdate] = useState()
+  const [recipeToUpdate, setRecipeToUpdate] = useState({
+    title: '',
+    ingredients: '',
+    cooking: '',
+    duration: '',
+  })
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
   const recipeId = useParams().recipeId
   const history = useHistory()
   const { token, userId } = useInfos()
 
-  const { formState, inputHandler, setFormData } = useForm(
-    {
-      title: { value: null, isValid: false },
-      ingredients: { value: null, isValid: false },
-      cooking: { value: null, isValid: false },
-      duration: { value: null, isValid: false },
-    },
-    false
-  )
   useEffect(() => {
     const fetchRecipeToUpdate = async () => {
       const { recipe } = await sendRequest(
         `${process.env.REACT_APP_BACKEND_URL}/recipes/${recipeId}`
       )
       setRecipeToUpdate(recipe)
-      setFormData({
-        title: { value: recipe.title, isValid: true },
-        ingredients: { value: recipe.ingredients, isValid: true },
-        cooking: { value: recipe.cooking, isValid: true },
-        duration: { value: recipe.duration, isValid: true },
-      })
     }
     fetchRecipeToUpdate()
-  }, [recipeId, setFormData, setRecipeToUpdate, sendRequest])
+  }, [recipeId, setRecipeToUpdate, sendRequest])
 
-  const formHandler = async (e) => {
-    const { title, cooking, ingredients, duration } = formState.inputs
-    e.preventDefault()
-    try {
-      await sendRequest(
-        `${process.env.REACT_APP_BACKEND_URL}/recipes/${recipeId}`,
-        'PATCH',
-        JSON.stringify({
-          title: title.value,
-          ingredients: ingredients.value,
-          cooking: cooking.value,
-          duration: duration.value,
-        }),
-        { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }
-      )
-      history.replace(`/${userId}/recipes`)
-    } catch (err) {}
-  }
+  useEffect(() => {
+    if (error) {
+      const { hide } = cogoToast.error(error, {
+        hideAfter: 6,
+        onClick: () => {
+          hide()
+        },
+      })
+    }
+    return () => {
+      return clearError
+    }
+  }, [error, clearError])
+
   if (isLoading) {
-    return (
-      <div className='center'>
-        <LoadingSpinner asOverlay />
-      </div>
-    )
-  }
-  if (error) {
-    return <ErrorMessage errorMessage={error} onClear={clearError} />
+    return <Spinner />
   }
   return (
     <>
-      {!isLoading && recipeToUpdate && (
-        <NewRecipeStyles>
-          <Title center withRow title='Modifier votre recette' />
-          <form onSubmit={formHandler}>
-            <Input
-              id='title'
-              label='titre'
-              initialValue={recipeToUpdate.title}
-              initialValid
-              onInput={inputHandler}
-              validators={[VALIDATOR_REQUIRE()]}
-              errorText='Fournissez un titre valide, svp'
-            />
-
-            <RichText
-              id='ingredients'
-              onInput={inputHandler}
-              initialValue={recipeToUpdate.ingredients}
-            />
-
-            <RichText id='cooking' onInput={inputHandler} initialValue={recipeToUpdate.cooking} />
-            <Input
-              label='dur&eacute;e (mins)'
-              id='duration'
-              initialValue={recipeToUpdate.duration}
-              type='number'
-              onInput={inputHandler}
-              initialValid
-              errorText='Renseignez la dur&eacute;e'
-              validators={[VALIDATOR_REQUIRE()]}
-            />
-
-            <Button type='submit' disabled={!formState.isValid} center>
-              modifier
-            </Button>
-          </form>
-        </NewRecipeStyles>
+      {!isLoading && (
+        <Box my={{ md: '4rem' }} py={{ md: 8 }}>
+          <Title title='Modifier votre recette' my='1rem' />
+          <Formik
+            initialValues={recipeToUpdate}
+            enableReinitialize='true'
+            validationSchema={Yup.object({
+              title: Yup.string().required('Fournissez un nom de recette'),
+              ingredients: Yup.string().required('Fournissez la liste des ingrédients'),
+              cooking: Yup.string().required('Renseignez les différentes étapes de préparation.'),
+              duration: Yup.number().required('la durée ?'),
+            })}
+            onSubmit={async ({ title, cooking, ingredients, duration }) => {
+              try {
+                await sendRequest(
+                  `${process.env.REACT_APP_BACKEND_URL}/recipes/${recipeId}`,
+                  'PATCH',
+                  JSON.stringify({
+                    title,
+                    ingredients,
+                    cooking,
+                    duration,
+                  }),
+                  { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }
+                )
+                history.replace(`/${userId}/recipes`)
+              } catch (err) {}
+            }}>
+            {({ isSubmitting }) => (
+              <Form as={Box}>
+                <InputField name='title' label='Titre' />
+                <InputField name='ingredients' element='textarea' label='Ingr&eacute;dients' />
+                <InputField name='cooking' element='textarea' label='Pr&eacute;paration' />
+                <InputField type='number' name='duration' label='Temps' />
+                <ButtonGroup d='flex' justifyContent='flex-start' my={3}>
+                  <Button onClick={() => history.goBack()}>annuler</Button>
+                  <Button
+                    type='submit'
+                    isLoading={isSubmitting}
+                    colorScheme='teal'
+                    loadingText='En Cours'>
+                    modifier
+                  </Button>
+                </ButtonGroup>
+              </Form>
+            )}
+          </Formik>
+        </Box>
       )}
     </>
   )

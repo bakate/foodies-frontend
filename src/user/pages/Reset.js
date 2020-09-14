@@ -1,81 +1,83 @@
+import { Button, Flex, Heading } from '@chakra-ui/core'
 import cogoToast from 'cogo-toast'
-import React from 'react'
+import { Form, Formik } from 'formik'
+import React, { useEffect } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
-import Button from '../../shared/components/FormElements/Button'
-import Input from '../../shared/components/FormElements/Input'
-import LoadingSpinner from '../../shared/components/UiElements/LoadingSpinner'
-import Title from '../../shared/components/UiElements/Title'
+import * as Yup from 'yup'
+import InputField from '../../Chakra/InputField'
+import Spinner from '../../Chakra/Spinner'
 import { useInfos } from '../../shared/context'
-import { useForm } from '../../shared/hooks/form-hook'
 import { useHttpClient } from '../../shared/hooks/http-hook'
-import { VALIDATOR_MINLENGTH } from '../../shared/utils/validators'
-import { AuthStyles } from './Auth'
 
 const Reset = () => {
   const { login } = useInfos()
   const history = useHistory()
   const token = useParams().token
-  const { isLoading, error, sendRequest } = useHttpClient()
+  const { isLoading, error, sendRequest, clearError } = useHttpClient()
 
-  const { formState, inputHandler } = useForm(
-    {
-      password: { value: '', isValid: false },
-      confirmPassword: { value: '', isValid: false },
-    },
-    false
-  )
-  const authHandler = async (e) => {
-    e.preventDefault()
-    try {
-      const { token: newToken, userId } = await sendRequest(
-        `${process.env.REACT_APP_BACKEND_URL}/auth/reset/${token}`,
-        'POST',
-        JSON.stringify({
-          password: formState.inputs.password.value,
-          confirmPassword: formState.inputs.confirmPassword.value,
-        }),
-        { 'Content-Type': 'application/json' }
-      )
-      cogoToast.success('Votre mot de passe a été réinitialisé !')
-      login(userId, newToken)
-      history.replace('/')
-    } catch (err) {}
-  }
-  if (error) {
-    cogoToast.error(error)
+  useEffect(() => {
+    if (error) {
+      const { hide } = cogoToast.error(error, {
+        hideAfter: 6,
+        onClick: () => {
+          hide()
+        },
+      })
+    }
+    return () => {
+      return clearError
+    }
+  }, [error, clearError])
+  if (isLoading) {
+    return <Spinner />
   }
   return (
-    <>
-      <AuthStyles>
-        {isLoading && (
-          <div className='center'>
-            <LoadingSpinner asOverlay />
-          </div>
-        )}
-        <Title center withRow title='nouveau mot de passe:' />
-        <form onSubmit={authHandler}>
-          <Input
-            errorText='Choisissez un mot de passe avec au moins 6 caract&egrave;res'
-            id='password'
-            validators={[VALIDATOR_MINLENGTH(6)]}
-            type='password'
-            label='nouveau mot de passe'
-            onInput={inputHandler}
-          />
-          <Input
-            errorText='Choisissez un mot de passe avec au moins 6 caract&egrave;res'
-            id='confirmPassword'
-            validators={[VALIDATOR_MINLENGTH(6)]}
-            type='password'
-            label='confirmez votre mot de passe'
-            onInput={inputHandler}
-          />
-          <Button type='submit' disabled={!formState.isValid || isLoading}>
-            soumettre
-          </Button>
-        </form>
-      </AuthStyles>
-    </>
+    <Formik
+      initialValues={{ password: '', confirmPassword: '' }}
+      validationSchema={Yup.object({
+        password: Yup.string().min(6, 'Au moins 6 caractères').required('mot de passe requis'),
+        confirmPassword: Yup.string().oneOf(
+          [Yup.ref('password'), null],
+          'Les mots de passe ne sont pas identiques'
+        ),
+      })}
+      onSubmit={async ({ password, confirmPassword }) => {
+        try {
+          const { token: newToken, userId } = await sendRequest(
+            `${process.env.REACT_APP_BACKEND_URL}/auth/reset/${token}`,
+            'POST',
+            JSON.stringify({
+              password,
+              confirmPassword,
+            }),
+            { 'Content-Type': 'application/json' }
+          )
+          cogoToast.success('Votre mot de passe a été réinitialisé !')
+          login(userId, newToken)
+          history.replace('/')
+        } catch (err) {}
+      }}>
+      {({ isSubmitting, values }) => (
+        <Flex justify='center' align='center' my='4rem'>
+          <Form>
+            <pre>{JSON.stringify(values, null, 4)}</pre>
+            <Heading as='h5' size='lg' fontWeight='semibold' py={3}>
+              Créez un nouveau mot de passe
+            </Heading>
+            <InputField label='Mot de passe' name='password' type='password' />
+            <InputField label='Confirmer' name='confirmPassword' type='password' />
+            <Button
+              type='submit'
+              mt={2}
+              isLoading={isSubmitting}
+              colorScheme='teal'
+              loadingText='En Cours'>
+              soumettre
+            </Button>
+          </Form>
+        </Flex>
+      )}
+    </Formik>
   )
 }
 

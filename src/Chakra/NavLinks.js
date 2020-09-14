@@ -24,7 +24,7 @@ const NavLinks = () => {
     <>
       <LinkGenerator href='/' title='les recettes' />
       {!!token && <LinkGenerator href={`/${userId}/recipes`} title='mes recettes' />}
-      {!!token && <LinkGenerator href='/recipes/new' title='cr&eacute;er une recette' />}
+      {/* {!!token && <LinkGenerator href='/recipes/new' title='cr&eacute;er une recette' />} */}
       {/* {!token && <LinkGenerator href='/users' title='nos chefs' />} */}
       {!token && <LinkGenerator href='/auth' title='connexion' />}
       {!!token && <LinkGenerator href={`/profile/${userId}`} title='mon profil' />}

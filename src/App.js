@@ -11,13 +11,10 @@ import AllRecipes from './recipes/pages/AllRecipes';
 import { useInfos } from './shared/context';
 const UserRecipes= React.lazy(()=> import('./recipes/pages/UserRecipes'))
 const Auth = React.lazy(() => import('./user/pages/Auth'))
-const ResetToken = React.lazy(() => import('./user/pages/ResetToken'))
 const UpdateProfile = React.lazy(() => import('./user/pages/UpdateProfile'))
 const Reset = React.lazy(() => import('./user/pages/Reset'))
-const NewRecipe= React.lazy(() => import('./recipes/pages/NewRecipe'))
 const UpdateRecipe = React.lazy(() => import('./recipes/pages/UpdateRecipe'))
 const SingleRecipe = React.lazy(() => import('./recipes/pages/SingleRecipe'))
-const Users = React.lazy(() => import('./user/pages/Users'))
 
 function App() {
   const location = useLocation()
@@ -39,9 +36,7 @@ function App() {
         <Route path='/:userId/recipes' exact>
           <UserRecipes />
         </Route>
-        <Route path='/recipes/new' exact>
-          <NewRecipe />
-        </Route>
+
         <Route path='/profile/:userId' exact>
           <UpdateProfile />
         </Route>
@@ -57,9 +52,7 @@ function App() {
   } else {
     routes = (
       <Switch>
-        <Route path='/users' exact>
-          <Users />
-        </Route>
+
         <Route path='/' exact>
           <AllRecipes />
         </Route>
@@ -71,9 +64,6 @@ function App() {
         </Route>
         <Route path='/auth' exact>
           <Auth />
-        </Route>
-        <Route path='/reset' exact>
-          <ResetToken />
         </Route>
         <Route path='/reset/:token' exact>
           <Reset />

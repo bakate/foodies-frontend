@@ -1,8 +1,17 @@
-import { AspectRatio, Box, Button, Center, Flex, Grid, Image } from '@chakra-ui/core'
+import {
+  AspectRatio,
+  Box,
+  Button,
+  Center,
+  Flex,
+  Grid,
+  Heading,
+  Image,
+  SimpleGrid
+} from '@chakra-ui/core'
 import React from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import Title from '../../Chakra/Heading'
-import Typography from '../../Chakra/Typography'
 import { useInfos } from '../../shared/context'
 import { getDuration } from '../../shared/utils/getDuration'
 
@@ -15,12 +24,12 @@ const SingleRecipe = () => {
     recipe = allRecipes.find((item) => item.id === recipeId)
   }
   if (!recipe) {
-    return <Title center title="oops, Quelque chose s'est mal passée" />
+    return <Title title="oops, Quelque chose s'est mal passée" />
   }
 
   const transformedIngredients = (string) => {
     return string
-      .replace(/(<([^>]+)>)/gi, '🥣')
+      .replace(/\n/gi, '🥣')
       .replace(/&nbsp;/gi, '')
       .split('🥣')
       .map((el, i) => {
@@ -35,73 +44,61 @@ const SingleRecipe = () => {
 
   return (
     <Box>
-      <Flex justify='flex-start'>
-        <Button
-          type='button'
-          onClick={() => history.push('/')}
-          colorScheme='blue'
-          variant='outline'>
+      <Flex justify='flex-start' my={4}>
+        <Button onClick={() => history.goBack()} colorScheme='blue' variant='outline'>
           retour
         </Button>
       </Flex>
-      <Grid>
+      <Grid gap={4}>
         <Center mb={2}>
           <Title title={recipe.title} />
         </Center>
-        <AspectRatio ratio={4 / 3} maxW='100vw' h='60vh' mb={3}>
+        <AspectRatio ratio={4 / 3} maxW='100vw' h='60vh'>
           <Image src={recipe.images.largeImage} alt='recipe' objectFit='cover' w='100%' />
         </AspectRatio>
-        <Grid
-          px={4}
-          mx='auto'
-          templateColumns='repeat(auto-fit, minmax(200px, 1fr))'
-          justifyContent='center'
-          alignItems='flex-start'
-          alignContent='center'>
+        <SimpleGrid minChildWidth='90px' textAlign='center'>
           <Box>
-            <Title title='ingr&eacute;dients :' />
-            <ul className='content'>{transformedIngredients(recipe.ingredients)}</ul>
+            <Heading as='h5' fontWeight='semibold' size='sm' color='orange.500'>
+              Temps :
+            </Heading>
+            <Heading as='h6' fontWeight='normal' size='sm'>
+              {hours > 1 ? `${hours} heures` : hours === 1 ? `${hours} heure` : null}
+              {hours >= 1 && minutes > 0 && ` et ${minutes} minutes`}
+              {!hours && minutes && `${minutes} minutes`}
+            </Heading>
           </Box>
           <Box>
-            <Title title='Pr&eacute;paration :' />
-            <ol className='content'>{transformedIngredients(recipe.cooking)}</ol>
-          </Box>
-        </Grid>
-        <Grid
-          my={3}
-          pb={3}
-          templateColumns='repeat(auto-fit, minmax(200px, 1fr))'
-          justifyContent='center'
-          alignItems='center'>
-          <Box>
-            <Title title='Dur&eacute;e :' />
-            <Typography>
-              <h4>
-                {' '}
-                {hours > 1 ? `${hours} heures` : hours === 1 ? `${hours} heure` : null}
-                {hours >= 1 && minutes > 0 && ` et ${minutes} minutes`}
-                {!hours && minutes && `${minutes} minutes`}
-              </h4>
-            </Typography>
+            <Heading as='h6' fontWeight='semibold' size='sm' color='orange.500'>
+              Cat&eacute;gorie :
+            </Heading>
+            <Heading as='h6' fontWeight='normal' size='sm'>
+              {recipe.category}
+            </Heading>
           </Box>
           <Box>
-            <Title title='cat&eacute;gorie :' />
-            <Typography text={recipe.category} />
+            <Heading as='h5' fontWeight='semibold' size='sm' color='orange.500'>
+              Publi&eacute;e le :
+            </Heading>
+            <Heading as='h6' fontWeight='normal' size='sm'>
+              {new Date(recipe.published).toLocaleDateString('fr', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              })}
+            </Heading>
+          </Box>
+        </SimpleGrid>
+        <SimpleGrid minChildWidth='200px' spacing='1rem' px={{ base: '2', md: '8' }} mb={4}>
+          <Box>
+            <Title title='ingr&eacute;dients :' color='orange.500' />
+            <ul>{transformedIngredients(recipe.ingredients)}</ul>
           </Box>
           <Box>
-            <Title title='recette publi&eacute;e le :' />
-            <Typography>
-              <h4>
-                {new Date(recipe.published).toLocaleDateString('fr', {
-                  weekday: 'long',
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
-              </h4>
-            </Typography>
+            <Title title='Pr&eacute;paration :' color='orange.500' />
+            <ol>{transformedIngredients(recipe.cooking)}</ol>
           </Box>
-        </Grid>
+        </SimpleGrid>
       </Grid>
     </Box>
   )

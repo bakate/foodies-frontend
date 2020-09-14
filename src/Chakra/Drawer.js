@@ -19,13 +19,10 @@ const DisplayDrawer = ({ body, ...rest }) => {
       <Box
         display={{ base: 'block', sm: 'none' }}
         ref={btnRef}
-        pos='fixed'
-        top={1}
-        right={1}
         alignSelf='center'
-        justifySelf='end'
+        // justifySelf='end'
         onClick={onOpen}
-        ml={{ base: 6 }}
+        // ml={{ base: 6 }}
         cursor='pointer'
         {...rest}>
         <svg fill='orange' width='34px' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>

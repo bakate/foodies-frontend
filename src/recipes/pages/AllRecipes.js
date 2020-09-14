@@ -1,12 +1,14 @@
+import { Center } from '@chakra-ui/core'
 import cogoToast from 'cogo-toast'
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
+import Title from '../../Chakra/Heading'
 import Spinner from '../../Chakra/Spinner'
 import { useInfos } from '../../shared/context'
 import { useHttpClient } from '../../shared/hooks/http-hook'
 import RecipesList from '../components/RecipesList'
 
 const AllRecipes = () => {
-  const { isLoading, error, sendRequest } = useHttpClient()
+  const { isLoading, error, sendRequest, clearError } = useHttpClient()
   const { allRecipes, setAllRecipes } = useInfos()
 
   useEffect(() => {
@@ -19,6 +21,13 @@ const AllRecipes = () => {
     getRecipes()
   }, [sendRequest, setAllRecipes])
 
+  const deleteHandler = useCallback(
+    (recipeId) => {
+      allRecipes((prev) => prev.filter((recipe) => recipe.id !== recipeId))
+    },
+    [allRecipes]
+  )
+
   useEffect(() => {
     if (error) {
       const { hide } = cogoToast.error(error, {
@@ -28,16 +37,21 @@ const AllRecipes = () => {
         },
       })
     }
-  }, [error])
-
+    return () => {
+      return clearError
+    }
+  }, [error, clearError])
   if (isLoading) {
     return <Spinner />
   }
-  return (
-    <>
-      <RecipesList recipes={allRecipes} />
-    </>
-  )
+  if (!allRecipes.length) {
+    return (
+      <Center>
+        <Title title='Aucune recette de trouvée' />
+      </Center>
+    )
+  }
+  return <RecipesList recipes={allRecipes} onDelete={deleteHandler} />
 }
 
 export default AllRecipes

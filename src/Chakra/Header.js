@@ -1,4 +1,4 @@
-import { Box, Flex, IconButton, useColorModeValue } from '@chakra-ui/core'
+import { Box, ButtonGroup, Flex, IconButton, useColorModeValue } from '@chakra-ui/core'
 import React from 'react'
 import { FiLogOut } from 'react-icons/fi'
 import { useInfos } from '../shared/context'
@@ -13,26 +13,28 @@ const Header = () => {
   const bg = useColorModeValue('orange.500', 'orange.200')
   const color = useColorModeValue('white', 'gray.800')
   return (
-    <Flex as='nav' align='center' justify='space-between' color={color} bg={bg} px={4}>
-      <Title title='foodies' px={{ base: 0, md: '4' }} mb={{ md: '2' }} />
+    <Flex as='nav' align='center' justify='space-between' color={color} bg={bg} px={6}>
+      <Title title='foodies' px={{ md: '4' }} />
 
-      <Box d={{ base: 'none', md: 'flex' }} ml='auto' align='center' justify='center'>
+      <Box d={{ base: 'none', md: 'flex' }} align='center' justify='center'>
         <NavLinks />
       </Box>
 
-      {!!token && (
-        <IconButton
-          icon={<FiLogOut />}
-          onClick={logout}
-          alignSelf='center'
-          variant='outline'
-          w='25px'
-          h='25px'
-          ml='auto'
-        />
-      )}
-      <DarkModeSwitch justifySelf='flex-end' mr={6} />
-      <Drawer body={<NavLinks />} />
+      <ButtonGroup>
+        {!!token && (
+          <IconButton
+            icon={<FiLogOut />}
+            onClick={logout}
+            alignSelf='center'
+            variant='ghost'
+            colorScheme='white'
+            w='30px'
+            h='30px'
+          />
+        )}
+        <DarkModeSwitch />
+        <Drawer body={<NavLinks />} />
+      </ButtonGroup>
     </Flex>
   )
 }

@@ -1,9 +1,12 @@
-import { Box, Button, Center, Grid, Image, Input } from '@chakra-ui/core'
+import { Box, Button, Center, Grid, Image } from '@chakra-ui/core'
+import { useField } from 'formik'
 import PropTypes from 'prop-types'
 import React, { useRef, useState } from 'react'
-import LoadingSpinner from '../UiElements/LoadingSpinner'
+import Spinner from '../../../Chakra/Spinner'
 
-const ImageHandler = ({ id, onInput, initialValue }) => {
+const ImageHandler = ({ id, initialValue, ...props }) => {
+  const [, , helpers] = useField(props)
+  const { setValue } = helpers
   const inputRef = useRef()
 
   const [previewUrl, setPreviewUrl] = useState(initialValue)
@@ -16,7 +19,6 @@ const ImageHandler = ({ id, onInput, initialValue }) => {
     const files = e.target && e.target.files
 
     let imagesLinks = {}
-    let fileIsValid = false
     const data = new FormData()
     data.append('file', files[0])
     data.append('upload_preset', 'fullstack')
@@ -34,8 +36,7 @@ const ImageHandler = ({ id, onInput, initialValue }) => {
         largeImage: transformedImages.eager[0].secure_url,
       }
       setPreviewUrl(transformedImages.secure_url)
-      fileIsValid = true
-      onInput(id, imagesLinks, fileIsValid)
+      setValue(imagesLinks)
       setLoading(false)
     } catch (err) {
       console.log(err)
@@ -44,18 +45,13 @@ const ImageHandler = ({ id, onInput, initialValue }) => {
 
   return (
     <Box my={3}>
-      {loading && (
-        <div className='center'>
-          <LoadingSpinner asOverlay />
-        </div>
-      )}
-      <Input
+      {loading && <Spinner />}
+      <input
         type='file'
+        id={id}
         ref={inputRef}
-        name='upload-image'
         style={{ display: 'none' }}
         accept='.jpg,.png,.jpeg'
-        id={id}
         onChange={imageHandler}
       />
       <Grid>
@@ -63,17 +59,18 @@ const ImageHandler = ({ id, onInput, initialValue }) => {
           {previewUrl && (
             <Image
               src={previewUrl}
-              borderRadius='full'
+              borderRadius='lg'
               objectFit='cover'
-              boxSize='200px'
+              boxSize='250px'
               alt='Preview'
             />
           )}
         </Center>
-        <Button colorScheme='blue' variant='outline' onClick={pickerHandler}>
-          Choisissez une autre photo
-        </Button>
-        {!previewUrl && <p>Choisissez une image, svp</p>}
+        <Center>
+          <Button colorScheme='blue' variant='outline' onClick={pickerHandler}>
+            {loading ? 'Transformation en Cours' : 'Choisissez une  photo'}
+          </Button>
+        </Center>
       </Grid>
     </Box>
   )

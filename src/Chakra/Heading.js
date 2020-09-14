@@ -5,7 +5,7 @@ import React from 'react'
 const Title = ({ title, ...rest }) => {
   return (
     <Center>
-      <Box textStyle={`h2`} {...rest} mb={2}>
+      <Box textStyle={`h2`} {...rest} pb={2}>
         {title}
       </Box>
     </Center>

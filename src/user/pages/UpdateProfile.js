@@ -13,8 +13,9 @@ import { useHttpClient } from '../../shared/hooks/http-hook'
 
 const UpdateProfile = () => {
   const [userProfile, setUserProfile] = useState()
+
   const userId = useParams().userId
-  const { isLoading, error, sendRequest } = useHttpClient()
+  const { isLoading, error, sendRequest, clearError } = useHttpClient()
   const { token } = useInfos()
   const history = useHistory()
 
@@ -40,19 +41,23 @@ const UpdateProfile = () => {
         },
       })
     }
-  }, [error])
+    return () => {
+      return clearError
+    }
+  }, [error, clearError])
   if (isLoading) {
     return <Spinner />
   }
   return (
     <>
       <Formik
-        initialValues={{ userProfile }}
+        initialValues={userProfile}
+        enableReinitialize='true'
         validationSchema={Yup.object({
           username: Yup.string().min(6, 'Au moins 6 caractères'),
-          images: Yup.string().required('Image requise.'),
+          images: Yup.string().optional('Nouvelle image ?'),
         })}
-        onSubmit={async ({ username, images }, actions) => {
+        onSubmit={async ({ username, images }) => {
           try {
             await sendRequest(
               `${process.env.REACT_APP_BACKEND_URL}/auth/profile/update/${userId}`,
@@ -64,10 +69,10 @@ const UpdateProfile = () => {
               { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }
             )
             history.replace(`/${userId}/recipes`)
-            cogoToast.success('Profil à jour !')
+            cogoToast.success('Votre Profil est à jour !')
           } catch (err) {}
         }}>
-        {({ isSubmitting }) => (
+        {({ isSubmitting, values }) => (
           <Center pb={8}>
             <Form>
               <Title title='mes informations' />
@@ -87,11 +92,12 @@ const UpdateProfile = () => {
                     label="Nom d'utilisateur :"
                   />
                   <ButtonGroup variant='outline' my={3}>
-                    <Button>Annuler</Button>
+                    <Button onClick={() => history.goBack()}>Annuler</Button>
                     <Button
                       colorScheme='teal'
                       variant='solid'
                       isLoading={isSubmitting}
+                      loadingText='En Cours ...'
                       type='submit'>
                       Modifier
                     </Button>
