@@ -48,7 +48,7 @@ const RecipeItem = ({ id, title, images, user, onDeleteItem, duration }) => {
       })
     }
     return () => {
-      return clearError
+      return clearError()
     }
   }, [error, clearError])
 
@@ -64,6 +64,9 @@ const RecipeItem = ({ id, title, images, user, onDeleteItem, duration }) => {
         borderRadius='md'
         justifyContent='space-between'
         transition='all linear 0.3s'
+        p='0'
+        bg='white'
+        border='2px solid orange'
         _hover={{ boxShadow: 'lg', transform: 'scale(1.01)' }}>
         <AspectRatio as={ReachLink} to={`/recipes/recipe/${id}`} ratio={4 / 3}>
           <Image

@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/core'
+import { Box, Button } from '@chakra-ui/core'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
@@ -18,18 +18,27 @@ const LinkGenerator = ({ href, title }) => {
 }
 
 const NavLinks = () => {
-  const { token, userId } = useInfos()
+  const { token, userId, logout } = useInfos()
 
   return (
     <>
       <LinkGenerator href='/' title='les recettes' />
       {!!token && <LinkGenerator href={`/${userId}/recipes`} title='mes recettes' />}
-      {/* {!!token && <LinkGenerator href='/recipes/new' title='cr&eacute;er une recette' />} */}
-      {/* {!token && <LinkGenerator href='/users' title='nos chefs' />} */}
       {!token && <LinkGenerator href='/auth' title='connexion' />}
       {!!token && <LinkGenerator href={`/profile/${userId}`} title='mon profil' />}
-
-      {/* </Flex> */}
+      {!!token && (
+        <Button
+          d={['block', 'none']}
+          onClick={logout}
+          p={2}
+          fontWeight='bold'
+          variant='link'
+          _hover={{ borderBottom: '2px solid orange' }}
+          textTransform='uppercase'
+          colorScheme='white'>
+          Deconnexion
+        </Button>
+      )}
     </>
   )
 }

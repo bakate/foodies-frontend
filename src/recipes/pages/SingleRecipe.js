@@ -29,11 +29,11 @@ const SingleRecipe = () => {
 
   const transformedIngredients = (string) => {
     return string
-      .replace(/\n/gi, '🥣')
+      .replace(/\n|<([^>]+)>/gi, '🥣')
       .replace(/&nbsp;/gi, '')
       .split('🥣')
       .map((el, i) => {
-        if (el.length) {
+        if (el.length > 2) {
           return <li key={i}>{el}</li>
         }
         return null
@@ -44,13 +44,13 @@ const SingleRecipe = () => {
 
   return (
     <Box>
-      <Flex justify='flex-start' my={4}>
+      <Flex justify='flex-start' my={1}>
         <Button onClick={() => history.goBack()} colorScheme='blue' variant='outline'>
           retour
         </Button>
       </Flex>
       <Grid gap={4}>
-        <Center mb={2}>
+        <Center>
           <Title title={recipe.title} />
         </Center>
         <AspectRatio ratio={4 / 3} maxW='100vw' h='60vh'>

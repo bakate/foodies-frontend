@@ -25,7 +25,7 @@ const Reset = () => {
       })
     }
     return () => {
-      return clearError
+      return clearError()
     }
   }, [error, clearError])
   if (isLoading) {

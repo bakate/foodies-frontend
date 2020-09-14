@@ -39,7 +39,7 @@ const UserRecipes = () => {
       })
     }
     return () => {
-      return clearError
+      return clearError()
     }
   }, [error, clearError])
 

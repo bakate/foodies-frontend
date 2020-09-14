@@ -8,8 +8,8 @@ const DarkModeSwitch = (props) => {
   const SwitchIcon = useColorModeValue(FaMoon, FaSun)
   return (
     <IconButton
-      w='30px'
-      h='30px'
+      w='28px'
+      h='28px'
       colorScheme='white'
       aria-label={`Switch to ${text} mode`}
       variant='ghost'

@@ -42,7 +42,7 @@ const UpdateProfile = () => {
       })
     }
     return () => {
-      return clearError
+      return clearError()
     }
   }, [error, clearError])
   if (isLoading) {

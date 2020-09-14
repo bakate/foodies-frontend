@@ -24,7 +24,7 @@ const ResetToken = ({ isOpen, onClose }) => {
       })
     }
     return () => {
-      return clearError
+      return clearError()
     }
   }, [error, clearError])
 

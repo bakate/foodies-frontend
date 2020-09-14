@@ -10,9 +10,11 @@ const Container = ({ children }) => {
   return (
     <Stack
       direction='column'
+      overflow='hidden'
+      minH='100vh'
       color={color[colorMode] || color.light}
       bg={bgColor[colorMode] || bgColor.light}
-      p='0 2rem'
+      p='1rem 2rem'
       mx='auto'
       spacing={1}>
       <ColorModeScript />

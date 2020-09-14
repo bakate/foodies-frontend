@@ -42,7 +42,7 @@ const UpdateRecipe = () => {
       })
     }
     return () => {
-      return clearError
+      return clearError()
     }
   }, [error, clearError])
 

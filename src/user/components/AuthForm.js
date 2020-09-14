@@ -26,7 +26,7 @@ const AuthForm = () => {
       })
     }
     return () => {
-      return clearError
+      return clearError()
     }
   }, [error, clearError])
 
