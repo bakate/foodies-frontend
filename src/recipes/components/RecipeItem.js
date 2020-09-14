@@ -126,7 +126,11 @@ const RecipeItem = ({ id, title, images, user, onDeleteItem, duration }) => {
             )}
           </Popover>
 
-          <Button leftIcon={<MdTimer />} as={ReachLink} colorScheme='teal' to={`/recipes/recipe/`}>
+          <Button
+            leftIcon={<MdTimer />}
+            as={ReachLink}
+            colorScheme='teal'
+            to={`/recipes/recipe/${id}`}>
             {hours > 1 ? ` heures` : hours === 1 ? ` heure` : null}
             {hours >= 1 && minutes > 0 && ` et  minutes`}
             {!hours && minutes && ` minutes`}

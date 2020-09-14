@@ -1,12 +1,12 @@
 import {
   AspectRatio,
   Box,
-  Button,
   Center,
-  Flex,
+
   Grid,
   Heading,
   Icon,
+
   Image,
   SimpleGrid
 } from '@chakra-ui/core'
@@ -46,61 +46,53 @@ const SingleRecipe = () => {
   const { hours, minutes } = getDuration(recipe.duration)
 
   return (
-    <Box>
-      <Flex justify='flex-start' my={1}>
-        <Button onClick={() => history.goBack()} colorScheme='blue' variant='outline'>
-          retour
-        </Button>
-      </Flex>
-      <Grid gap={4}>
-        <Center>
-          <Title title={recipe.title} />
-        </Center>
-        <AspectRatio ratio={4 / 3} maxW='100vw' h='60vh'>
-          <Image src={recipe.images.largeImage} alt='recipe' objectFit='cover' w='100%' />
-        </AspectRatio>
-        <SimpleGrid minChildWidth='40px' textAlign='center' textTransform='capitalize'>
-          <Box>
-            <Icon as={MdTimer} boxSize={10} color='orange.500' />
+    <Grid gap={4}>
+      <Center>
+        <Title title={recipe.title} />
+      </Center>
+      <AspectRatio ratio={4 / 3} maxW='100vw' h='60vh'>
+        <Image src={recipe.images.largeImage} alt='recipe' objectFit='cover' w='100%' />
+      </AspectRatio>
+      <SimpleGrid minChildWidth='40px' textAlign='center' textTransform='capitalize'>
+        <Box>
+          <Icon as={MdTimer} boxSize={10} color='orange.500' />
 
-            <Heading as='h6' fontWeight='normal' size='sm'>
-              {hours > 1 ? `${hours} heures` : hours === 1 ? `${hours} heure` : null}
-              {hours >= 1 && minutes > 0 && ` et ${minutes} minutes`}
-              {!hours && minutes && `${minutes} minutes`}
-            </Heading>
-          </Box>
-          <Box>
-            <Icon as={GiHotMeal} boxSize={10} color='orange.500' />
+          <Heading as='h6' fontWeight='normal' size='sm'>
+            {hours > 1 ? `${hours} heures` : hours === 1 ? `${hours} heure` : null}
+            {hours >= 1 && minutes > 0 && ` et ${minutes} minutes`}
+            {!hours && minutes && `${minutes} minutes`}
+          </Heading>
+        </Box>
+        <Box>
+          <Icon as={GiHotMeal} boxSize={10} color='orange.500' />
 
-            <Heading as='h6' fontWeight='normal' size='sm'>
-              {recipe.category}
-            </Heading>
-          </Box>
-          <Box>
-            <Icon as={MdToday} boxSize={10} color='orange.500' />
+          <Heading as='h6' fontWeight='normal' size='sm'>
+            {recipe.category}
+          </Heading>
+        </Box>
+        <Box>
+          <Icon as={MdToday} boxSize={10} color='orange.500' />
 
-            <Heading as='h6' fontWeight='normal' size='sm'>
-              {new Date(recipe.published).toLocaleDateString('fr', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
-            </Heading>
-          </Box>
-        </SimpleGrid>
-        <SimpleGrid minChildWidth='200px' spacing='1rem' px={{ base: '2', md: '8' }} mb={4}>
-          <Box>
-            <Title title='ingr&eacute;dients :' color='orange.500' />
-            <ul>{transformedIngredients(recipe.ingredients)}</ul>
-          </Box>
-          <Box>
-            <Title title='Pr&eacute;paration :' color='orange.500' />
-            <ol>{transformedIngredients(recipe.cooking)}</ol>
-          </Box>
-        </SimpleGrid>
-      </Grid>
-    </Box>
+          <Heading as='h6' fontWeight='normal' size='sm'>
+            {new Date(recipe.published).toLocaleDateString('fr-FR', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+            })}
+          </Heading>
+        </Box>
+      </SimpleGrid>
+      <SimpleGrid minChildWidth='200px' spacing='1rem' px={{ base: '2', md: '8' }} mb={4}>
+        <Box>
+          <Title title='ingr&eacute;dients :' color='orange.500' />
+          <ul>{transformedIngredients(recipe.ingredients)}</ul>
+        </Box>
+        <Box>
+          <Title title='Pr&eacute;paration :' color='orange.500' />
+          <ol>{transformedIngredients(recipe.cooking)}</ol>
+        </Box>
+      </SimpleGrid>
+    </Grid>
   )
 }
 
