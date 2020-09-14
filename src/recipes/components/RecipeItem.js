@@ -131,9 +131,9 @@ const RecipeItem = ({ id, title, images, user, onDeleteItem, duration }) => {
             as={ReachLink}
             colorScheme='teal'
             to={`/recipes/recipe/${id}`}>
-            {hours > 1 ? ` heures` : hours === 1 ? ` heure` : null}
-            {hours >= 1 && minutes > 0 && ` et  minutes`}
-            {!hours && minutes && ` minutes`}
+            {hours > 1 ? `${hours} heures` : hours === 1 ? `${hours} heure` : null}
+            {hours >= 1 && minutes > 0 && ` et ${minutes} minutes`}
+            {!hours && minutes && `${minutes} minutes`}
           </Button>
         </ButtonGroup>
       </Flex>

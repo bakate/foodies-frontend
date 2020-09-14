@@ -1,25 +1,13 @@
-import {
-  AspectRatio,
-  Box,
-  Center,
-
-  Grid,
-  Heading,
-  Icon,
-
-  Image,
-  SimpleGrid
-} from '@chakra-ui/core'
+import { AspectRatio, Box, Center, Grid, Heading, Icon, Image, SimpleGrid } from '@chakra-ui/core'
 import React from 'react'
 import { GiHotMeal } from 'react-icons/gi'
 import { MdTimer, MdToday } from 'react-icons/md'
-import { useHistory, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import Title from '../../Chakra/Heading'
 import { useInfos } from '../../shared/context'
 import { getDuration } from '../../shared/utils/getDuration'
 
 const SingleRecipe = () => {
-  const history = useHistory()
   const { allRecipes } = useInfos()
   const recipeId = useParams().recipeId
   let recipe
