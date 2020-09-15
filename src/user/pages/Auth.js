@@ -1,16 +1,7 @@
 import { Grid } from '@chakra-ui/core'
 import React from 'react'
-import styled from 'styled-components'
 import Title from '../../Chakra/Heading'
-import { CardStyles } from '../../shared/components/UiElements/Card'
 import AuthForm from '../components/AuthForm'
-
-export const AuthStyles = styled(CardStyles)`
-  width: 100%;
-  max-width: 50rem;
-  margin: 1rem auto;
-  padding-top: 0;
-`
 
 const Auth = () => {
   return (

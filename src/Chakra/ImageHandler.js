@@ -2,7 +2,7 @@ import { Box, Button, Center, Grid, Image } from '@chakra-ui/core'
 import { useField } from 'formik'
 import PropTypes from 'prop-types'
 import React, { useRef, useState } from 'react'
-import Spinner from '../../../Chakra/Spinner'
+import Spinner from './Spinner'
 
 const ImageHandler = ({ id, initialValue, ...props }) => {
   const [, , helpers] = useField(props)

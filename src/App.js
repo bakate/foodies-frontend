@@ -36,7 +36,6 @@ function App() {
         <Route path='/:userId/recipes' exact>
           <UserRecipes />
         </Route>
-
         <Route path='/profile/:userId' exact>
           <UpdateProfile />
         </Route>
@@ -52,12 +51,8 @@ function App() {
   } else {
     routes = (
       <Switch>
-
         <Route path='/' exact>
           <AllRecipes />
-        </Route>
-        <Route path='/:userId/recipes' exact>
-          <UserRecipes />
         </Route>
         <Route path='/recipes/recipe/:recipeId' exact>
           <SingleRecipe />
