@@ -1,3 +1,4 @@
+import { Box } from '@chakra-ui/core'
 import cogoToast from 'cogo-toast'
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
@@ -5,6 +6,7 @@ import Spinner from '../../Chakra/Spinner'
 import Typography from '../../Chakra/Typography'
 import { useInfos } from '../../shared/context'
 import { useHttpClient } from '../../shared/hooks/http-hook'
+import NewRecipe from '../components/AddNewRecipe'
 import RecipesList from '../components/RecipesList'
 
 const UserRecipes = () => {
@@ -32,7 +34,7 @@ const UserRecipes = () => {
   useEffect(() => {
     if (error) {
       const { hide } = cogoToast.error(error, {
-        hideAfter: 6,
+        hideAfter: 4,
         onClick: () => {
           hide()
         },
@@ -47,6 +49,14 @@ const UserRecipes = () => {
     return <Spinner />
   }
 
+  if (!userRecipes.length) {
+    return (
+      <Box>
+        <Typography text="C'est calme par ici pour le moment." />
+        <NewRecipe recipes={userRecipes} />
+      </Box>
+    )
+  }
   return (
     <div>
       {userRecipes.length && (

@@ -23,10 +23,10 @@ const UpdateProfile = () => {
     const getUserInfos = async () => {
       try {
         const {
-          user: { username, images },
+          user: { username, avatar },
         } = await sendRequest(`${process.env.REACT_APP_BACKEND_URL}/auth/profile/${userId}`)
 
-        setUserProfile({ username, images })
+        setUserProfile({ username, avatar })
       } catch (err) {}
     }
     getUserInfos()
@@ -35,7 +35,7 @@ const UpdateProfile = () => {
   useEffect(() => {
     if (error) {
       const { hide } = cogoToast.error(error, {
-        hideAfter: 6,
+        hideAfter: 4,
         onClick: () => {
           hide()
         },
@@ -55,16 +55,16 @@ const UpdateProfile = () => {
         enableReinitialize='true'
         validationSchema={Yup.object({
           username: Yup.string().min(6, 'Au moins 6 caractères'),
-          images: Yup.string().optional('Nouvelle image ?'),
+          avatar: Yup.string().optional('Nouvelle photo ?'),
         })}
-        onSubmit={async ({ username, images }) => {
+        onSubmit={async ({ username, avatar }) => {
           try {
             await sendRequest(
               `${process.env.REACT_APP_BACKEND_URL}/auth/profile/update/${userId}`,
               'PATCH',
               JSON.stringify({
                 username,
-                images,
+                avatar,
               }),
               { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }
             )
@@ -72,7 +72,7 @@ const UpdateProfile = () => {
             cogoToast.success('Votre Profil est à jour !')
           } catch (err) {}
         }}>
-        {({ isSubmitting, values }) => (
+        {({ isSubmitting }) => (
           <Center pb={8}>
             <Form>
               <Title title='mes informations' />
@@ -80,18 +80,14 @@ const UpdateProfile = () => {
                 <>
                   <Imagehandler
                     borderRadius='full'
-                    id='images'
+                    name='avatar'
+                    id='avatar'
                     boxSize='180px'
-                    initialValue={userProfile.images.regularImage}
+                    initialValue={userProfile.avatar}
                     alt='user profile'
                   />
-                  <InputField
-                    id='username'
-                    name='username'
-                    defaultValue={userProfile.username}
-                    label="Nom d'utilisateur :"
-                  />
-                  <ButtonGroup variant='outline' my={3}>
+                  <InputField name='username' label="Nom d'utilisateur :" />
+                  <ButtonGroup variant='outline' my={3} d='flex' justifyContent='center'>
                     <Button onClick={() => history.goBack()}>Annuler</Button>
                     <Button
                       colorScheme='teal'

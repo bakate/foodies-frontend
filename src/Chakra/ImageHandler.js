@@ -18,7 +18,7 @@ const ImageHandler = ({ id, initialValue, ...props }) => {
   const imageHandler = async (e) => {
     const files = e.target && e.target.files
 
-    let imagesLinks = {}
+    // let imagesLink
     const data = new FormData()
     data.append('file', files[0])
     data.append('upload_preset', 'fullstack')
@@ -31,12 +31,9 @@ const ImageHandler = ({ id, initialValue, ...props }) => {
         })
       ).json()
 
-      imagesLinks = {
-        regularImage: transformedImages.secure_url,
-        largeImage: transformedImages.eager[0].secure_url,
-      }
+      // imagesLink = transformedImages.secure_url
       setPreviewUrl(transformedImages.secure_url)
-      setValue(imagesLinks)
+      setValue(transformedImages.secure_url)
       setLoading(false)
     } catch (err) {
       console.log(err)
@@ -67,8 +64,13 @@ const ImageHandler = ({ id, initialValue, ...props }) => {
           )}
         </Center>
         <Center>
-          <Button colorScheme='blue' variant='outline' onClick={pickerHandler}>
-            {loading ? 'Transformation en Cours' : 'Choisissez une  photo'}
+          <Button
+            colorScheme='blue'
+            variant='outline'
+            onClick={pickerHandler}
+            isLoading={loading}
+            loadingText='Changement en cours'>
+            une nouvelle photo ?
           </Button>
         </Center>
       </Grid>
@@ -78,7 +80,6 @@ const ImageHandler = ({ id, initialValue, ...props }) => {
 
 ImageHandler.propTypes = {
   id: PropTypes.string,
-  onInput: PropTypes.func,
   initialValue: PropTypes.string,
 }
 

@@ -9,7 +9,7 @@ import SimpleModal from '../../Chakra/SimpleModal'
 import Spinner from '../../Chakra/Spinner'
 import { useHttpClient } from '../../shared/hooks/http-hook'
 
-const ResetToken = ({ isOpen, onClose }) => {
+const ForgotPassword = ({ isOpen, onClose }) => {
   const history = useHistory()
   const initialRef = useRef()
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
@@ -17,7 +17,7 @@ const ResetToken = ({ isOpen, onClose }) => {
   useEffect(() => {
     if (error) {
       const { hide } = cogoToast.error(error, {
-        hideAfter: 6,
+        hideAfter: 4,
         onClick: () => {
           hide()
         },
@@ -41,7 +41,7 @@ const ResetToken = ({ isOpen, onClose }) => {
       onSubmit={async ({ email }) => {
         try {
           await sendRequest(
-            `${process.env.REACT_APP_BACKEND_URL}/auth/reset`,
+            `${process.env.REACT_APP_BACKEND_URL}/auth/forgotpassword`,
             'POST',
             JSON.stringify({
               email,
@@ -52,9 +52,8 @@ const ResetToken = ({ isOpen, onClose }) => {
           history.replace('/')
         } catch (err) {}
       }}>
-      {({ isSubmitting, isLoading }) => (
+      {({ isSubmitting }) => (
         <>
-          <pre>{JSON.stringify(isLoading, null, 2)}</pre>
           <SimpleModal
             isOpen={isOpen}
             onClose={onClose}
@@ -77,4 +76,4 @@ const ResetToken = ({ isOpen, onClose }) => {
   )
 }
 
-export default ResetToken
+export default ForgotPassword

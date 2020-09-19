@@ -7,7 +7,8 @@ import * as Yup from 'yup'
 import InputField from '../../Chakra/InputField'
 import { useInfos } from '../../shared/context'
 import { useHttpClient } from '../../shared/hooks/http-hook'
-import ResetToken from '../pages/ResetToken'
+import AuthWithGoogle from '../pages/AuthWithGoogle'
+import ResetToken from '../pages/ForgotPassword'
 const AuthForm = () => {
   const { sendRequest, error, clearError } = useHttpClient()
   const [isOpen, setIsOpen] = useState(false)
@@ -19,7 +20,7 @@ const AuthForm = () => {
   useEffect(() => {
     if (error) {
       const { hide } = cogoToast.error(error, {
-        hideAfter: 6,
+        hideAfter: 4,
         onClick: () => {
           hide()
         },
@@ -50,7 +51,7 @@ const AuthForm = () => {
           onSubmit={async ({ email, password, username }) => {
             if (inLogInMode) {
               try {
-                const { userId, token } = await sendRequest(
+                const { userId, token, username } = await sendRequest(
                   `${process.env.REACT_APP_BACKEND_URL}/auth/login`,
                   'POST',
                   JSON.stringify({
@@ -59,12 +60,12 @@ const AuthForm = () => {
                   }),
                   { 'Content-Type': 'application/json' }
                 )
-                cogoToast.success('Ravi de vous revoir !')
+                cogoToast.success(`Ravi de vous revoir ${username} !`, { hideAfter: 5 })
                 login(userId, token)
               } catch (err) {}
             } else {
               try {
-                const { token, userId } = await sendRequest(
+                const { token, userId, username: name } = await sendRequest(
                   `${process.env.REACT_APP_BACKEND_URL}/auth/signup`,
                   'POST',
                   JSON.stringify({
@@ -74,7 +75,7 @@ const AuthForm = () => {
                   }),
                   { 'Content-Type': 'application/json' }
                 )
-                cogoToast.success(`Bienvenue ${username} !`)
+                cogoToast.success(`Bienvenue ${name} !`, { hideAfter: 5 })
                 login(userId, token)
               } catch (err) {}
             }
@@ -96,6 +97,8 @@ const AuthForm = () => {
                   C'est rapide et facile
                 </Heading>
               )}
+
+              <AuthWithGoogle />
               {!inLogInMode && (
                 <InputField id='username' name='username' placeholder="nom d'utilisateur" />
               )}
@@ -140,7 +143,7 @@ const AuthForm = () => {
               {inLogInMode && (
                 <Center>
                   <Button
-                    // to='/reset'
+                    // to='/resetpassword'
                     variant='link'
                     pt={1}
                     fontSize='14px'

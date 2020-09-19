@@ -35,7 +35,7 @@ const UpdateRecipe = () => {
   useEffect(() => {
     if (error) {
       const { hide } = cogoToast.error(error, {
-        hideAfter: 6,
+        hideAfter: 4,
         onClick: () => {
           hide()
         },

@@ -12,7 +12,7 @@ import { useInfos } from './shared/context';
 const UserRecipes= React.lazy(()=> import('./recipes/pages/UserRecipes'))
 const Auth = React.lazy(() => import('./user/pages/Auth'))
 const UpdateProfile = React.lazy(() => import('./user/pages/UpdateProfile'))
-const Reset = React.lazy(() => import('./user/pages/Reset'))
+const ResetPassword = React.lazy(() => import('./user/pages/ResetPassword'))
 const UpdateRecipe = React.lazy(() => import('./recipes/pages/UpdateRecipe'))
 const SingleRecipe = React.lazy(() => import('./recipes/pages/SingleRecipe'))
 
@@ -60,8 +60,8 @@ function App() {
         <Route path='/auth' exact>
           <Auth />
         </Route>
-        <Route path='/reset/:token' exact>
-          <Reset />
+        <Route path='/resetpassword/:token' exact>
+          <ResetPassword />
         </Route>
         <Redirect to='/auth' />
       </Switch>
