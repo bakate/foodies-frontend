@@ -4,6 +4,7 @@ import { GiHotMeal } from 'react-icons/gi'
 import { MdTimer, MdToday } from 'react-icons/md'
 import { useParams } from 'react-router-dom'
 import Title from '../../Chakra/Heading'
+import Spinner from '../../Chakra/Spinner'
 import { useInfos } from '../../shared/context'
 import { getDuration } from '../../shared/utils/getDuration'
 
@@ -33,13 +34,17 @@ const SingleRecipe = () => {
 
   const { hours, minutes } = getDuration(recipe.duration)
 
+  if (!recipe.image) {
+    return <Spinner />
+  }
+
   return (
     <Grid gap={4}>
       <Center>
         <Title title={recipe.title} />
       </Center>
       <AspectRatio ratio={4 / 3} maxW='100vw' h='60vh'>
-        <Image src={recipe.image} alt='recipe' objectFit='cover' w='100%' />
+        <Image src={recipe && recipe.image} alt='recipe' objectFit='cover' w='100%' />
       </AspectRatio>
       <SimpleGrid minChildWidth='40px' textAlign='center' textTransform='capitalize'>
         <Box>

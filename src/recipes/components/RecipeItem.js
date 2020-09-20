@@ -1,23 +1,10 @@
-import {
-  AspectRatio,
-  Button,
-  ButtonGroup,
-  Flex,
-  Image,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverCloseButton,
-  PopoverContent,
-  PopoverFooter,
-  PopoverHeader,
-  PopoverTrigger
-} from '@chakra-ui/core'
+import { AspectRatio, Button, ButtonGroup, Flex, Image } from '@chakra-ui/core'
 import cogoToast from 'cogo-toast'
 import PropTypes from 'prop-types'
 import React, { useEffect } from 'react'
 import { MdTimer } from 'react-icons/md'
 import { Link as ReachLink } from 'react-router-dom'
+import DisplayAlertDialog from '../../Chakra/AlertDialog'
 import Spinner from '../../Chakra/Spinner'
 import Typography from '../../Chakra/Typography'
 import { useInfos } from '../../shared/context'
@@ -25,9 +12,11 @@ import { useHttpClient } from '../../shared/hooks/http-hook'
 import { getDuration } from '../../shared/utils/getDuration'
 
 const RecipeItem = ({ id, title, image, user, onDeleteItem, duration }) => {
+  const [isOpen, setIsOpen] = React.useState()
+  const onClose = () => setIsOpen(false)
   const { userId, token } = useInfos()
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
-  const initialFocusRef = React.useRef()
+
   const confirmDeleteHandler = async () => {
     try {
       await sendRequest(`${process.env.REACT_APP_BACKEND_URL}/recipes/${id}`, 'DELETE', null, {
@@ -77,49 +66,30 @@ const RecipeItem = ({ id, title, image, user, onDeleteItem, duration }) => {
         variant='ghost'
         d='flex'
         alignItems='baseline'
-        // my={2}
+        my={2}
         justifyContent='space-evenly'
-        // px={2}
-      >
+        px={2}>
         {userId === user && (
           <Button as={ReachLink} colorScheme='blue' to={`/recipes/${id}`}>
             modifier
           </Button>
         )}
 
-        <Popover initialFocusRef={initialFocusRef} placement='top'>
-          {({ onClose }) => (
-            <>
-              {userId === user && (
-                <PopoverTrigger>
-                  <Button colorScheme='red'>supprimer</Button>
-                </PopoverTrigger>
-              )}
-
-              <PopoverContent bg='orange.500' color='white' borderColor='orange.800'>
-                <PopoverHeader pt={4} fontWeight='semiBold'>
-                  Supprimer {title} ?
-                </PopoverHeader>
-                <PopoverArrow />
-                <PopoverCloseButton />
-                <PopoverBody>
-                  Voulez-vous vraiment supprimer cette recette ? Cette action est irréversible.
-                </PopoverBody>
-                <PopoverFooter>
-                  <ButtonGroup size='sm' d='flex' alignItems='center' justifyContent='flex-end'>
-                    <Button ref={initialFocusRef} colorScheme='black' onClick={onClose}>
-                      Annuler
-                    </Button>
-                    <Button colorScheme='red' onClick={confirmDeleteHandler}>
-                      Confirmer
-                    </Button>
-                  </ButtonGroup>
-                </PopoverFooter>
-              </PopoverContent>
-            </>
+        <>
+          {userId === user && (
+            <Button colorScheme='red' onClick={() => setIsOpen(true)}>
+              supprimer
+            </Button>
           )}
-        </Popover>
-        {/* </Box> */}
+          <DisplayAlertDialog
+            isOpen={isOpen}
+            onClose={onClose}
+            onDeleteHandler={confirmDeleteHandler}
+            header={`Supprimer ${title} ?`}
+            body='Voulez-vous vraiment supprimer cette recette ? Cette action est irréversible.'
+          />
+        </>
+
         <Button
           leftIcon={<MdTimer />}
           as={ReachLink}
