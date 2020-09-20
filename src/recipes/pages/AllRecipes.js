@@ -1,4 +1,4 @@
-import { Center, Skeleton } from '@chakra-ui/core'
+import { Center } from '@chakra-ui/core'
 import cogoToast from 'cogo-toast'
 import React, { useCallback, useEffect } from 'react'
 import Title from '../../Chakra/Heading'
@@ -51,11 +51,7 @@ const AllRecipes = () => {
       </Center>
     )
   }
-  return (
-    <Skeleton isLoaded={!isLoading}>
-      <RecipesList recipes={allRecipes} onDelete={deleteHandler} />
-    </Skeleton>
-  )
+  return <RecipesList recipes={allRecipes} onDelete={deleteHandler} />
 }
 
 export default AllRecipes

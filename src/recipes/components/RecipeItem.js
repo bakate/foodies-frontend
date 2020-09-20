@@ -24,7 +24,7 @@ import { useInfos } from '../../shared/context'
 import { useHttpClient } from '../../shared/hooks/http-hook'
 import { getDuration } from '../../shared/utils/getDuration'
 
-const RecipeItem = ({ id, title, images, user, onDeleteItem, duration }) => {
+const RecipeItem = ({ id, title, image, user, onDeleteItem, duration }) => {
   const { userId, token } = useInfos()
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
   const initialFocusRef = React.useRef()
@@ -66,15 +66,9 @@ const RecipeItem = ({ id, title, images, user, onDeleteItem, duration }) => {
       p='0'
       bg='gray.100'
       border='1px solid gray'
-      _hover={{ boxShadow: 'lg', transform: 'translateY(-7px)' }}>
+      _hover={{ boxShadow: 'lg', transform: 'translateY(-5px)', opacity: '0.8' }}>
       <AspectRatio as={ReachLink} to={`/recipes/recipe/${id}`} ratio={4 / 3}>
-        <Image
-          src={images.regularImage}
-          alt='recipe'
-          fit='cover'
-          htmlWidth='100%'
-          borderTopRadius='md'
-        />
+        <Image src={image} alt='recipe' fit='cover' htmlWidth='100%' borderTopRadius='md' />
       </AspectRatio>
 
       <Typography text={title} />
@@ -83,7 +77,7 @@ const RecipeItem = ({ id, title, images, user, onDeleteItem, duration }) => {
         variant='ghost'
         d='flex'
         alignItems='baseline'
-        my={2}
+        // my={2}
         justifyContent='space-evenly'
         // px={2}
       >
@@ -142,9 +136,7 @@ const RecipeItem = ({ id, title, images, user, onDeleteItem, duration }) => {
 
 RecipeItem.propTypes = {
   id: PropTypes.string,
-  images: PropTypes.shape({
-    regularImage: PropTypes.string,
-  }),
+  image: PropTypes.string,
   onDeleteItem: PropTypes.func,
   title: PropTypes.string,
   user: PropTypes.string,

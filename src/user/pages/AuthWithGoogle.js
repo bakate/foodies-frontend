@@ -8,7 +8,7 @@ const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID
 
 const AuthWithGoogle = () => {
   const { login } = useInfos()
-  const { sendRequest, error, clearError } = useHttpClient()
+  const { sendRequest } = useHttpClient()
   const onSuccess = async (res) => {
     await sendGoogleToken(res.tokenId)
   }
@@ -27,7 +27,7 @@ const AuthWithGoogle = () => {
         }),
         { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` }
       )
-      cogoToast.success(`Bienvenue ${username} !`)
+      cogoToast.success(`Hello ${username} !`)
       login(userId, token)
     } catch (error) {
       cogoToast.error(error.message)
@@ -36,7 +36,7 @@ const AuthWithGoogle = () => {
   return (
     <GoogleLogin
       clientId={clientId}
-      buttonText='Se connecter via Google'
+      buttonText='Continuer avec Google'
       cookiePolicy={'single_host_origin'}
       onSuccess={onSuccess}
       onFailure={onFailure}

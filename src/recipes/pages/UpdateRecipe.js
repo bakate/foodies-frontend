@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import * as Yup from 'yup'
 import Title from '../../Chakra/Heading'
+import ImageHandler from '../../Chakra/ImageHandler'
 import InputField from '../../Chakra/InputField'
 import Spinner from '../../Chakra/Spinner'
 import { useInfos } from '../../shared/context'
@@ -16,6 +17,7 @@ const UpdateRecipe = () => {
     ingredients: '',
     cooking: '',
     duration: '',
+    image: '',
   })
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
   const recipeId = useParams().recipeId
@@ -51,7 +53,7 @@ const UpdateRecipe = () => {
   }
   return (
     <>
-      {!isLoading && (
+      {!isLoading && recipeToUpdate.image && (
         <>
           <Title title='Modifier votre recette' my='1rem' dir='column' wrap='no-wrap' />
 
@@ -60,11 +62,12 @@ const UpdateRecipe = () => {
             enableReinitialize='true'
             validationSchema={Yup.object({
               title: Yup.string().required('Fournissez un nom de recette'),
+              image: Yup.string().required('Une image est require'),
               ingredients: Yup.string().required('Fournissez la liste des ingrédients'),
               cooking: Yup.string().required('Renseignez les différentes étapes de préparation.'),
               duration: Yup.number().required('la durée ?'),
             })}
-            onSubmit={async ({ title, cooking, ingredients, duration }) => {
+            onSubmit={async ({ title, cooking, ingredients, duration, image }) => {
               try {
                 await sendRequest(
                   `${process.env.REACT_APP_BACKEND_URL}/recipes/${recipeId}`,
@@ -74,6 +77,7 @@ const UpdateRecipe = () => {
                     ingredients,
                     cooking,
                     duration,
+                    image,
                   }),
                   { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }
                 )
@@ -82,7 +86,14 @@ const UpdateRecipe = () => {
             }}>
             {({ isSubmitting }) => (
               <Form>
-                <Grid my={{ md: '4rem' }} mx='auto' maxW='650px'>
+                <Grid mx='auto' maxW='650px'>
+                  <ImageHandler
+                    name='image'
+                    id='image'
+                    initialValue={recipeToUpdate.image}
+                    borderRadius='lg'
+                    alt='recipe'
+                  />
                   <InputField name='title' label='Titre' />
                   <InputField name='ingredients' element='textarea' label='Ingr&eacute;dients' />
                   <InputField name='cooking' element='textarea' label='Pr&eacute;paration' />

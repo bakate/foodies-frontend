@@ -98,7 +98,14 @@ const AuthForm = () => {
                 </Heading>
               )}
 
+              {/* <Center py={3}> */}
               <AuthWithGoogle />
+              {/* </Center> */}
+              <Center height='50px'>
+                <Divider />
+                <Text mx={2}>ou</Text>
+                <Divider />
+              </Center>
               {!inLogInMode && (
                 <InputField id='username' name='username' placeholder="nom d'utilisateur" />
               )}
@@ -156,7 +163,7 @@ const AuthForm = () => {
               {inLogInMode && (
                 <Center height='50px'>
                   <Divider />
-                  <Text mx={2}>ou</Text>
+                  <Text mx={2}>sinon</Text>
                   <Divider />
                 </Center>
               )}

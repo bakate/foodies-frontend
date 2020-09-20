@@ -1,6 +1,6 @@
 import { Button, ButtonGroup, Progress } from '@chakra-ui/core'
 import cogoToast from 'cogo-toast'
-import { Field, Formik } from 'formik'
+import { Formik } from 'formik'
 import React, { useRef, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import * as Yup from 'yup'
@@ -13,13 +13,13 @@ import { useHttpClient } from '../../shared/hooks/http-hook'
 const DisplayModal = ({ isOpen, onClose }) => {
   const initialValues = () => {
     return {
-      title: 'yaourt au riz',
-      images: null,
-      ingredients: 'du riz',
-      cooking: '15 min au four',
+      title: 'hello',
+      image: '',
+      ingredients: '',
+      cooking: '',
       category: 'plat principal',
       difficulty: 'facile',
-      duration: '45',
+      duration: '',
     }
   }
 
@@ -38,15 +38,13 @@ const DisplayModal = ({ isOpen, onClose }) => {
   const { sendRequest } = useHttpClient()
   const initialRef = useRef()
 
-  const ProgressBar = () => {
-    return (
-      <Progress
-        value={currentStep === 1 ? '33' : currentStep === 2 ? '66' : '100'}
-        size='sm'
-        colorScheme={currentStep !== 3 ? 'orange' : 'blue'}
-      />
-    )
-  }
+  const ProgressBar = () => (
+    <Progress
+      value={currentStep === 1 ? '33' : currentStep === 2 ? '66' : '100'}
+      size='sm'
+      colorScheme={currentStep !== 3 ? 'orange' : 'blue'}
+    />
+  )
 
   const StepToDisplay = () => {
     if (currentStep === 1) {
@@ -83,102 +81,119 @@ const DisplayModal = ({ isOpen, onClose }) => {
             label='Ingr&eacute;dients'
             element='textarea'
           />
-          <InputField name='cooking' label='Pr&eacute;paration' element='textarea' />
+          <InputField
+            name='cooking'
+            label='Pr&eacute;paration'
+            element='textarea'
+            placeholder='les différentes étapes'
+          />
         </>
       )
     }
     if (currentStep === 3) {
       return (
         <>
-          <Field as={ImageHandler} id='images' name='images' />
+          <ImageHandler id='image' name='image' />
         </>
       )
     }
   }
-  const ModalFooterToDisplay = ({ isSubmitting }) => {
-    return (
-      <ButtonGroup>
-        {currentStep === 3 && (
-          <Button
-            type='submit'
-            colorScheme='blue'
-            mr={3}
-            isLoading={isSubmitting}
-            loadingText='En Cours ...'>
-            valider
-          </Button>
-        )}
-        {currentStep !== 1 && <Button onClick={() => prev()}>Précédent</Button>}
-        <Button onClick={onClose}>Cancel</Button>
-        {currentStep !== 3 && (
-          <Button onClick={() => next()} ref={initialRef}>
-            Suivant
-          </Button>
-        )}
-      </ButtonGroup>
-    )
-  }
+  // const ModalFooterToDisplay = (isSubmitting) => {
+  //   return (
+  //     <ButtonGroup>
+  //       {currentStep !== 1 && <Button onClick={() => prev()}>Précédent</Button>}
+  //       {currentStep !== 3 && (
+  //         <Button onClick={() => next()} ref={initialRef}>
+  //           Suivant
+  //         </Button>
+  //       )}
+  //       <Button onClick={onClose}>Cancel</Button>
+  //       {currentStep === 3 && (
+  //         <Button
+  //           type='submit'
+  //           colorScheme='blue'
+  //           mr={3}
+  //           isLoading={isSubmitting}
+  //           loadingText='En Cours ...'>
+  //           valider
+  //         </Button>
+  //       )}
+  //     </ButtonGroup>
+  //   )
+  // }
   return (
-    <>
-      <Formik
-        initialValues={initialValues()}
-        validationSchema={Yup.object({
-          title: Yup.string().required('Fournissez un titre valide'),
-          images: Yup.object().required('Selectionnez une belle image.'),
-          ingredients: Yup.string().required('Renseignez les ingrédients'),
-          cooking: Yup.string().required('Donnez quelques conseils de préparation'),
-          category: Yup.string().oneOf(
-            ['entrée', 'plat principal', 'aperitif et buffet', 'dessert'],
-            'Choix invalide'
-          ),
-          difficulty: Yup.string().oneOf(['facile', 'moyen', 'difficile'], 'Choix invalide'),
-          duration: Yup.number().required('Renseignez la durée'),
-        })}
-        onSubmit={async ({
-          title,
-          images,
-          ingredients,
-          cooking,
-          category,
-          difficulty,
-          duration,
-        }) => {
-          try {
-            await sendRequest(
-              `${process.env.REACT_APP_BACKEND_URL}/recipes`,
-              'POST',
-              JSON.stringify({
-                title,
-                images,
-                ingredients,
-                cooking,
-                category,
-                difficulty,
-                duration,
-              }),
-              {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-              }
-            )
-            cogoToast.success('Super pour la nouvelle recette !')
-            history.go()
-            onClose()
-          } catch (err) {}
-        }}>
-        {({ isSubmitting }) => (
+    <Formik
+      initialValues={initialValues()}
+      validationSchema={Yup.object({
+        title: Yup.string().required('Fournissez un titre valide'),
+        image: Yup.string().required('Selectionnez une belle image.'),
+        ingredients: Yup.string().required('Renseignez les ingrédients'),
+        cooking: Yup.string().required('Donnez quelques conseils de préparation'),
+        category: Yup.string().oneOf(
+          ['entrée', 'plat principal', 'aperitif et buffet', 'dessert'],
+          'Choix invalide'
+        ),
+        difficulty: Yup.string().oneOf(['facile', 'moyen', 'difficile'], 'Choix invalide'),
+        duration: Yup.number().required('Renseignez la durée'),
+      })}
+      onSubmit={async ({ title, image, ingredients, cooking, category, difficulty, duration }) => {
+        try {
+          await sendRequest(
+            `${process.env.REACT_APP_BACKEND_URL}/recipes`,
+            'POST',
+            JSON.stringify({
+              title,
+              image,
+              ingredients,
+              cooking,
+              category,
+              difficulty,
+              duration,
+            }),
+            {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            }
+          )
+          cogoToast.success('Super pour la nouvelle recette !')
+          history.go()
+          onClose()
+        } catch (err) {}
+      }}>
+      {({ isSubmitting }) => (
+        <>
           <SimpleModal
             isOpen={isOpen}
-            initialRef={initialRef}
             onClose={onClose}
+            initialRef={initialRef}
             progressBar={ProgressBar}
             modalHeader='Cr&eacute;er votre Recette'
             modalBody={StepToDisplay()}
-            modalFooter={ModalFooterToDisplay(isSubmitting)}
+            modalFooter={
+              <ButtonGroup>
+                {currentStep !== 1 && <Button onClick={() => prev()}>Précédent</Button>}
+                {currentStep !== 3 && (
+                  <Button onClick={() => next()} ref={initialRef}>
+                    Suivant
+                  </Button>
+                )}
+                <Button onClick={onClose}>Cancel</Button>
+                {currentStep === 3 && (
+                  <Button
+                    type='submit'
+                    colorScheme='blue'
+                    mr={3}
+                    isLoading={isSubmitting}
+                    loadingText='En Cours ...'>
+                    valider
+                  </Button>
+                )}
+              </ButtonGroup>
+            }
           />
-        )}
-      </Formik>
-    </>
+        </>
+      )}
+    </Formik>
   )
 }
 
