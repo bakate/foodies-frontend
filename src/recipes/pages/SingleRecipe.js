@@ -18,6 +18,9 @@ const SingleRecipe = () => {
   if (!recipe) {
     return <Title title="oops, Quelque chose s'est mal passée" />
   }
+  if (!recipe.image) {
+    return <Spinner />
+  }
 
   const transformedIngredients = (string) => {
     return string
@@ -33,10 +36,6 @@ const SingleRecipe = () => {
   }
 
   const { hours, minutes } = getDuration(recipe.duration)
-
-  if (!recipe.image) {
-    return <Spinner />
-  }
 
   return (
     <Grid gap={4}>
