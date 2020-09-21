@@ -2,8 +2,8 @@ import { AspectRatio, Button, ButtonGroup, Flex, Image } from '@chakra-ui/core'
 import cogoToast from 'cogo-toast'
 import PropTypes from 'prop-types'
 import React, { useEffect } from 'react'
-import { MdTimer } from 'react-icons/md'
-import { Link as ReachLink } from 'react-router-dom'
+import { MdDeleteForever, MdModeEdit, MdTimer } from 'react-icons/md'
+import { Link as ReachLink, useLocation } from 'react-router-dom'
 import DisplayAlertDialog from '../../Chakra/AlertDialog'
 import Spinner from '../../Chakra/Spinner'
 import Typography from '../../Chakra/Typography'
@@ -12,6 +12,7 @@ import { useHttpClient } from '../../shared/hooks/http-hook'
 import { getDuration } from '../../shared/utils/getDuration'
 
 const RecipeItem = ({ id, title, image, user, onDeleteItem, duration }) => {
+  const location = useLocation()
   const [isOpen, setIsOpen] = React.useState()
   const onClose = () => setIsOpen(false)
   const { userId, token } = useInfos()
@@ -70,14 +71,17 @@ const RecipeItem = ({ id, title, image, user, onDeleteItem, duration }) => {
         justifyContent='space-evenly'
         px={2}>
         {userId === user && (
-          <Button as={ReachLink} colorScheme='blue' to={`/recipes/${id}`}>
+          <Button as={ReachLink} leftIcon={<MdModeEdit />} colorScheme='blue' to={`/recipes/${id}`}>
             modifier
           </Button>
         )}
 
         <>
-          {userId === user && (
-            <Button colorScheme='red' onClick={() => setIsOpen(true)}>
+          {userId === user && location.pathname !== '/' && (
+            <Button
+              colorScheme='red'
+              leftIcon={<MdDeleteForever />}
+              onClick={() => setIsOpen(true)}>
               supprimer
             </Button>
           )}
