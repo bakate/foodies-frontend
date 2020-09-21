@@ -1,4 +1,4 @@
-import { AspectRatio, Button, ButtonGroup, Flex, Image } from '@chakra-ui/core'
+import { AspectRatio, Button, ButtonGroup, Flex, Image, Skeleton } from '@chakra-ui/core'
 import cogoToast from 'cogo-toast'
 import PropTypes from 'prop-types'
 import React, { useEffect } from 'react'
@@ -48,63 +48,68 @@ const RecipeItem = ({ id, title, image, user, onDeleteItem, duration }) => {
   const { hours, minutes } = getDuration(duration)
 
   return (
-    <Flex
-      flexDir='column'
-      borderRadius='md'
-      justifyContent='space-between'
-      transition='all linear 0.3s'
-      p='0'
-      bg='gray.100'
-      border='1px solid gray'
-      _hover={{ boxShadow: 'lg', transform: 'translateY(-5px)', opacity: '0.8' }}>
-      <AspectRatio as={ReachLink} to={`/recipes/recipe/${id}`} ratio={4 / 3}>
-        <Image src={image} alt='recipe' fit='cover' htmlWidth='100%' borderTopRadius='md' />
-      </AspectRatio>
+    <Skeleton isLoaded>
+      <Flex
+        flexDir='column'
+        borderRadius='md'
+        justifyContent='space-between'
+        transition='all linear 0.3s'
+        p='0'
+        bg='gray.100'
+        border='1px solid gray'
+        _hover={{ boxShadow: 'lg', transform: 'translateY(-5px)', opacity: '0.8' }}>
+        <AspectRatio as={ReachLink} to={`/recipes/recipe/${id}`} ratio={4 / 3}>
+          <Image src={image} alt='recipe' fit='cover' htmlWidth='100%' borderTopRadius='md' />
+        </AspectRatio>
 
-      <Typography text={title} />
-
-      <ButtonGroup
-        variant='ghost'
-        d='flex'
-        alignItems='baseline'
-        my={2}
-        justifyContent='space-evenly'
-        px={2}>
-        {userId === user && (
-          <Button as={ReachLink} leftIcon={<MdModeEdit />} colorScheme='blue' to={`/recipes/${id}`}>
-            modifier
-          </Button>
-        )}
-
-        <>
-          {userId === user && location.pathname !== '/' && (
+        <Typography text={title} />
+        <ButtonGroup
+          variant='ghost'
+          d='flex'
+          alignItems='baseline'
+          my={2}
+          justifyContent='space-evenly'
+          px={2}>
+          {userId === user && (
             <Button
-              colorScheme='red'
-              leftIcon={<MdDeleteForever />}
-              onClick={() => setIsOpen(true)}>
-              supprimer
+              as={ReachLink}
+              leftIcon={<MdModeEdit />}
+              colorScheme='blue'
+              to={`/recipes/${id}`}>
+              modifier
             </Button>
           )}
-          <DisplayAlertDialog
-            isOpen={isOpen}
-            onClose={onClose}
-            onDeleteHandler={confirmDeleteHandler}
-            header={`Supprimer ${title} ?`}
-            body='Voulez-vous vraiment supprimer cette recette ? Cette action est irréversible.'
-          />
-        </>
 
-        <Button
-          leftIcon={<MdTimer />}
-          as={ReachLink}
-          colorScheme='teal'
-          to={`/recipes/recipe/${id}`}>
-          {hours > 1 ? `${hours} heures` : hours === 1 ? `${hours} heure` : null}
-          {hours >= 1 && minutes > 0 && ` et ${minutes} minutes`}
-          {!hours && minutes && `${minutes} minutes`}
-        </Button>
-      </ButtonGroup>
-    </Flex>
+          <>
+            {userId === user && location.pathname !== '/' && (
+              <Button
+                colorScheme='red'
+                leftIcon={<MdDeleteForever />}
+                onClick={() => setIsOpen(true)}>
+                supprimer
+              </Button>
+            )}
+            <DisplayAlertDialog
+              isOpen={isOpen}
+              onClose={onClose}
+              onDeleteHandler={confirmDeleteHandler}
+              header={`Supprimer ${title} ?`}
+              body='Voulez-vous vraiment supprimer cette recette ? Cette action est irréversible.'
+            />
+          </>
+
+          <Button
+            leftIcon={<MdTimer />}
+            as={ReachLink}
+            colorScheme='teal'
+            to={`/recipes/recipe/${id}`}>
+            {hours > 1 ? `${hours} heures` : hours === 1 ? `${hours} heure` : null}
+            {hours >= 1 && minutes > 0 && ` et ${minutes} minutes`}
+            {!hours && minutes && `${minutes} minutes`}
+          </Button>
+        </ButtonGroup>
+      </Flex>
+    </Skeleton>
   )
 }
 

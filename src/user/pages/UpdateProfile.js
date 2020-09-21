@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Center } from '@chakra-ui/core'
+import { Button, ButtonGroup, Center, Skeleton } from '@chakra-ui/core'
 import cogoToast from 'cogo-toast'
 import { Form, Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
@@ -78,14 +78,15 @@ const UpdateProfile = () => {
               <Title title='mes informations' />
               {!isLoading && userProfile && (
                 <>
-                  <Imagehandler
-                    borderRadius='full'
-                    name='avatar'
-                    id='avatar'
-                    boxSize='180px'
-                    initialValue={userProfile.avatar}
-                    alt='user profile'
-                  />
+                  <Skeleton isLoaded>
+                    <Imagehandler
+                      borderRadius='full'
+                      name='avatar'
+                      id='avatar'
+                      initialValue={userProfile.avatar}
+                      alt='user profile'
+                    />
+                  </Skeleton>
                   <InputField name='username' label="Nom d'utilisateur :" />
                   <ButtonGroup variant='outline' my={3} d='flex' justifyContent='center'>
                     <Button onClick={() => history.goBack()}>Annuler</Button>

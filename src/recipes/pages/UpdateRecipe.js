@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Grid } from '@chakra-ui/core'
+import { Button, ButtonGroup, Grid, Skeleton } from '@chakra-ui/core'
 import cogoToast from 'cogo-toast'
 import { Form, Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
@@ -87,13 +87,15 @@ const UpdateRecipe = () => {
             {({ isSubmitting }) => (
               <Form>
                 <Grid mx='auto' maxW='650px'>
-                  <ImageHandler
-                    name='image'
-                    id='image'
-                    initialValue={recipeToUpdate.image}
-                    borderRadius='lg'
-                    alt='recipe'
-                  />
+                  <Skeleton isLoaded>
+                    <ImageHandler
+                      name='image'
+                      id='image'
+                      initialValue={recipeToUpdate.image}
+                      borderRadius='lg'
+                      alt='recipe'
+                    />
+                  </Skeleton>
                   <InputField name='title' label='Titre' />
                   <InputField name='ingredients' element='textarea' label='Ingr&eacute;dients' />
                   <InputField name='cooking' element='textarea' label='Pr&eacute;paration' />

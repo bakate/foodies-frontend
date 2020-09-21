@@ -58,7 +58,8 @@ const ImageHandler = ({ id, initialValue, ...props }) => {
               src={previewUrl}
               borderRadius='lg'
               objectFit='cover'
-              boxSize='250px'
+              h='350px'
+              w='100%'
               alt='Preview'
             />
           )}
