@@ -1,4 +1,4 @@
-import { Box, Button, Center, Divider, Flex, Heading, Text } from '@chakra-ui/core'
+import { Box, Button, ButtonGroup, Center, Divider, Flex, Heading, Text } from '@chakra-ui/core'
 import cogoToast from 'cogo-toast'
 import { Form, Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
@@ -7,6 +7,7 @@ import * as Yup from 'yup'
 import InputField from '../../Chakra/InputField'
 import { useInfos } from '../../shared/context'
 import { useHttpClient } from '../../shared/hooks/http-hook'
+import AuthWithFacebook from '../pages/AuthWithFacebook'
 import AuthWithGoogle from '../pages/AuthWithGoogle'
 import ResetToken from '../pages/ForgotPassword'
 const AuthForm = () => {
@@ -98,9 +99,10 @@ const AuthForm = () => {
                 </Heading>
               )}
 
-              {/* <Center py={3}> */}
-              <AuthWithGoogle />
-              {/* </Center> */}
+              <ButtonGroup d='flex' justify='space-evenly' wrap='wrap'>
+                <AuthWithGoogle />
+                <AuthWithFacebook />
+              </ButtonGroup>
               <Center height='50px'>
                 <Divider />
                 <Text mx={2}>ou</Text>

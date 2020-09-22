@@ -11,6 +11,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-facebook-login": "^4.1.1",
     "react-google-login": "^5.1.21",
     "react-icons": "^3.11.0",
     "react-query": "^2.5.13",
