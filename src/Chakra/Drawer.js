@@ -17,12 +17,10 @@ const DisplayDrawer = ({ body, ...rest }) => {
   return (
     <>
       <Box
-        display={{ base: 'block', sm: 'none' }}
+        display={{ base: 'block', md: 'none' }}
         ref={btnRef}
         alignSelf='center'
-        // justifySelf='end'
         onClick={onOpen}
-        // ml={{ base: 6 }}
         cursor='pointer'
         {...rest}>
         <svg
@@ -42,12 +40,6 @@ const DisplayDrawer = ({ body, ...rest }) => {
             <DrawerCloseButton />
             <DrawerHeader textAlign='center'>Foodies</DrawerHeader>
             <DrawerBody onClick={onClose}>{body}</DrawerBody>
-
-            {/* <DrawerFooter>
-          <Button variant='outline' mr={3} onClick={onClose}>
-            Cancel
-          </Button>
-        </DrawerFooter> */}
           </DrawerContent>
         </DrawerBody>
       </Drawer>

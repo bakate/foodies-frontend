@@ -1,4 +1,12 @@
-import { AspectRatio, Button, ButtonGroup, Flex, Image, Skeleton } from '@chakra-ui/core'
+import {
+  AspectRatio,
+  Button,
+  ButtonGroup,
+  Flex,
+  Image,
+  Skeleton,
+  useColorMode
+} from '@chakra-ui/core'
 import cogoToast from 'cogo-toast'
 import PropTypes from 'prop-types'
 import React, { useEffect } from 'react'
@@ -17,6 +25,8 @@ const RecipeItem = ({ id, title, image, user, onDeleteItem, duration }) => {
   const onClose = () => setIsOpen(false)
   const { userId, token } = useInfos()
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
+  const { colorMode } = useColorMode()
+  const bgColor = { light: 'gray.100', dark: 'gray.700' }
 
   const confirmDeleteHandler = async () => {
     try {
@@ -55,7 +65,7 @@ const RecipeItem = ({ id, title, image, user, onDeleteItem, duration }) => {
         justifyContent='space-between'
         transition='all linear 0.3s'
         p='0'
-        bg='gray.100'
+        bg={bgColor[colorMode]}
         border='1px solid gray'
         _hover={{ boxShadow: 'lg', transform: 'translateY(-5px)', opacity: '0.8' }}>
         <AspectRatio as={ReachLink} to={`/recipes/recipe/${id}`} ratio={4 / 3}>
@@ -63,6 +73,7 @@ const RecipeItem = ({ id, title, image, user, onDeleteItem, duration }) => {
         </AspectRatio>
 
         <Typography text={title} />
+
         <ButtonGroup
           variant='ghost'
           d='flex'
