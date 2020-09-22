@@ -51,8 +51,12 @@ const SingleRecipe = () => {
           <Icon as={MdTimer} boxSize={10} color='orange.500' />
 
           <Heading as='h6' fontWeight='normal' size='sm'>
-            {hours > 1 ? `${hours} heures` : hours === 1 ? `${hours} heure` : null}
-            {hours >= 1 && minutes > 0 && ` et ${minutes} minutes`}
+            {hours > 1 && !minutes
+              ? `${hours} heures`
+              : hours === 1 && !minutes
+              ? `${hours} heure`
+              : null}
+            {hours >= 1 && minutes > 0 && `${hours}h${minutes}`}
             {!hours && minutes && `${minutes} minutes`}
           </Heading>
         </Box>
@@ -77,11 +81,11 @@ const SingleRecipe = () => {
       </SimpleGrid>
       <SimpleGrid minChildWidth='200px' spacing='1rem' px={{ base: '2', md: '8' }} mb={4}>
         <Box>
-          <Title title='ingr&eacute;dients :' color='orange.500' />
+          <Title title='ingr&eacute;dients' color='orange.500' />
           <ul>{transformedIngredients(recipe.ingredients)}</ul>
         </Box>
         <Box>
-          <Title title='Pr&eacute;paration :' color='orange.500' />
+          <Title title='Pr&eacute;paration' color='orange.500' />
           <ol>{transformedIngredients(recipe.cooking)}</ol>
         </Box>
       </SimpleGrid>

@@ -72,7 +72,7 @@ const RecipeItem = ({ id, title, image, user, onDeleteItem, duration }) => {
           <Image src={image} alt='recipe' fit='cover' htmlWidth='100%' borderTopRadius='md' />
         </AspectRatio>
 
-        <Typography text={title} />
+        <Typography text={title} pt={2} />
 
         <ButtonGroup
           variant='ghost'
@@ -114,8 +114,12 @@ const RecipeItem = ({ id, title, image, user, onDeleteItem, duration }) => {
             as={ReachLink}
             colorScheme='teal'
             to={`/recipes/recipe/${id}`}>
-            {hours > 1 ? `${hours} heures` : hours === 1 ? `${hours} heure` : null}
-            {hours >= 1 && minutes > 0 && ` et ${minutes} minutes`}
+            {hours > 1 && !minutes
+              ? `${hours} heures`
+              : hours === 1 && !minutes
+              ? `${hours} heure`
+              : null}
+            {hours >= 1 && minutes > 0 && `${hours}h${minutes}`}
             {!hours && minutes && `${minutes} minutes`}
           </Button>
         </ButtonGroup>

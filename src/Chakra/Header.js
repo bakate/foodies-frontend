@@ -20,6 +20,7 @@ const Header = () => {
   const color = useColorModeValue('white', 'gray.800')
   return (
     <Flex as='nav' align='center' justify='space-between' color={color} bg={bg} px={6} py={4}>
+      <Drawer body={<NavLinks />} />
       <Center>
         <Title title='foodies' as={ReachLink} to='/' />
       </Center>
@@ -42,7 +43,6 @@ const Header = () => {
           />
         )}
         <DarkModeSwitch />
-        <Drawer body={<NavLinks />} />
       </Center>
     </Flex>
   )

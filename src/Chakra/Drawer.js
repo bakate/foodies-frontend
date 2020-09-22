@@ -33,8 +33,8 @@ const DisplayDrawer = ({ body, ...rest }) => {
           <path d='M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z' />
         </svg>
       </Box>
-      <Drawer isOpen={isOpen} onClose={onClose} finalFocusRef={btnRef}>
-        <DrawerBody placement='right'>
+      <Drawer isOpen={isOpen} onClose={onClose} finalFocusRef={btnRef} placement='left'>
+        <DrawerBody>
           <DrawerOverlay />
           <DrawerContent bg='orange.500' borderColor='orange.800' color='white'>
             <DrawerCloseButton />
