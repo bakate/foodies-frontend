@@ -3,6 +3,7 @@ import cogoToast from 'cogo-toast'
 import { Form, Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
 import { FaArrowLeft } from 'react-icons/fa'
+import { Link as ReachLink } from 'react-router-dom'
 import * as Yup from 'yup'
 import InputField from '../../Chakra/InputField'
 import { useInfos } from '../../shared/context'
@@ -10,6 +11,7 @@ import { useHttpClient } from '../../shared/hooks/http-hook'
 import AuthWithFacebook from '../pages/AuthWithFacebook'
 import AuthWithGoogle from '../pages/AuthWithGoogle'
 import ResetToken from '../pages/ForgotPassword'
+
 const AuthForm = () => {
   const { sendRequest, error, clearError } = useHttpClient()
   const [isOpen, setIsOpen] = useState(false)
@@ -85,7 +87,10 @@ const AuthForm = () => {
             <Form>
               {inLogInMode && (
                 <Heading as='h5' size='md' fontWeight='normal' py={3}>
-                  Se connecter &agrave; Foodies
+                  Se connecter &agrave;{' '}
+                  <Heading as={ReachLink} to='/' size='md' py={3}>
+                    Foodies
+                  </Heading>
                 </Heading>
               )}
               {!inLogInMode && (
@@ -152,7 +157,6 @@ const AuthForm = () => {
               {inLogInMode && (
                 <Center>
                   <Button
-                    // to='/resetpassword'
                     variant='link'
                     pt={1}
                     fontSize='14px'

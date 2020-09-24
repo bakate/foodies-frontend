@@ -1,12 +1,19 @@
-import { Flex, Spinner } from '@chakra-ui/core'
+import { Center, Spinner } from '@chakra-ui/core'
+import PropTypes from 'prop-types'
 import React from 'react'
+import Title from './Heading'
 
-const Loader = () => {
+const DisplayLoader = ({ text }) => {
   return (
-    <Flex justify='center' align='center' p={2}>
+    <Center>
       <Spinner thickness='4px' speed='0.65s' emptyColor='gray.200' color='orange.500' size='xl' />
-    </Flex>
+      <Title title={text} />
+    </Center>
   )
 }
 
-export default Loader
+DisplayLoader.propTypes = {
+  text: PropTypes.string,
+}
+
+export default DisplayLoader

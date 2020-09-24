@@ -2,7 +2,7 @@ import { Box, Button, Center, Grid, Image } from '@chakra-ui/core'
 import { useField } from 'formik'
 import PropTypes from 'prop-types'
 import React, { useRef, useState } from 'react'
-import Spinner from './Spinner'
+import DisplayLoader from './Spinner'
 
 const ImageHandler = ({ id, initialValue, ...props }) => {
   const [, , helpers] = useField(props)
@@ -30,8 +30,6 @@ const ImageHandler = ({ id, initialValue, ...props }) => {
           body: data,
         })
       ).json()
-
-      // imagesLink = transformedImages.secure_url
       setPreviewUrl(transformedImages.secure_url)
       setValue(transformedImages.secure_url)
       setLoading(false)
@@ -42,7 +40,7 @@ const ImageHandler = ({ id, initialValue, ...props }) => {
 
   return (
     <Box my={3}>
-      {loading && <Spinner />}
+      {loading && <DisplayLoader />}
       <input
         type='file'
         id={id}
@@ -58,6 +56,7 @@ const ImageHandler = ({ id, initialValue, ...props }) => {
               src={previewUrl}
               borderRadius='lg'
               objectFit='cover'
+              ignoreFallback
               h='350px'
               w='100%'
               alt='Preview'

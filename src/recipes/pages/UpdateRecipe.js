@@ -7,7 +7,7 @@ import * as Yup from 'yup'
 import Title from '../../Chakra/Heading'
 import ImageHandler from '../../Chakra/ImageHandler'
 import InputField from '../../Chakra/InputField'
-import Spinner from '../../Chakra/Spinner'
+import DisplayLoader from '../../Chakra/Spinner'
 import { useInfos } from '../../shared/context'
 import { useHttpClient } from '../../shared/hooks/http-hook'
 
@@ -49,7 +49,7 @@ const UpdateRecipe = () => {
   }, [error, clearError])
 
   if (isLoading) {
-    return <Spinner />
+    return <DisplayLoader />
   }
   return (
     <>

@@ -1,57 +1,53 @@
 import { Center } from '@chakra-ui/core'
 import cogoToast from 'cogo-toast'
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback } from 'react'
+import { useQuery } from 'react-query'
 import Title from '../../Chakra/Heading'
-import Spinner from '../../Chakra/Spinner'
-import { useInfos } from '../../shared/context'
-import { useHttpClient } from '../../shared/hooks/http-hook'
+import DisplayLoader from '../../Chakra/Spinner'
 import RecipesList from '../components/RecipesList'
 
 const AllRecipes = () => {
-  const { isLoading, error, sendRequest, clearError } = useHttpClient()
-  const { allRecipes, setAllRecipes } = useInfos()
 
-  useEffect(() => {
-    const getRecipes = async () => {
-      try {
-        const { recipes } = await sendRequest(`${process.env.REACT_APP_BACKEND_URL}/recipes`)
-        setAllRecipes(recipes)
-      } catch (err) {}
-    }
-    getRecipes()
-  }, [sendRequest, setAllRecipes])
+  const getRecipes = async () => {
+    console.log('calling APi to get all Recipes')
+    const { recipes } = await (await fetch(`${process.env.REACT_APP_BACKEND_URL}/recipes`)).json()
+    return recipes
+  }
+  const { data, isError, isLoading, error, isFetching } = useQuery('allRecipes', getRecipes)
+
 
   const deleteHandler = useCallback(
     (recipeId) => {
-      allRecipes((prev) => prev.filter((recipe) => recipe.id !== recipeId))
+      data((prev) => prev.filter((recipe) => recipe.id !== recipeId))
     },
-    [allRecipes]
+    [ data]
   )
 
-  useEffect(() => {
-    if (error) {
-      const { hide } = cogoToast.error(error, {
-        hideAfter: 4,
-        onClick: () => {
-          hide()
-        },
-      })
-    }
-    return () => {
-      return clearError()
-    }
-  }, [error, clearError])
   if (isLoading) {
-    return <Spinner />
+    return <DisplayLoader />
   }
-  if (!allRecipes.length) {
+  if (isError) {
+    const { hide } = cogoToast.error(error.message, {
+      hideAfter: 4,
+      onClick: () => {
+        hide()
+      },
+    })
+  }
+
+  if (!data?.length) {
     return (
       <Center>
         <Title title='Aucune recette de trouvée' />
       </Center>
     )
   }
-  return <RecipesList recipes={allRecipes} onDelete={deleteHandler} />
+  return (
+    <>
+  {isFetching && <DisplayLoader text="Caching..." />}
+  <RecipesList recipes={data} onDelete={deleteHandler} />
+  </>
+  )
 }
 
 export default AllRecipes

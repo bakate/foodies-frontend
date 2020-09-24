@@ -1,27 +1,28 @@
 import { AspectRatio, Box, Center, Grid, Heading, Icon, Image, SimpleGrid } from '@chakra-ui/core'
-import React, { useEffect, useState } from 'react'
+import React, { useRef } from 'react'
 import { GiHotMeal } from 'react-icons/gi'
 import { MdTimer, MdToday } from 'react-icons/md'
+import { useQueryCache } from 'react-query'
 import { useParams } from 'react-router-dom'
 import Title from '../../Chakra/Heading'
-import Spinner from '../../Chakra/Spinner'
-import { useInfos } from '../../shared/context'
+import DisplayLoader from '../../Chakra/Spinner'
 import { getDuration } from '../../shared/utils/getDuration'
 
 const SingleRecipe = () => {
-  const { allRecipes } = useInfos()
-  const [recipe, setRecipe] = useState()
+  const queryCache = useQueryCache()
+  const allRecipes = queryCache.getQueryData('allRecipes')
   const recipeId = useParams().recipeId
-  useEffect(() => {
-    if (allRecipes.length) {
-      setRecipe(allRecipes.find((item) => item.id === recipeId))
-    }
-  }, [allRecipes, recipeId])
-  if (!recipe) {
+  let recipeRef = useRef()
+
+  if (allRecipes?.length) {
+    recipeRef.current = allRecipes.find((item) => item.id === recipeId)
+  }
+
+  if (!recipeRef.current) {
     return <Title title="oops, Quelque chose s'est mal passée" />
   }
-  if (!recipe.image) {
-    return <Spinner />
+  if (!recipeRef?.current?.image) {
+    return <DisplayLoader />
   }
 
   const transformedIngredients = (string) => {
@@ -36,15 +37,15 @@ const SingleRecipe = () => {
         return null
       })
   }
-
-  const { hours, minutes } = getDuration(recipe.duration)
+const {duration, title, image, category, published, ingredients, cooking} = recipeRef.current || {};
+  const { hours, minutes } = getDuration(duration)
   return (
     <Grid gap={4}>
       <Center>
-        <Title title={recipe.title} />
+        <Title title={title} />
       </Center>
-      <AspectRatio ratio={4 / 3} maxW='100vw' h='60vh'>
-        <Image src={recipe && recipe.image} alt='recipe' objectFit='contain' w='100%' />
+      <AspectRatio ratio={4 / 3} maxW='100vw' maxH='60vh' >
+        <Image src={image} alt={title} fit='contain' w='100%'  ignoreFallback />
       </AspectRatio>
       <SimpleGrid minChildWidth='40px' textAlign='center' textTransform='capitalize'>
         <Box>
@@ -64,14 +65,14 @@ const SingleRecipe = () => {
           <Icon as={GiHotMeal} boxSize={10} color='orange.500' />
 
           <Heading as='h6' fontWeight='normal' size='sm'>
-            {recipe.category}
+            {category}
           </Heading>
         </Box>
         <Box>
           <Icon as={MdToday} boxSize={10} color='orange.500' />
 
           <Heading as='h6' fontWeight='normal' size='sm'>
-            {new Date(recipe.published).toLocaleDateString('fr-FR', {
+            {new Date(published).toLocaleDateString('fr-FR', {
               year: 'numeric',
               month: 'short',
               day: 'numeric',
@@ -82,11 +83,11 @@ const SingleRecipe = () => {
       <SimpleGrid minChildWidth='200px' spacing='1rem' px={{ base: '2', md: '8' }} mb={4}>
         <Box>
           <Title title='ingr&eacute;dients' color='orange.500' />
-          <ul>{transformedIngredients(recipe.ingredients)}</ul>
+          <ul>{transformedIngredients(ingredients)}</ul>
         </Box>
         <Box>
           <Title title='Pr&eacute;paration' color='orange.500' />
-          <ol>{transformedIngredients(recipe.cooking)}</ol>
+          <ol>{transformedIngredients(cooking)}</ol>
         </Box>
       </SimpleGrid>
     </Grid>

@@ -166,7 +166,7 @@ const DisplayModal = ({ isOpen, onClose }) => {
             isOpen={isOpen}
             onClose={onClose}
             initialRef={initialRef}
-            progressBar={ProgressBar}
+            progressBar={ProgressBar()}
             modalHeader='Cr&eacute;er votre Recette'
             modalBody={StepToDisplay()}
             modalFooter={

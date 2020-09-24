@@ -5,7 +5,7 @@ import { ReactQueryDevtools } from 'react-query-devtools';
 import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
 import Container from './Chakra/Container';
 import Header from './Chakra/Header';
-import Spinner from './Chakra/Spinner';
+import DisplayLoader from './Chakra/Spinner';
 import customTheme from "./Chakra/theme";
 import AllRecipes from './recipes/pages/AllRecipes';
 import { useInfos } from './shared/context';
@@ -20,9 +20,10 @@ function App() {
   const location = useLocation()
   const queryConfig = {
     queries: {
-      staleTime: 50000,
-      cacheTime: 1000000,
-      retry: false
+      staleTime: 50_000,
+      cacheTime: 1_000_000,
+      retry: false,
+
     }
   };
   const { token } = useInfos()
@@ -72,19 +73,17 @@ function App() {
 
     <ReactQueryConfigProvider config={queryConfig}>
     <ChakraProvider resetCSS theme={customTheme}>
-
       {location.pathname !== "/auth"?  <Header />: null}
         <Container>
           <Suspense
             fallback={
-             <Spinner />
+             <DisplayLoader />
             }>
             {routes}
           </Suspense>
         </Container>
     </ChakraProvider>
     <ReactQueryDevtools initialIsOpen={false} />
-
      </ReactQueryConfigProvider>
   )
 }

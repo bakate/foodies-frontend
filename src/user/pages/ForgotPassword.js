@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom'
 import * as Yup from 'yup'
 import InputField from '../../Chakra/InputField'
 import SimpleModal from '../../Chakra/SimpleModal'
-import Spinner from '../../Chakra/Spinner'
+import DisplayLoader from '../../Chakra/Spinner'
 import { useHttpClient } from '../../shared/hooks/http-hook'
 
 const ForgotPassword = ({ isOpen, onClose }) => {
@@ -29,7 +29,7 @@ const ForgotPassword = ({ isOpen, onClose }) => {
   }, [error, clearError])
 
   if (isLoading) {
-    return <Spinner />
+    return <DisplayLoader />
   }
 
   return (

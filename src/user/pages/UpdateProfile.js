@@ -5,9 +5,9 @@ import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import * as Yup from 'yup'
 import Title from '../../Chakra/Heading'
-import Imagehandler from '../../Chakra/ImageHandler'
+import ImageHandler from '../../Chakra/ImageHandler'
 import InputField from '../../Chakra/InputField'
-import Spinner from '../../Chakra/Spinner'
+import DisplayLoader from '../../Chakra/Spinner'
 import { useInfos } from '../../shared/context'
 import { useHttpClient } from '../../shared/hooks/http-hook'
 
@@ -46,7 +46,7 @@ const UpdateProfile = () => {
     }
   }, [error, clearError])
   if (isLoading) {
-    return <Spinner />
+    return <DisplayLoader />
   }
   return (
     <>
@@ -79,7 +79,7 @@ const UpdateProfile = () => {
               {!isLoading && userProfile && (
                 <>
                   <Skeleton isLoaded>
-                    <Imagehandler
+                    <ImageHandler
                       borderRadius='full'
                       name='avatar'
                       id='avatar'

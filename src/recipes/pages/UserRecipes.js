@@ -1,52 +1,60 @@
 import { Box } from '@chakra-ui/core'
 import cogoToast from 'cogo-toast'
-import React, { useEffect } from 'react'
+import React from 'react'
+import { useQuery, useQueryCache } from 'react-query'
 import { useParams } from 'react-router-dom'
-import Spinner from '../../Chakra/Spinner'
+import DisplayLoader from '../../Chakra/Spinner'
 import Typography from '../../Chakra/Typography'
-import { useInfos } from '../../shared/context'
-import { useHttpClient } from '../../shared/hooks/http-hook'
 import NewRecipe from '../components/AddNewRecipe'
 import RecipesList from '../components/RecipesList'
 
 const UserRecipes = () => {
-  const { isLoading, sendRequest, error, clearError } = useHttpClient()
-  const { userRecipes, setUserRecipes } = useInfos()
+  const queryCache = useQueryCache()
+  const singleUserRecipes = queryCache.getQueryData('userRecipes')
   const userId = useParams().userId
 
-  useEffect(() => {
-    const getUserRecipes = async () => {
-      try {
-        const { recipes } = await sendRequest(
-          `${process.env.REACT_APP_BACKEND_URL}/recipes/user/${userId}`
-        )
+  const getRecipes = async () => {
+    console.log('calling APi to get user Recipes')
+    const { recipes } = await (
+      await fetch(`${process.env.REACT_APP_BACKEND_URL}/recipes/user/${userId}`)
+    ).json()
+    return recipes
+  }
+  const { data: userRecipes, isError, isLoading, error, isFetching } = useQuery(
+    'userRecipes',
+    getRecipes
+  )
 
-        setUserRecipes(recipes)
-      } catch (err) {}
-    }
-    getUserRecipes()
-  }, [sendRequest, userId, setUserRecipes])
+  // const { isLoading, sendRequest, error, clearError } = useHttpClient()
+  // const { userRecipes, setUserRecipes } = useInfos()
+
+  // useEffect(() => {
+  //   const getUserRecipes = async () => {
+  //     try {
+  //       const { recipes } = await sendRequest(
+  //         `${process.env.REACT_APP_BACKEND_URL}/recipes/user/${userId}`
+  //       )
+
+  //       setUserRecipes(recipes)
+  //     } catch (err) {}
+  //   }
+  //   getUserRecipes()
+  // }, [sendRequest, userId, setUserRecipes])
 
   const deleteHandler = (recipeId) => {
-    setUserRecipes((prev) => prev.filter((recipe) => recipe.id !== recipeId))
+    singleUserRecipes.filter((recipe) => recipe.id !== recipeId)
   }
 
-  useEffect(() => {
-    if (error) {
-      const { hide } = cogoToast.error(error, {
-        hideAfter: 4,
-        onClick: () => {
-          hide()
-        },
-      })
-    }
-    return () => {
-      return clearError()
-    }
-  }, [error, clearError])
-
   if (isLoading) {
-    return <Spinner />
+    return <DisplayLoader />
+  }
+  if (isError) {
+    const { hide } = cogoToast.error(error.message, {
+      hideAfter: 4,
+      onClick: () => {
+        hide()
+      },
+    })
   }
 
   if (!userRecipes.length) {
@@ -59,6 +67,7 @@ const UserRecipes = () => {
   }
   return (
     <div>
+      {isFetching && <DisplayLoader text='Caching...' />}
       {userRecipes.length && (
         <Typography
           text={`Bravo, vous avez ${userRecipes.length} recette${

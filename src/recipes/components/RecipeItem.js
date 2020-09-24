@@ -13,7 +13,7 @@ import React, { useEffect } from 'react'
 import { MdDeleteForever, MdModeEdit, MdTimer } from 'react-icons/md'
 import { Link as ReachLink, useLocation } from 'react-router-dom'
 import DisplayAlertDialog from '../../Chakra/AlertDialog'
-import Spinner from '../../Chakra/Spinner'
+import DisplayLoader from '../../Chakra/Spinner'
 import Typography from '../../Chakra/Typography'
 import { useInfos } from '../../shared/context'
 import { useHttpClient } from '../../shared/hooks/http-hook'
@@ -53,7 +53,7 @@ const RecipeItem = ({ id, title, image, user, onDeleteItem, duration }) => {
   }, [error, clearError])
 
   if (isLoading) {
-    return <Spinner />
+    return <DisplayLoader />
   }
   const { hours, minutes } = getDuration(duration)
 
@@ -69,7 +69,14 @@ const RecipeItem = ({ id, title, image, user, onDeleteItem, duration }) => {
         border='1px solid gray'
         _hover={{ boxShadow: 'lg', transform: 'translateY(-5px)', opacity: '0.8' }}>
         <AspectRatio as={ReachLink} to={`/recipes/recipe/${id}`} ratio={4 / 3}>
-          <Image src={image} alt='recipe' fit='cover' htmlWidth='100%' borderTopRadius='md' />
+          <Image
+            src={image}
+            alt='recipe'
+            fit='cover'
+            htmlWidth='100%'
+            borderTopRadius='md'
+            ignoreFallback
+          />
         </AspectRatio>
 
         <Typography text={title} pt={2} />
@@ -134,6 +141,7 @@ RecipeItem.propTypes = {
   onDeleteItem: PropTypes.func,
   title: PropTypes.string,
   user: PropTypes.string,
+  duration: PropTypes.number,
 }
 
 export default RecipeItem
