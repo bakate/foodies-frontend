@@ -4,12 +4,13 @@ import React from 'react'
 import { GrAdd } from 'react-icons/gr'
 import { useInfos } from '../../shared/context'
 
-const NewRecipe = ({ recipes }) => {
-  const { userId, setIsOpen } = useInfos()
-  const extractedUser = recipes && recipes.find((recipe) => recipe.user === userId)
+const NewRecipe = () => {
+  const { token, setIsOpen } = useInfos()
+  // console.log(recipes);
+  // const extractedUser = recipes?.find((recipe) => recipe.user === userId)
   return (
     <Flex justify={{ base: 'flex-start', md: 'flex-end' }} align='center' py={2}>
-      {extractedUser ? (
+      {token && (
         <LightMode>
           <Button
             rightIcon={<GrAdd />}
@@ -20,7 +21,7 @@ const NewRecipe = ({ recipes }) => {
             cr&eacute;er
           </Button>
         </LightMode>
-      ) : null}
+      )}
     </Flex>
   )
 }

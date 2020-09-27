@@ -40,8 +40,7 @@ const MamaProvider = ({ children }) => {
   useEffect(() => {
     const isThereSomeOne = JSON.parse(localStorage.getItem('newUser'))
     if (
-      isThereSomeOne &&
-      isThereSomeOne.token &&
+      isThereSomeOne?.token &&
       new Date(isThereSomeOne.expiration) > new Date()
     ) {
       const { token, user, expiration } = isThereSomeOne

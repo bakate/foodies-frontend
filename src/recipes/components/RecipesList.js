@@ -12,7 +12,7 @@ const RecipesList = ({ recipes, onDelete }) => {
   return (
     <>
       <NewRecipeModal isOpen={isOpen} onClose={onClose} />
-      <NewRecipe recipes={recipes} />
+      <NewRecipe />
       <Grid
         templateColumns='repeat(auto-fill, minmax(350px, 1fr))'
         gap={{ base: 4, md: 10 }}
