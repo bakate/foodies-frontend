@@ -5,19 +5,21 @@ import { useQuery, useQueryCache } from 'react-query'
 import { useParams } from 'react-router-dom'
 import DisplayLoader from '../../Chakra/Spinner'
 import Typography from '../../Chakra/Typography'
+import fetchPlease from '../../shared/utils/Fetch'
 import NewRecipe from '../components/AddNewRecipe'
 import RecipesList from '../components/RecipesList'
 
 const UserRecipes = () => {
   const queryCache = useQueryCache()
   const singleUserRecipes = queryCache.getQueryData('userRecipes')
-  const userId = useParams().userId
+  const { userId } = useParams()
 
   const getRecipes = async () => {
     console.log('calling APi to get user Recipes')
-    const { recipes } = await (
-      await fetch(`${process.env.REACT_APP_BACKEND_URL}/recipes/user/${userId}`)
-    ).json()
+    const { recipes } = await fetchPlease(
+      `${process.env.REACT_APP_BACKEND_URL}/recipes/user/${userId}`
+    )
+
     return recipes
   }
   const { data: userRecipes, isError, isLoading, error, isFetching } = useQuery(

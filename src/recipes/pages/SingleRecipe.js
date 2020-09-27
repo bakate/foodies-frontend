@@ -6,16 +6,18 @@ import { useQueryCache } from 'react-query'
 import { useParams } from 'react-router-dom'
 import Title from '../../Chakra/Heading'
 import DisplayLoader from '../../Chakra/Spinner'
+import { useInfos } from '../../shared/context'
 import { getDuration } from '../../shared/utils/getDuration'
 
 const SingleRecipe = () => {
   const queryCache = useQueryCache()
-  const allRecipes = queryCache.getQueryData('allRecipes')
-  const recipeId = useParams().recipeId
+  const { page } = useInfos();
+  const allRecipes = queryCache.getQueryData(["allRecipes", page])
+  const {recipeId} = useParams()
   let recipeRef = useRef()
 
-  if (allRecipes?.length) {
-    recipeRef.current = allRecipes.find((item) => item.id === recipeId)
+  if (allRecipes?.itemsList?.length) {
+    recipeRef.current = allRecipes.itemsList.find((item) => item._id === recipeId)
   }
 
   if (!recipeRef.current) {

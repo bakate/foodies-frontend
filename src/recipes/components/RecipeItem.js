@@ -19,7 +19,7 @@ import { useInfos } from '../../shared/context'
 import { useHttpClient } from '../../shared/hooks/http-hook'
 import { getDuration } from '../../shared/utils/getDuration'
 
-const RecipeItem = ({ id, title, image, user, onDeleteItem, duration }) => {
+const RecipeItem = ({ _id, title, image, user, onDeleteItem, duration }) => {
   const location = useLocation()
   const [isOpen, setIsOpen] = React.useState()
   const onClose = () => setIsOpen(false)
@@ -30,10 +30,10 @@ const RecipeItem = ({ id, title, image, user, onDeleteItem, duration }) => {
 
   const confirmDeleteHandler = async () => {
     try {
-      await sendRequest(`${process.env.REACT_APP_BACKEND_URL}/recipes/${id}`, 'DELETE', null, {
+      await sendRequest(`${process.env.REACT_APP_BACKEND_URL}/recipes/${_id}`, 'DELETE', null, {
         Authorization: `Bearer ${token}`,
       })
-      onDeleteItem(id)
+      onDeleteItem(_id)
       cogoToast.success('Votre recette a bien été supprimée.')
     } catch (err) {}
   }
@@ -68,7 +68,7 @@ const RecipeItem = ({ id, title, image, user, onDeleteItem, duration }) => {
         bg={bgColor[colorMode]}
         border='1px solid gray'
         _hover={{ boxShadow: 'lg', transform: 'translateY(-5px)', opacity: '0.8' }}>
-        <AspectRatio as={ReachLink} to={`/recipes/recipe/${id}`} ratio={4 / 3}>
+        <AspectRatio as={ReachLink} to={`/recipes/recipe/${_id}`} ratio={4 / 3}>
           <Image
             src={image}
             alt='recipe'
@@ -93,7 +93,7 @@ const RecipeItem = ({ id, title, image, user, onDeleteItem, duration }) => {
               as={ReachLink}
               leftIcon={<MdModeEdit />}
               colorScheme='blue'
-              to={`/recipes/${id}`}>
+              to={`/recipes/${_id}`}>
               modifier
             </Button>
           )}
@@ -120,7 +120,7 @@ const RecipeItem = ({ id, title, image, user, onDeleteItem, duration }) => {
             leftIcon={<MdTimer />}
             as={ReachLink}
             colorScheme='teal'
-            to={`/recipes/recipe/${id}`}>
+            to={`/recipes/recipe/${_id}`}>
             {hours > 1 && !minutes
               ? `${hours} heures`
               : hours === 1 && !minutes
@@ -136,7 +136,7 @@ const RecipeItem = ({ id, title, image, user, onDeleteItem, duration }) => {
 }
 
 RecipeItem.propTypes = {
-  id: PropTypes.string,
+  _id: PropTypes.string,
   image: PropTypes.string,
   onDeleteItem: PropTypes.func,
   title: PropTypes.string,

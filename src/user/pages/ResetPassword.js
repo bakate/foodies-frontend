@@ -12,7 +12,7 @@ import { useHttpClient } from '../../shared/hooks/http-hook'
 const ResetPassword = () => {
   const { login } = useInfos()
   const history = useHistory()
-  const token = useParams().token
+  const { token } = useParams()
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
 
   useEffect(() => {

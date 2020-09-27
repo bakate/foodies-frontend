@@ -13,8 +13,7 @@ import { useHttpClient } from '../../shared/hooks/http-hook'
 
 const UpdateProfile = () => {
   const [userProfile, setUserProfile] = useState()
-
-  const userId = useParams().userId
+  const { userId } = useParams()
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
   const { token } = useInfos()
   const history = useHistory()

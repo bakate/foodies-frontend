@@ -15,6 +15,7 @@ const MamaProvider = ({ children }) => {
   const [allRecipes, setAllRecipes] = useState([])
   const [isOpen, setIsOpen] = useState(false)
   const onClose = () => setIsOpen(false)
+  const [page, setPage] = useState(1)
 
   const login = useCallback((uid, token, expirationDate) => {
     setUserId(uid)
@@ -74,6 +75,8 @@ const MamaProvider = ({ children }) => {
         isOpen,
         onClose,
         setAllRecipes,
+        page,
+        setPage,
       }}>
       {children}
     </InfosProvider>

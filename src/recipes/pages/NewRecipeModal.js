@@ -13,7 +13,7 @@ import { useHttpClient } from '../../shared/hooks/http-hook'
 const DisplayModal = ({ isOpen, onClose }) => {
   const initialValues = () => {
     return {
-      title: 'hello',
+      title: '',
       image: '',
       ingredients: '',
       cooking: '',
@@ -171,18 +171,23 @@ const DisplayModal = ({ isOpen, onClose }) => {
             modalBody={StepToDisplay()}
             modalFooter={
               <ButtonGroup>
-                {currentStep !== 1 && <Button onClick={() => prev()}>Précédent</Button>}
+                {currentStep !== 1 && (
+                  <Button onClick={() => prev()} ref={initialRef}>
+                    Précédent
+                  </Button>
+                )}
                 {currentStep !== 3 && (
                   <Button onClick={() => next()} ref={initialRef}>
                     Suivant
                   </Button>
                 )}
-                <Button onClick={onClose}>Cancel</Button>
+                <Button onClick={onClose}>Annuler</Button>
                 {currentStep === 3 && (
                   <Button
                     type='submit'
                     colorScheme='blue'
                     mr={3}
+                    ref={initialRef}
                     isLoading={isSubmitting}
                     loadingText='En Cours ...'>
                     valider

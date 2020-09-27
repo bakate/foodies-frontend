@@ -20,7 +20,7 @@ const UpdateRecipe = () => {
     image: '',
   })
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
-  const recipeId = useParams().recipeId
+  const { recipeId } = useParams()
   const history = useHistory()
   const { token, userId } = useInfos()
 
