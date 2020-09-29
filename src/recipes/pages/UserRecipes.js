@@ -69,7 +69,7 @@ const UserRecipes = () => {
   }
   return (
     <div>
-      {isFetching && <DisplayLoader text='Caching...' />}
+      {isFetching && <DisplayLoader />}
       {userRecipes.length && (
         <Typography
           text={`Bravo, vous avez ${userRecipes.length} recette${

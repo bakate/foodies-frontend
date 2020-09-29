@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Center } from '@chakra-ui/core'
+import { Center } from '@chakra-ui/core'
 import cogoToast from 'cogo-toast'
 import React, { useCallback } from 'react'
 import { usePaginatedQuery } from 'react-query'
@@ -6,14 +6,12 @@ import Title from '../../Chakra/Heading'
 import DisplayLoader from '../../Chakra/Spinner'
 import { useInfos } from '../../shared/context'
 import fetchPlease from '../../shared/utils/Fetch'
+import Pagination from '../components/Pagination'
 import RecipesList from '../components/RecipesList'
 
 const AllRecipes = () => {
-  const { page, setPage} = useInfos();
 
-  // const [recipes, setRecipes] = useState([])
-  // const items = ['entrée', 'plat principal', 'aperitif et buffet', 'dessert', 'toutes']
-
+  const { page } = useInfos();
   const getRecipes = async (_, page=1) => {
     const { recipes } = await fetchPlease(`${process.env.REACT_APP_BACKEND_URL}/recipes?page=${page}`)
     return recipes
@@ -54,39 +52,9 @@ const deleteHandler = useCallback(
 
   return (
     <>
-  {isFetching && <DisplayLoader text="Caching..." />}
-  <ButtonGroup size="sm" d="flex" justifyContent="center" alignItems="center" >
-        <Button variant="ghost" onClick={() => setPage(old => Math.max(old - 1, 1))} _focus={{ outline: "none" }} disabled={!latestData?.hasPrev} borderRadius="full">Préc</Button>
-   {Array.from({length: resolvedData.totalPages}, (_, i)=> (
-     <Button borderRadius="full" _focus={{ outline: "none" }} key={i} onClick={()=>setPage(i+1)} colorScheme={i+1 === latestData?.currentPage ? "orange": null}>{i+1}</Button>
-   )) }
-        <Button borderRadius="full" _focus={{ outline: "none" }} variant="ghost" onClick={()=> setPage(old => (!latestData || !latestData?.hasNext ? old: old +1))} disabled={!latestData?.hasNext}>Suiv</Button></ButtonGroup>
-{/*
-      <ButtonGroup
-        d='flex'
-        justifyContent={{ base: 'flex-start', md: 'center' }}
-        alignItems='center'
-        alignContent='center'
-        variant='outline'
-        flexShrink='2'
-        flexWrap='wrap'
-        overflow='hidden'
-        colorScheme='orange'>
-        {items.map((item, i) => (
-          <Button borderRadius='full' key={i} onClick={() => getFilteredRecipes(item)}>
-            {item}
-          </Button>
-        ))}
-      </ButtonGroup> */}
-
-      <RecipesList recipes={resolvedData.itemsList} onDelete={deleteHandler}/>
-{/* {!recipes.length &&  <RecipesList recipes={data} onDelete={deleteHandler}  />} */}
-      <ButtonGroup size="sm" d="flex" justifyContent="center" alignItems="center" py={3}>
-        <Button _focus={{ outline: "none" }} variant="ghost" onClick={() => setPage(old => Math.max(old - 1, 1))} disabled={!latestData?.hasPrev} borderRadius="full">Préc</Button>
-        {Array.from({ length: resolvedData.totalPages }, (_, i) => (
-          <Button borderRadius="full" _focus={{ outline: "none" }} key={i} onClick={() => setPage(i + 1)} colorScheme={i + 1 === latestData?.currentPage ? "orange" : null}>{i + 1}</Button>
-        ))}
-        <Button borderRadius="full" _focus={{ outline: "none" }} variant="ghost" onClick={() => setPage(old => (!latestData || !latestData?.hasNext ? old : old + 1))} disabled={!latestData?.hasNext}>Suiv</Button></ButtonGroup>
+  {isFetching && <DisplayLoader/>}
+<RecipesList recipes={resolvedData.itemsList} onDelete={deleteHandler}/>
+<Pagination latestData={latestData} resolvedData={resolvedData}/>
   </>
   )
 }

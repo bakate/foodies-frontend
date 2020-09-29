@@ -79,7 +79,7 @@ const RecipeItem = ({ _id, title, image, user, onDeleteItem, duration }) => {
           />
         </AspectRatio>
 
-        <Typography text={title} pt={2} />
+        <Typography text={title} pt={2} isTruncated />
 
         <ButtonGroup
           variant='ghost'

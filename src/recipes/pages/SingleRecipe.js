@@ -1,6 +1,7 @@
-import { AspectRatio, Box, Center, Grid, Heading, Icon, Image, SimpleGrid } from '@chakra-ui/core'
+import { AspectRatio, Box, Center, Grid, Heading, Icon, Image, List, SimpleGrid } from '@chakra-ui/core'
 import React, { useRef } from 'react'
 import { GiHotMeal } from 'react-icons/gi'
+import { IoMdFitness } from 'react-icons/io'
 import { MdTimer, MdToday } from 'react-icons/md'
 import { useQueryCache } from 'react-query'
 import { useParams } from 'react-router-dom'
@@ -33,13 +34,19 @@ const SingleRecipe = () => {
       .replace(/&nbsp;/gi, '')
       .split('🥣')
       .map((el, i) => {
-        if (el.length > 2) {
-          return <li key={i}>{el}</li>
+        if (el.length > 1) {
+          return (
+            <div key={i}>
+          <li >- {el}
+          </li>
+<br/>
+            </div>
+          )
         }
         return null
       })
   }
-const {duration, title, image, category, published, ingredients, cooking} = recipeRef.current || {};
+const {duration, title, image, category, published, ingredients, cooking, difficulty} = recipeRef.current || {};
   const { hours, minutes } = getDuration(duration)
   return (
     <Grid gap={4}>
@@ -49,10 +56,9 @@ const {duration, title, image, category, published, ingredients, cooking} = reci
       <AspectRatio ratio={4 / 3} maxW='100vw' maxH='60vh' >
         <Image src={image} alt={title} fit='contain' w='100%'  ignoreFallback />
       </AspectRatio>
-      <SimpleGrid minChildWidth='40px' textAlign='center' textTransform='capitalize'>
+      <SimpleGrid minChildWidth={{base: "30px", md:'40px'}} textAlign='center' textTransform='capitalize'>
         <Box>
           <Icon as={MdTimer} boxSize={10} color='orange.500' />
-
           <Heading as='h6' fontWeight='normal' size='sm'>
             {hours > 1 && !minutes
               ? `${hours} heures`
@@ -64,18 +70,21 @@ const {duration, title, image, category, published, ingredients, cooking} = reci
           </Heading>
         </Box>
         <Box>
+          <Icon as={IoMdFitness} boxSize={10} color='orange.500' />
+          <Heading as='h6' fontWeight='normal' size='sm'>
+            {difficulty}
+          </Heading>
+        </Box>
+        <Box>
           <Icon as={GiHotMeal} boxSize={10} color='orange.500' />
-
           <Heading as='h6' fontWeight='normal' size='sm'>
             {category}
           </Heading>
         </Box>
         <Box>
           <Icon as={MdToday} boxSize={10} color='orange.500' />
-
           <Heading as='h6' fontWeight='normal' size='sm'>
             {new Date(published).toLocaleDateString('fr-FR', {
-              year: 'numeric',
               month: 'short',
               day: 'numeric',
             })}
@@ -85,11 +94,11 @@ const {duration, title, image, category, published, ingredients, cooking} = reci
       <SimpleGrid minChildWidth='200px' spacing='1rem' px={{ base: '2', md: '8' }} mb={4}>
         <Box>
           <Title title='ingr&eacute;dients' color='orange.500' />
-          <ul>{transformedIngredients(ingredients)}</ul>
+          <List>{transformedIngredients(ingredients)}</List>
         </Box>
         <Box>
           <Title title='Pr&eacute;paration' color='orange.500' />
-          <ol>{transformedIngredients(cooking)}</ol>
+          <List>{transformedIngredients(cooking)}</List>
         </Box>
       </SimpleGrid>
     </Grid>
