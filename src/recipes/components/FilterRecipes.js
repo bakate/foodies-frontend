@@ -4,10 +4,10 @@ import { useQueryCache } from 'react-query'
 
 const FilterRecipes = () => {
   const queryCache = useQueryCache()
-  const allRecipes = queryCache.getQueryData('allRecipes')
+  const filteredRecipes = queryCache.getQueryData('filteredRecipes')
 
   const getFilteredRecipes = (choice) => {
-    const recipes = allRecipes.filter((recipe) => {
+    const recipes = filteredRecipes.filter((recipe) => {
       return choice === 'toutes' ? recipe : recipe.category === choice
     })
     return recipes

@@ -20,10 +20,9 @@ function App() {
   const location = useLocation()
   const queryConfig = {
     queries: {
-      staleTime: 50_000,
+       staleTime: 50_000,
       cacheTime: 1_000_000,
       retry: false,
-
     }
   };
   const { token } = useInfos()

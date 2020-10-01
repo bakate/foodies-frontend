@@ -13,12 +13,12 @@ import { getDuration } from '../../shared/utils/getDuration'
 const SingleRecipe = () => {
   const queryCache = useQueryCache()
   const { page } = useInfos();
-  const allRecipes = queryCache.getQueryData(["allRecipes", page])
+  const filteredRecipes = queryCache.getQueryData(["filteredRecipes", page])
   const {recipeId} = useParams()
   let recipeRef = useRef()
 
-  if (allRecipes?.itemsList?.length) {
-    recipeRef.current = allRecipes.itemsList.find((item) => item._id === recipeId)
+  if (filteredRecipes?.itemsList?.length) {
+    recipeRef.current = filteredRecipes.itemsList.find((item) => item._id === recipeId)
   }
 
   if (!recipeRef.current) {
@@ -34,12 +34,12 @@ const SingleRecipe = () => {
       .replace(/&nbsp;/gi, '')
       .split('🥣')
       .map((el, i) => {
-        if (el.length > 1) {
+        if (el.length > 2) {
           return (
             <div key={i}>
           <li >- {el}
           </li>
-<br/>
+          <br/>
             </div>
           )
         }
@@ -53,10 +53,10 @@ const {duration, title, image, category, published, ingredients, cooking, diffic
       <Center>
         <Title title={title} />
       </Center>
-      <AspectRatio ratio={4 / 3} maxW='100vw' maxH='60vh' >
+      <AspectRatio ratio={4 / 3} maxW='100vw' maxH='85vh' >
         <Image src={image} alt={title} fit='contain' w='100%'  ignoreFallback />
       </AspectRatio>
-      <SimpleGrid minChildWidth={{base: "30px", md:'40px'}} textAlign='center' textTransform='capitalize'>
+      <SimpleGrid minChildWidth={{base: "30px", md:'40px'}} textAlign='center' textTransform='capitalize' pt={3}>
         <Box>
           <Icon as={MdTimer} boxSize={10} color='orange.500' />
           <Heading as='h6' fontWeight='normal' size='sm'>
@@ -91,7 +91,7 @@ const {duration, title, image, category, published, ingredients, cooking, diffic
           </Heading>
         </Box>
       </SimpleGrid>
-      <SimpleGrid minChildWidth='200px' spacing='1rem' px={{ base: '2', md: '8' }} mb={4}>
+      <SimpleGrid minChildWidth='200px' spacing='1rem' px={{ base: '2', md: '8' }} mb={4} pt={3}>
         <Box>
           <Title title='ingr&eacute;dients' color='orange.500' />
           <List>{transformedIngredients(ingredients)}</List>

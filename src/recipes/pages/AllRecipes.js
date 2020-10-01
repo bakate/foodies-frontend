@@ -1,22 +1,19 @@
 import { Center } from '@chakra-ui/core'
 import cogoToast from 'cogo-toast'
 import React, { useCallback } from 'react'
-import { usePaginatedQuery } from 'react-query'
 import Title from '../../Chakra/Heading'
 import DisplayLoader from '../../Chakra/Spinner'
 import { useInfos } from '../../shared/context'
-import fetchPlease from '../../shared/utils/Fetch'
+import usePagination from '../../shared/hooks/usePagination'
 import Pagination from '../components/Pagination'
 import RecipesList from '../components/RecipesList'
+import SideMenu from '../components/SideMenu'
 
 const AllRecipes = () => {
 
-  const { page } = useInfos();
-  const getRecipes = async (_, page=1) => {
-    const { recipes } = await fetchPlease(`${process.env.REACT_APP_BACKEND_URL}/recipes?page=${page}`)
-    return recipes
-  }
-  const { resolvedData,latestData, isError, isLoading, error, isFetching } = usePaginatedQuery(['allRecipes', page], getRecipes)
+  const { page ,allRecipes, query} = useInfos();
+
+   const { resolvedData, latestData, isError, isLoading, error, isFetching } = usePagination(page)
 const deleteHandler = useCallback(
   (recipeId) => {
     resolvedData.itemsList((prev) => prev.filter((recipe) => recipe.id !== recipeId))
@@ -43,20 +40,31 @@ const deleteHandler = useCallback(
       </Center>
     )
   }
-  // const getFilteredRecipes = (choice = "toutes") => {
-  //   const recipes =resolvedData.itemsList.filter((recipe) => {
-  //     return choice === 'toutes' ? recipe : recipe.category === choice
-  //   })
-  //   setRecipes(recipes)
-  // }
+
 
   return (
     <>
   {isFetching && <DisplayLoader/>}
-<RecipesList recipes={resolvedData.itemsList} onDelete={deleteHandler}/>
-<Pagination latestData={latestData} resolvedData={resolvedData}/>
-  </>
+  <SideMenu />
+    {
+      query &&  !Object?.values(query).find(el => el.length) &&(
+      <>
+      <RecipesList recipes={resolvedData.itemsList} onDelete={deleteHandler}/>
+      <Pagination latestData={latestData} resolvedData={resolvedData}/>
+      </>)
+     }
+   {
+   query &&
+        Object?.values(query).find(el => el.length) && allRecipes?.length ?
+  <RecipesList recipes={allRecipes} onDelete={deleteHandler} />
+        : !allRecipes?.length &&
+          <Center>
+            <Title title='Aucune recette de trouvée avec ces critères' />
+          </Center>
+       }
+      </>
   )
 }
 
 export default AllRecipes
+

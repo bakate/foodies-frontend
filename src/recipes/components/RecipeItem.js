@@ -112,7 +112,7 @@ const RecipeItem = ({ _id, title, image, user, onDeleteItem, duration }) => {
               onClose={onClose}
               onDeleteHandler={confirmDeleteHandler}
               header={`Supprimer ${title} ?`}
-              body='Voulez-vous vraiment supprimer cette recette ? Cette action est irréversible.'
+              body='Cette action est irréversible.'
             />
           </>
 
