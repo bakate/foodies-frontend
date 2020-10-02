@@ -4,6 +4,7 @@ import { ReactQueryConfigProvider } from "react-query";
 import { ReactQueryDevtools } from 'react-query-devtools';
 import { Redirect, Route, Switch, useLocation } from 'react-router-dom';
 import Container from './Chakra/Container';
+import Footer from './Chakra/Footer';
 import Header from './Chakra/Header';
 import DisplayLoader from './Chakra/Spinner';
 import customTheme from "./Chakra/theme";
@@ -72,7 +73,7 @@ function App() {
 
     <ReactQueryConfigProvider config={queryConfig}>
     <ChakraProvider resetCSS theme={customTheme}>
-      {location.pathname !== "/auth"?  <Header />: null}
+        {location.pathname !== "/auth" && <Header />}
         <Container>
           <Suspense
             fallback={
@@ -81,6 +82,7 @@ function App() {
             {routes}
           </Suspense>
         </Container>
+        {location.pathname !== "/auth"  && <Footer/>}
     </ChakraProvider>
     <ReactQueryDevtools initialIsOpen={false} />
      </ReactQueryConfigProvider>

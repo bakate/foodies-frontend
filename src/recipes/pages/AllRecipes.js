@@ -44,6 +44,7 @@ const deleteHandler = useCallback(
 
   return (
     <>
+
   {isFetching && <DisplayLoader/>}
   <SideMenu />
     {

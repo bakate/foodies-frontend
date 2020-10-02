@@ -11,7 +11,7 @@ const Pagination = ({ latestData, resolvedData }) => {
         _focus={{ outline: 'none' }}
         variant='ghost'
         onClick={() => setPage((old) => Math.max(old - 1, 1))}
-        disabled={!latestData?.hasPrev}
+        display={!latestData?.hasPrev && "none"}
         borderRadius='full'>
         Préc
       </Button>
@@ -30,7 +30,7 @@ const Pagination = ({ latestData, resolvedData }) => {
         _focus={{ outline: 'none' }}
         variant='ghost'
         onClick={() => setPage((old) => ( !latestData?.hasNext ? old : old + 1))}
-        disabled={!latestData?.hasNext}>
+        display={!latestData?.hasNext && "none"}>
         Suiv
       </Button>
     </ButtonGroup>
