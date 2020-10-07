@@ -8,14 +8,14 @@ import Footer from './Chakra/Footer';
 import Header from './Chakra/Header';
 import DisplayLoader from './Chakra/Spinner';
 import customTheme from "./Chakra/theme";
-import AllRecipes from './recipes/pages/AllRecipes';
 import { useInfos } from './shared/context';
-const UserRecipes= React.lazy(()=> import('./recipes/pages/UserRecipes'))
-const Auth = React.lazy(() => import('./user/pages/Auth'))
-const UpdateProfile = React.lazy(() => import('./user/pages/UpdateProfile'))
-const ResetPassword = React.lazy(() => import('./user/pages/ResetPassword'))
-const UpdateRecipe = React.lazy(() => import('./recipes/pages/UpdateRecipe'))
-const SingleRecipe = React.lazy(() => import('./recipes/pages/SingleRecipe'))
+import { openRoutes, protectedRoutes } from './shared/utils/routes';
+// const UserRecipes= React.lazy(()=> import('./recipes/pages/UserRecipes'))
+// const Auth = React.lazy(() => import('./user/pages/Auth'))
+// const UpdateProfile = React.lazy(() => import('./user/pages/UpdateProfile'))
+// const ResetPassword = React.lazy(() => import('./user/pages/ResetPassword'))
+// const UpdateRecipe = React.lazy(() => import('./recipes/pages/UpdateRecipe'))
+// const SingleRecipe = React.lazy(() => import('./recipes/pages/SingleRecipe'))
 
 function App() {
   const location = useLocation()
@@ -29,46 +29,26 @@ function App() {
   const { token } = useInfos()
   let routes
   if (token) {
-    routes = (
+    routes =
       <Switch>
-        <Route path='/' exact>
-          <AllRecipes />
-        </Route>
-        <Route path='/:userId/recipes' exact>
-          <UserRecipes />
-        </Route>
-        <Route path='/profile/:userId' exact>
-          <UpdateProfile />
-        </Route>
-        <Route path='/recipes/recipe/:recipeId' exact>
-          <SingleRecipe />
-        </Route>
-        <Route path='/recipes/:recipeId' exact>
-          <UpdateRecipe />
-        </Route>
+      {protectedRoutes.map((route, i) => (
+        <Route exact={route.exact} key={i} path={route.path} component={route.component} />
+      ))}
+
         <Redirect to='/' />
       </Switch>
-    )
+
   } else {
-    routes = (
+    routes =
       <Switch>
-        <Route path='/' exact>
-          <AllRecipes />
-        </Route>
-        <Route path='/recipes/recipe/:recipeId' exact>
-          <SingleRecipe />
-        </Route>
-        <Route path='/auth' exact>
-          <Auth />
-        </Route>
-        <Route path='/resetpassword/:token' exact>
-          <ResetPassword />
-        </Route>
+      {openRoutes.map((route, i) => (
+        <Route path={route.path} key={i} exact={route.exact} component={route.component} />
+      ))}
+
         <Redirect to='/auth' />
       </Switch>
-    )
-  }
 
+  }
   return (
 
     <ReactQueryConfigProvider config={queryConfig}>

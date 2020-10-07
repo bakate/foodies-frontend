@@ -10,7 +10,7 @@ import {
 import cogoToast from 'cogo-toast'
 import PropTypes from 'prop-types'
 import React, { useEffect } from 'react'
-import { MdDeleteForever, MdModeEdit, MdTimer } from 'react-icons/md'
+import { MdDeleteForever, MdFavorite, MdModeEdit, MdTimer } from 'react-icons/md'
 import { Link as ReachLink, useLocation } from 'react-router-dom'
 import DisplayAlertDialog from '../../Chakra/AlertDialog'
 import DisplayLoader from '../../Chakra/Spinner'
@@ -75,8 +75,7 @@ const RecipeItem = ({ _id, title, image, user, onDeleteItem, duration }) => {
             fit='cover'
             htmlWidth='100%'
             borderTopRadius='md'
-            ignoreFallback
-          />
+            ignoreFallback></Image>
         </AspectRatio>
 
         <Typography text={title} pt={2} isTruncated />
@@ -92,7 +91,7 @@ const RecipeItem = ({ _id, title, image, user, onDeleteItem, duration }) => {
             <Button
               as={ReachLink}
               leftIcon={<MdModeEdit />}
-              colorScheme='blue'
+              colorScheme='teal'
               to={`/recipes/${_id}`}>
               modifier
             </Button>
@@ -116,6 +115,13 @@ const RecipeItem = ({ _id, title, image, user, onDeleteItem, duration }) => {
             />
           </>
 
+          <Button
+            leftIcon={<MdFavorite />}
+            as={ReachLink}
+            colorScheme='teal'
+            to={!userId && `/auth`}>
+            Sauvegarder
+          </Button>
           <Button
             leftIcon={<MdTimer />}
             as={ReachLink}

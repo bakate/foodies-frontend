@@ -1,31 +1,40 @@
-import { AspectRatio, Box, Center, Grid, Heading, Icon, Image, List, SimpleGrid } from '@chakra-ui/core'
-import React, { useRef } from 'react'
+import {
+  AspectRatio,
+  Box,
+  Center,
+  Grid,
+  Heading,
+  Icon,
+  Image,
+  List,
+  SimpleGrid
+} from '@chakra-ui/core'
+import cogoToast from 'cogo-toast'
+import React from 'react'
 import { GiHotMeal } from 'react-icons/gi'
 import { IoMdFitness } from 'react-icons/io'
 import { MdTimer, MdToday } from 'react-icons/md'
-import { useQueryCache } from 'react-query'
 import { useParams } from 'react-router-dom'
 import Title from '../../Chakra/Heading'
 import DisplayLoader from '../../Chakra/Spinner'
-import { useInfos } from '../../shared/context'
+import useSIngleRecipe from '../../shared/hooks/useSingleRecipe'
 import { getDuration } from '../../shared/utils/getDuration'
 
 const SingleRecipe = () => {
-  const queryCache = useQueryCache()
-  const { page } = useInfos();
-  const filteredRecipes = queryCache.getQueryData(["filteredRecipes", page])
-  const {recipeId} = useParams()
-  let recipeRef = useRef()
+  const { recipeId } = useParams()
 
-  if (filteredRecipes?.itemsList?.length) {
-    recipeRef.current = filteredRecipes.itemsList.find((item) => item._id === recipeId)
-  }
+  const { data, isLoading, isError, error } = useSIngleRecipe(recipeId)
 
-  if (!recipeRef.current) {
-    return <Title title="oops, Quelque chose s'est mal passée" />
-  }
-  if (!recipeRef?.current?.image) {
+  if (isLoading) {
     return <DisplayLoader />
+  }
+  if (isError) {
+    const { hide } = cogoToast.error(error.message, {
+      hideAfter: 4,
+      onClick: () => {
+        hide()
+      },
+    })
   }
 
   const transformedIngredients = (string) => {
@@ -37,26 +46,30 @@ const SingleRecipe = () => {
         if (el.length > 2) {
           return (
             <div key={i}>
-          <li >- {el}
-          </li>
-          <br/>
+              <li>- {el}</li>
+              <br />
             </div>
           )
         }
         return null
       })
   }
-const {duration, title, image, category, published, ingredients, cooking, difficulty} = recipeRef.current || {};
+  const { duration, title, image, category, published, ingredients, cooking, difficulty } =
+    data || {}
   const { hours, minutes } = getDuration(duration)
   return (
     <Grid gap={4}>
       <Center>
         <Title title={title} />
       </Center>
-      <AspectRatio ratio={4 / 3} maxW='100vw' maxH='85vh' >
-        <Image src={image} alt={title} fit='contain' w='100%'  ignoreFallback />
+      <AspectRatio ratio={4 / 3} maxW='100vw' maxH='85vh'>
+        <Image src={image} alt={title} fit='contain' w='100%' ignoreFallback />
       </AspectRatio>
-      <SimpleGrid minChildWidth={{base: "30px", md:'40px'}} textAlign='center' textTransform='capitalize' pt={3}>
+      <SimpleGrid
+        minChildWidth={{ base: '30px', md: '40px' }}
+        textAlign='center'
+        textTransform='capitalize'
+        pt={3}>
         <Box>
           <Icon as={MdTimer} boxSize={10} color='orange.500' />
           <Heading as='h6' fontWeight='normal' size='sm'>
